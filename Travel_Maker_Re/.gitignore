@@ -1,0 +1,29 @@
+# 💾 Java/Spring 관련 불필요한 파일 제외
+backend/target/
+backend/.mvn/
+backend/.idea/
+backend/.classpath
+backend/.project
+backend/.settings/
+
+# 📝 로그 파일 제외
+backend/logs/
+backend/*.log
+
+# 🖥️ VSCode/Eclipse 관련 설정 제외
+backend/.vscode/
+backend/.idea/
+
+# 📦 Node.js(리액트) 관련 빌드 및 의존성 파일 제외
+frontend/node_modules/
+frontend/.next/
+frontend/.cache/
+frontend/build/
+
+# ⚙️ 환경 변수 파일 제외
+backend/.env
+frontend/.env
+
+# 🐙 Git 관련 불필요한 파일 제외
+.DS_Store
+*.swp

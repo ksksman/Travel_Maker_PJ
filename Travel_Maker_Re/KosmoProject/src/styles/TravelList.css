@@ -1,0 +1,141 @@
+/* ✅ 전체 컨테이너 스타일 */
+.travel-list-container {
+  max-width: 1200px;
+  margin: 50px auto;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+}
+
+/* ✅ "내 여행 만들기" 버튼 (우측 상단 고정) */
+.create-trip-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.create-trip-button:hover {
+  background-color: #0056b3;
+}
+
+/* ✅ 여행 목록 카드 배치 */
+.travel-card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+/* ✅ 여행 카드 스타일 */
+.travel-card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  width: 300px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.travel-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* ✅ 이미지가 없는 경우의 기본 스타일 */
+.no-image {
+  width: 100%;
+  height: 200px;
+  background-color: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #777;
+  position: relative;
+}
+
+/* ✅ "이미지 추가" 버튼 스타일 */
+.add-image-button {
+  background-color: #555;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.add-image-button:hover {
+  background-color: #333;
+}
+
+/* ✅ 여행 제목 스타일 (방문 후에도 파란색 유지) */
+.travel-title {
+  color: #007bff !important;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.travel-title:hover {
+  text-decoration: underline;
+}
+
+/* ✅ 이미지 변경 버튼 (이미지 내부 우측 상단) */
+.change-image-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  font-size: 12px;
+  padding: 5px 8px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: none;
+}
+
+.image-container:hover .change-image-button {
+  display: block;
+}
+/* 링크 스타일 - 밑줄 제거 */
+.travel-title a {
+  color: #007bff !important;  /* 파란색 유지 */
+  text-decoration: none !important;  /* 밑줄 제거 */
+  font-weight: bold;
+}
+
+/* 방문 후에도 동일한 색상 유지 */
+.travel-title a:visited {
+  color: #007bff !important;
+  text-decoration: none !important;
+}
+
+select {
+  width: 50%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+/* ✅ 여행 이미지 스타일 */
+.travel-image {
+  width: 100%;  /* ✅ 부모 컨테이너 크기에 맞춤 */
+  height: 200px; /* ✅ 고정된 높이 설정 */
+  border-radius: 10px;
+  object-fit: cover; /* ✅ 이미지 비율 유지하면서 채우기 */
+}
