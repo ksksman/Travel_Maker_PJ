@@ -24,6 +24,9 @@ import FindPwd from './pages/FindPwd';
 import PwdNext from './pages/PwdNext';
 import ResetPwd from './pages/ResetPwd';
 
+// 게시판 관련 컴포넌트
+import ReviewPage from './Pages/boards/review/ReviewPage';
+
 const App = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -54,6 +57,9 @@ const App = () => {
                 <Route path="/findpwd" element={<FindPwd />} />
                 <Route path="/pwd-next" element={<PwdNext />} />
                 <Route path="/resetpwd" element={<ResetPwd />} />
+
+                {/* 게시판 관련 라우트 */}
+                <Route path="/board" element={<ReviewPage />} />
             </Routes>
         </Router>
     );
