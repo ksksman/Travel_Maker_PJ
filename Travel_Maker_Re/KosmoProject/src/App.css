@@ -1145,3 +1145,131 @@ hr {
   outline: none;
   box-shadow: none; /* 그림자 제거 */
 }
+
+/* 후기 게시판 컨테이너 스타일 */
+.review-container {
+  width: 90%;
+  max-width: 1100px;
+  margin: 30px auto;
+  padding: 20px;
+  background: linear-gradient(145deg, #e6f3ff, #cce1ff);
+  border-radius: 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.review-container:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.2);
+}
+
+/* 후기 게시판 제목 스타일 */
+.review-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #007bff;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* 후기 게시판 테이블 스타일 */
+.review-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.review-table th, .review-table td {
+  padding: 14px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.review-table th {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+}
+
+.review-table tr:hover {
+  background-color: #f5f5f5;
+}
+
+/* 반응형 테이블 */
+@media (max-width: 768px) {
+  .review-container {
+    padding: 15px;
+  }
+
+  .review-table {
+    font-size: 14px;
+  }
+
+  .review-table th, .review-table td {
+    padding: 10px;
+  }
+
+  .review-title {
+    font-size: 24px;
+  }
+}
+/* 검색창 컨테이너 */
+.search-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+/* 검색 옵션 선택 select */
+.search-select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: white;
+  cursor: pointer;
+}
+
+/* 검색창 input */
+.search-input {
+  padding: 10px;
+  width: 200px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+  border-color: #007bff;
+}
+
+/* 검색 버튼 */
+.search-button {
+  padding: 10px 15px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+  background-color: #0056b3;
+}
+
+/* 검색 결과 없을 때 스타일 */
+.no-results {
+  text-align: center;
+  font-size: 18px;
+  color: #999;
+  padding: 20px;
+}
+
