@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaCog } from 'react-icons/fa';  // 설정 아이콘
+import { FaCog } from 'react-icons/fa';
 import '../App.css';
 
 const MyPage = () => {
@@ -25,7 +25,6 @@ const MyPage = () => {
 
     const handleStartChat = (friendName) => {
         alert(`${friendName}님과의 1대1 채팅을 시작합니다.`);
-        // navigate(`/chat/${friendName}`); // 실제 채팅 페이지로 이동하는 코드 추가 가능
     };
 
     const handleLogout = () => {
@@ -37,7 +36,6 @@ const MyPage = () => {
         if (confirmDelete) {
             alert('회원탈퇴가 완료되었습니다.');
         }
-        
     };
 
     return (
@@ -73,7 +71,7 @@ const MyPage = () => {
             </div>
 
             {/* 생성한 채팅 방 목록 */}
-            <section className="chat-room-section card">
+                        <section className="my-page-section">
                 <h3>내가 생성한 스케쥴 지도 바로가기</h3>
                 <ul>
                     {chatRooms.map((room, index) => (
@@ -87,60 +85,57 @@ const MyPage = () => {
                 </ul>
             </section>
 
-            <section className="friends-list-section card">
-    <h3>친구 목록</h3>
-    <ul>
-        {friends.map((friend, index) => (
-            <li key={index} className="friend-item">
-                <span>{friend}</span>
-                <button className="chat-button" onClick={() => handleStartChat(friend)}>
-                    1대1 채팅
-                </button>
-            </li>
-        ))}
-    </ul>
-</section>
+            <section className="my-page-section">
+                <h3>친구 목록</h3>
+                <ul>
+                    {friends.map((friend, index) => (
+                        <li key={index} className="friend-item">
+                            <span>{friend}</span>
+                            <button className="chat-button" onClick={() => handleStartChat(friend)}>
+                                1대1 채팅
+                            </button>
+                        </li>
+                    ))}
+                </ul>
+            </section>
 
-            {/* 친구 요청 수락 및 거절 */}
-            <section className="friend-requests-section card">
+            <section className="my-page-section">
                 <h3>친구 요청</h3>
-                {friendRequests.length === 0 ? (
-                    <p>친구 요청이 없습니다.</p>
-                ) : (
-                    <ul>
-                        {friendRequests.map((request, index) => (
-                            <li key={index} className="friend-request-item">
-                                <span>{request}</span>
-                                <div className="buttons-container">
-                                    <button
-                                        className="accept-button"
-                                        onClick={() => {
-                                            setFriends([...friends, request]);
-                                            setFriendRequests(friendRequests.filter((r) => r !== request));
-                                            alert(`${request}님을 친구로 추가했습니다.`);
-                                        }}
-                                    >
-                                        수락
-                                    </button>
-                                    <button
-                                        className="reject-button"
-                                        onClick={() => {
-                                            setFriendRequests(friendRequests.filter((r) => r !== request));
-                                            alert(`${request}님의 친구 요청을 거절했습니다.`);
-                                        }}
-                                    >
-                                        거절
-                                    </button>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
-                )}
+                <ul>
+                    {friendRequests.map((request, index) => (
+                        <li key={index}>
+                            <span>{request}</span>
+                            <div className="buttons-container">
+                                <button
+                                    className="accept-button"
+                                    onClick={() => {
+                                        setFriends([...friends, request]);
+                                        setFriendRequests(friendRequests.filter((r) => r !== request));
+                                        alert(`${request}님을 친구로 추가했습니다.`);
+                                    }}
+                                >
+                                    수락
+                                </button>
+                                <button
+                                    className="reject-button"
+                                    onClick={() => {
+                                        setFriendRequests(friendRequests.filter((r) => r !== request));
+                                        alert(`${request}님의 친구 요청을 거절했습니다.`);
+                                    }}
+                                >
+                                    거절
+                                </button>
+                            </div>
+                        </li>
+                    ))}
+                </ul>
             </section>
 
             {/* 로그아웃 및 회원탈퇴 */}
-            <section className="logout-section card">
-                <button className="small-button logout-button" onClick={handleLogout}>로그아웃</button>
+            <section className="logout-section my-page-card">
+                <button className="small-button logout-button" onClick={handleLogout}>
+                    로그아웃
+                </button>
                 <button className="small-button delete-account-button" onClick={handleAccountDeletion}>
                     회원탈퇴
                 </button>
