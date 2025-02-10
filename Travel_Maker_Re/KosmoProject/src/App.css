@@ -757,9 +757,10 @@ label {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
   padding: 30px; /* 카드 내부 여백 */
   text-align: center; /* 텍스트 가운데 정렬 */
-  max-width: 360px; /* 카드 최대 너비 */
+  max-width: 450px; /* 카드 최대 너비 */
   width: 90%; /* 반응형 너비 */
   box-sizing: border-box; /* 패딩 포함 크기 */
+  margin-top: -150px;
 }
 
 /* 로고 스타일 */
@@ -961,7 +962,7 @@ hr {
 /*회원가입 관련*/
 /* 회원가입 카드 */
 .signup-card {
-  max-width: 360px;
+  max-width: 430px;
   width: 100%;
   padding: 20px;
   border-radius: 10px;
@@ -1061,8 +1062,8 @@ hr {
 .text-link {
   color: #007bff;
   font-size: 12px;
-  margin-top: -15px;
-  margin-bottom: 20px;
+  margin-top: -5px;
+  margin-bottom: 30px;
   display: block; /* 블록 형태로 변경 */
   text-align: center; /* 가운데 정렬 */
   width: 100%; /* 부모 요소 너비에 맞게 확장 */

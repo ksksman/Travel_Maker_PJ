@@ -120,7 +120,7 @@ const Signup = () => {
               className="input nickname-input"
               placeholder="닉네임 입력"
             />
-            <button className="text-link">중복확인</button>
+            <button className="text-link">닉네임중복확인</button>
           </div>
 
           {/* 회원가입 완료 */}
