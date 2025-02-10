@@ -1,0 +1,734 @@
+header {
+  background-color: #007bff;
+  color: white;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.menu-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 35px;
+  cursor: pointer;
+}
+
+.logo {
+  width: 100px;
+  height: 60px;
+  object-fit: contain;
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+  gap: 10px;
+}
+
+.logo-text {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+  color: white;
+}
+
+.header-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.header-subtext {
+  font-size: 14px;
+  color: #e0e0e0;
+  font-weight: 500;
+  margin-top: 6px; /* 간격을 원하는 대로 조정 */
+}
+
+
+.nav-links {
+  display: flex;
+  gap: 10px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  padding: 8px 12px;
+  border: 1px solid white;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.nav-links a:hover {
+  background-color: white;
+  color: #007bff;
+}
+
+.main-container {
+  text-align: center;
+  padding: 20px;
+}
+/*사이드메뉴뉴*/
+body.menu-open {
+  margin-left: 250px;
+  transition: margin-left 0.3s ease;
+}
+
+/* 닫기 버튼 스타일 */
+.close-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 26px;
+  font-weight: bold;
+  color: #475569;
+  background: linear-gradient(135deg, #f9fafb, #e0e7ff);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+/* 호버 효과 */
+.close-button:hover {
+  background: linear-gradient(135deg, #dbeafe, #93c5fd);
+  color: #1e3a8a;
+  transform: rotate(90deg) scale(1.1);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* 닫기 버튼 안의 텍스트 중앙 정렬 */
+.close-button span {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.side-menu {
+  width: 300px;
+  position: fixed;
+  top: 0;
+  left: -350px;
+  height: 100vh;
+  background: linear-gradient(145deg, #fdfdfd, #e3e6ff);
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  z-index: 1000;
+  overflow-y: auto;
+  border-right: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 0 12px 12px 0;
+  transition: all 0.4s ease;
+}
+
+.side-menu.open {
+  left: 0;
+}
+
+.side-menu.closing {
+  left: -300px;
+}
+
+/* 햄버거 버튼 스타일 */
+.menu-toggle {
+  font-size: 28px;
+  cursor: pointer;
+  color: #fff;
+  background: #007bff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.menu-toggle:hover {
+  background: #0056b3;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* 리스트 및 링크 스타일 */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+ul li {
+  margin: 10px 0;
+}
+
+ul li a {
+  color: #555;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 500;
+  display: block;
+  padding: 12px 18px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+ul li a:hover {
+  background: #e0ebff;
+  color: #007bff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* 구분선 */
+hr {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
+}
+
+
+
+
+
+/* 슬라이드 배너 */
+.banner {
+  width: 60%; /* 가로폭을 70%로 확대 */
+  max-width: 1400px; /* 최대 가로 크기도 늘림 */
+  height: auto;
+  aspect-ratio: 16 / 9;
+  margin: 20px auto;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  background-color: #e6f3ff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+
+
+.banner:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.2);
+}
+
+.slides {
+  display: flex;
+  transition: transform 0.8s ease-in-out;
+  width: 500%;
+}
+
+.slides img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.indicators {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+
+.indicator {
+  width: 12px;
+  height: 12px;
+  background-color: white;
+  border-radius: 50%;
+  opacity: 0.7;
+  cursor: pointer;
+  transition: opacity 0.3s, background-color 0.3s;
+}
+
+.indicator.active {
+  opacity: 1;
+  background-color: #007bff;
+}
+
+.content-boxes {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.content-box {
+  background: linear-gradient(145deg, #e6f3ff, #cce1ff);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 12px rgba(0, 0, 0, 0.05);
+  width: calc(50% - 30px);
+  max-width: 750px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.content-box:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.2), 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.recommended-travel h2, .notice-section h2 {
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+
+/* 공지사항 및 연령별 여행지 추천 */
+.content-boxes {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.content-box {
+  background: linear-gradient(145deg, #e6f3ff, #cce1ff);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 12px rgba(0, 0, 0, 0.05);
+  width: calc(50% - 30px);
+  max-width: 750px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.content-box:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.2), 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.recommended-travel h2, .notice-section h2 {
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.travel-recommendations-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.travel-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  border-radius: 12px;
+  background: #fff;
+  color: #222;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s ease, transform 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.travel-item:hover {
+  background: #e0f4ff;
+  transform: translateY(-5px);
+}
+
+.travel-destination {
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.travel-detail {
+  font-size: 14px;
+  color: #555;
+  text-align: center;
+}
+
+.popular-posts-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.post-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 20px;
+  border-radius: 10px;
+  background: #fff;
+  color: #222;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 12px;
+  transition: background 0.3s ease, transform 0.3s ease;
+  text-decoration: none;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.post-item:hover {
+  background: #e0f4ff;
+  transform: translateY(-5px);
+}
+
+.post-title {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.post-likes {
+  font-size: 14px;
+  color: #888;
+}
+
+/* 플러스 바로가기 버튼 css */
+.content-box {
+  position: relative; /* 기준점 설정 */
+  background: linear-gradient(145deg, #e6f3ff, #cce1ff);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 12px rgba(0, 0, 0, 0.05);
+  width: calc(35% - 10px);
+  max-width: 750px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.navigate-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 8px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 20%;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.navigate-button:hover {
+  background-color: #0056b3;
+}
+
+
+/* 푸터 스타일 */
+footer {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
+
+/* 마이페이지 전체 레이아웃 */
+.my-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+/* 페이지 제목 스타일 */
+h1 {
+  text-align: center;
+  color: #007bff;
+  font-size: 32px;
+  margin-bottom: 40px;
+}
+
+/* 프로필 카드 스타일 */
+.profile-card-container {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+/* 프로필 사진 스타일 */
+.profile-picture {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #007bff;
+  margin-right: 30px;
+}
+
+/* 프로필 상세 정보 */
+.profile-details {
+  flex: 1;
+}
+
+.profile-details h2 {
+  font-size: 26px;
+  color: #333;
+  margin: 0;
+}
+
+.profile-details p {
+  font-size: 16px;
+  color: #666;
+  margin: 5px 0;
+}
+
+/* 통계 섹션 */
+.stats {
+  display: flex;
+  gap: 40px;
+  margin: 20px 0;
+}
+
+.stats div {
+  text-align: center;
+}
+
+.stats strong {
+  font-size: 18px;
+  color: #333;
+}
+
+.stats p {
+  font-size: 22px;
+  color: #007bff;
+  font-weight: bold;
+}
+
+/* 공통 카드 스타일 */
+.card {
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+/* 카드 제목 */
+.card h3 {
+  font-size: 20px;
+  color: #007bff;
+  margin-bottom: 10px;
+}
+
+/* 리스트 스타일 */
+.card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.card li {
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+/* 1대1채팅 목록 */
+.friend-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.chat-button {
+  margin-left: auto;
+  padding: 6px 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.chat-button:hover {
+  background-color: #0056b3;
+}
+
+
+
+/* 채팅 방 항목 */
+.chat-room-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 버튼 스타일 */
+.enter-button, .accept-button, .small-button {
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.enter-button:hover, .accept-button:hover, .logout-button:hover {
+  background-color: #0056b3;
+}
+
+/* 로그아웃 버튼 */
+.logout-button {
+  background-color: #007bff;
+}
+
+/* 회원탈퇴 버튼 */
+.delete-account-button {
+  background-color: #ff4d4f;
+}
+
+.delete-account-button:hover {
+  background-color: #d9363e;
+}
+
+/* 친구 요청 버튼 스타일 */
+.friend-requests-section li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.reject-button {
+  background-color: #FF4B4B; /* 빨간색 버튼 */
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.buttons-container {
+  display: flex;
+  gap: 10px;
+}
+/* 설정 아이콘과 텍스트 */
+.settings-container {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-left: auto;
+  gap: 5px;
+}
+
+.settings-icon {
+  font-size: 24px;
+  color: #333;
+}
+
+.settings-text {
+  font-size: 16px;
+  color: #333;
+  font-weight: bold;
+}
+
+/* 개인정보수정 페이지 */
+.edit-profile-page {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+}
+
+.page-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #007bff;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.form-input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.form-input:focus {
+  border-color: #007bff;
+}
+
+.save-button {
+  padding: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+}
+
+.save-button:hover {
+  background-color: #0056b3;
+}
+
+.success-message {
+  margin-top: 15px;
+  font-size: 16px;
+  color: #28a745;
+  text-align: center;
+  font-weight: bold;
+}
+
+.error-message {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #dc3545;
+  text-align: center;
+  font-weight: bold;
+}
+

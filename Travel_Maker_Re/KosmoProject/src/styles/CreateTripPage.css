@@ -1,0 +1,266 @@
+/* 전체 컨테이너 */
+.create-trip-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 30px;
+  background: linear-gradient(135deg, #fdfbfb, #ebedee);
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  font-family: 'Poppins', sans-serif;
+}
+
+/* 여행 제목 입력 섹션 */
+.trip-title-section {
+  text-align: center;
+}
+.trip-title-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 25px;
+  color: #222;
+}
+.trip-title-input {
+  margin-bottom: 20px;
+}
+.trip-title-input label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+  color: #555;
+  font-weight: 600;
+}
+.trip-title-input input {
+  width: 100%;
+  padding: 14px;
+  font-size: 1.1rem;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.trip-title-input input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+  outline: none;
+}
+
+/* 공통 버튼 스타일 */
+button {
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-weight: bold;
+}
+
+/* 다음 버튼 */
+.next-button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 14px 28px;
+  font-size: 1.1rem;
+}
+.next-button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+/* 달력 팝업 */
+.calendar-popup {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 25px;
+  margin-top: 25px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.5s ease-in-out;
+}
+.calendar-popup h3 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* 날짜 선택 영역 */
+.date-picker-container {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+.date-picker-container > div {
+  text-align: center;
+}
+.date-picker-container p {
+  margin-bottom: 8px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+/* 날짜 입력창 */
+.date-input {
+  width: 150px;
+  padding: 10px;
+  font-size: 1.1rem;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  text-align: center;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.date-input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+  outline: none;
+}
+/* placeholder 스타일 */
+.date-input::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+
+/* 달력 하단 버튼 영역 */
+.calendar-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+.previous-button {
+  background-color: #6c757d;
+  color: #fff;
+  padding: 12px 24px;
+  font-size: 1.1rem;
+}
+.previous-button:hover {
+  background-color: #5a6268;
+  transform: translateY(-2px);
+}
+.confirm-dates-button {
+  background-color: #28a745;
+  color: #fff;
+  padding: 12px 24px;
+  font-size: 1.1rem;
+}
+.confirm-dates-button:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+}
+
+/* 선택된 날짜 표시 영역 */
+.selected-dates {
+  background: linear-gradient(135deg, #fdfbfb, #ebedee);
+  border: 2px solid #007bff;
+  border-radius: 10px;
+  padding: 25px 20px;
+  margin-top: 30px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.5s ease-out;
+}
+.selected-dates p {
+  font-size: 1.3rem;
+  margin: 12px 0;
+  color: #333;
+  font-weight: 500;
+  position: relative;
+}
+.selected-dates p:first-child::before {
+  content: "✈️ ";
+  font-size: 1.4rem;
+  margin-right: 8px;
+}
+.selected-dates p:nth-child(2)::before {
+  content: "🏡 ";
+  font-size: 1.4rem;
+  margin-right: 8px;
+}
+
+/* 최종 버튼 영역 */
+.final-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+.edit-dates-button {
+  background-color: #ffc107;
+  color: #fff;
+  padding: 12px 24px;
+  font-size: 1.1rem;
+}
+.edit-dates-button:hover {
+  background-color: #e0a800;
+  transform: translateY(-2px);
+}
+.next-step-button {
+  background-color: #17a2b8;
+  color: #fff;
+  padding: 14px 28px;
+  font-size: 1.1rem;
+}
+.next-step-button:hover {
+  background-color: #138496;
+  transform: translateY(-2px);
+}
+
+/* react-datepicker 기본 스타일 오버라이드 */
+.react-datepicker {
+  font-size: 1.1rem;
+  border: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+}
+.react-datepicker__header {
+  background-color: #007bff;
+  border-bottom: none;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.react-datepicker__current-month {
+  font-size: 1.3rem;
+  color: #fff;
+}
+.react-datepicker__day-name,
+.react-datepicker__day,
+.react-datepicker__time-name {
+  width: 2.5rem;
+  line-height: 2.5rem;
+  margin: 0.166rem;
+}
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected {
+  background-color: #28a745;
+  color: #fff;
+  border-radius: 50%;
+}
+
+/* fadeIn 애니메이션 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 반응형 디자인 */
+@media (max-width: 600px) {
+  .create-trip-container {
+    margin: 20px;
+    padding: 20px;
+  }
+  .date-picker-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .date-input {
+    width: 100%;
+    max-width: 250px;
+    margin-bottom: 10px;
+  }
+  .calendar-buttons,
+  .final-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
