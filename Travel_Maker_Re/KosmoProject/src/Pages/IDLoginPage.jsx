@@ -9,13 +9,34 @@ const IDLoginPage = () => {
 
   const isFormValid = email.trim() !== "" && password.trim() !== ""; // 유효성 검사
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // 로그인 로직 처리
-    if (isFormValid) {
-      alert("로그인 성공!"); // 실제로는 서버 요청으로 대체
-    } else {
+
+    if (!isFormValid) {
       alert("이메일과 비밀번호를 입력해주세요.");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:8586/api/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (response.ok) {
+        const result = await response.text(); // 응답을 문자열로 변환
+        alert(result); // "로그인 성공" 또는 "아이디 또는 비밀번호가 틀렸습니다."
+        navigate("/home"); // 로그인 성공 시 홈 페이지로 이동 (경로는 변경 가능)
+      } else {
+        const errorMessage = await response.text();
+        alert("로그인 실패: " + errorMessage);
+      }
+    } catch (error) {
+      console.error("로그인 요청 실패:", error);
+      alert("로그인 중 오류가 발생했습니다.");
     }
   };
 
