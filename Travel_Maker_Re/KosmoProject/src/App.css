@@ -1326,4 +1326,263 @@ hr {
   color: #999;
   padding: 20px;
 }
+/* 페이지네이션 스타일 */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 10px;
+}
 
+.page-button {
+  padding: 8px 12px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.page-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.page-number {
+  font-size: 18px;
+  font-weight: bold;
+  color: #007bff;
+}
+
+/* 게시글 상세 페이지 스타일 */
+.review-view-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  position: relative;
+}
+
+/* 🔙 목록으로 돌아가기 버튼 (왼쪽 상단 배치) */
+.back-button {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 8px 12px;
+  font-size: 14px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: #0056b3;
+}
+
+/* 제목 스타일 */
+.review-view-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #007bff;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* 작성자 및 조회수 & 좋아요 */
+.review-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+/* 작성일 (오른쪽 아래 배치) */
+.post-date {
+  text-align: right;
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+/* 조회수 & 좋아요 스타일 (오른쪽 정렬) */
+.meta-right {
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* 본문 스타일 */
+.review-content {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* ✏ 수정 & 🗑 삭제 버튼 (오른쪽 정렬) */
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.edit-button, .delete-button {
+  padding: 10px 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.edit-button {
+  background-color: #ffc107;
+  color: black;
+}
+
+.edit-button:hover {
+  background-color: #e0a800;
+}
+
+.delete-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.delete-button:hover {
+  background-color: #c82333;
+}
+
+/* 로딩 및 에러 메시지 */
+.loading, .error {
+  text-align: center;
+  font-size: 18px;
+  color: #999;
+  padding: 20px;
+}
+
+/* 좋아요 버튼 */
+.like-button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: red;
+  font-weight: bold;
+  transition: transform 0.2s ease;
+}
+
+.like-button:hover {
+  transform: scale(1.1);
+}
+/* 게시글 수정 페이지 스타일 */
+.review-edit-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  text-align: center;
+}
+
+/* 제목 입력 필드 스타일 */
+.edit-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 18px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.edit-input:focus {
+  border-color: #007bff;
+}
+
+/* 내용 입력 필드 스타일 */
+.edit-textarea {
+  width: 100%;
+  height: 200px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s ease;
+  resize: none;
+}
+
+.edit-textarea:focus {
+  border-color: #007bff;
+}
+
+/* 버튼 컨테이너 */
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+/* 수정 완료 버튼 */
+.update-button {
+  flex: 1;
+  padding: 12px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 10px;
+}
+
+.update-button:hover {
+  background-color: #0056b3;
+}
+
+/* 취소 버튼 */
+.cancel-button {
+  flex: 1;
+  padding: 12px;
+  font-size: 16px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cancel-button:hover {
+  background-color: #c82333;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 500px) {
+  .review-edit-container {
+    width: 90%;
+  }
+
+  .button-container {
+    flex-direction: column;
+  }
+
+  .update-button, .cancel-button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
