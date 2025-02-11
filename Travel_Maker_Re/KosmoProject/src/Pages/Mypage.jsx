@@ -13,9 +13,12 @@ const MyPage = () => {
         profilePicture: '/images/default-profile.webp',
     });
 
-    const [chatRooms, setChatRooms] = useState(['서울 강남구', '제주도 공항맛집', '강릉 속초 힐링 여행']);
+    const [chatRooms, setChatRooms] = useState(['부산 해운대 여행', '제주도 힐링 여행', '강릉 감성 여행']);
     const [friends, setFriends] = useState(['백건우', '윤웅희', '이강산']);
     const [friendRequests, setFriendRequests] = useState(['김용환', '이가희']);
+    const [pendingRequests, setPendingRequests] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
 
     const navigate = useNavigate();
 
@@ -36,6 +39,24 @@ const MyPage = () => {
         if (confirmDelete) {
             alert('회원탈퇴가 완료되었습니다.');
         }
+    };
+
+    const handleSearch = () => {
+        // 예시 사용자 데이터 (실제 API 호출로 대체 가능)
+        const sampleUsers = ['최민호', '박지은', '김용환', '이가희'];
+        const results = sampleUsers.filter((user) => user.includes(searchTerm));
+        setSearchResults(results);
+    };
+
+    const handleSendFriendRequest = (user) => {
+        if (pendingRequests.includes(user)) {
+            alert(`${user}님에게 이미 친구 요청을 보냈습니다.`);
+            return;
+        }
+
+        // 친구 요청 전송 로직 (실제 API 호출로 대체 가능)
+        setPendingRequests([...pendingRequests, user]);
+        alert(`${user}님에게 친구 요청을 보냈습니다.`);
     };
 
     return (
@@ -63,7 +84,6 @@ const MyPage = () => {
                         </div>
                     </div>
                 </div>
-                {/* 설정 아이콘과 텍스트 */}
                 <div className="settings-container" onClick={() => navigate('/edit-profile', { state: { profile } })}>
                     <FaCog className="settings-icon" />
                     <span className="settings-text">개인정보 수정</span>
@@ -71,8 +91,8 @@ const MyPage = () => {
             </div>
 
             {/* 생성한 채팅 방 목록 */}
-                        <section className="my-page-section">
-                <h3>내가 생성한 스케쥴 지도 바로가기</h3>
+            <section className="my-page-section">
+                <h3>나의 여행 목록</h3>
                 <ul>
                     {chatRooms.map((room, index) => (
                         <li key={index} className="chat-room-item">
@@ -85,6 +105,7 @@ const MyPage = () => {
                 </ul>
             </section>
 
+            {/* 친구 목록 */}
             <section className="my-page-section">
                 <h3>친구 목록</h3>
                 <ul>
@@ -99,11 +120,23 @@ const MyPage = () => {
                 </ul>
             </section>
 
+            {/* 친구 요청 섹션 */}
             <section className="my-page-section">
-                <h3>친구 요청</h3>
-                <ul>
+                <div className="section-header">
+                    <h3>친구 요청</h3>
+                    <div className="search-bar">
+                        <input
+                            type="text"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            placeholder="이름 검색"
+                        />
+                        <button onClick={handleSearch}>검색</button>
+                    </div>
+                </div>
+                <ul className="friend-requests-list">
                     {friendRequests.map((request, index) => (
-                        <li key={index}>
+                        <li key={index} className="request-item">
                             <span>{request}</span>
                             <div className="buttons-container">
                                 <button
@@ -129,6 +162,26 @@ const MyPage = () => {
                         </li>
                     ))}
                 </ul>
+
+                {/* 검색 결과 표시 */}
+                {searchResults.length > 0 && (
+                    <div className="search-results">
+                        <h3>검색 결과</h3>
+                        <ul>
+                            {searchResults.map((result, index) => (
+                                <li key={index}>
+                                    <span>{result}</span>
+                                    <button
+                                        onClick={() => handleSendFriendRequest(result)}
+                                        disabled={pendingRequests.includes(result)}
+                                    >
+                                        {pendingRequests.includes(result) ? '요청 중' : '친구 요청 보내기'}
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
             </section>
 
             {/* 로그아웃 및 회원탈퇴 */}
