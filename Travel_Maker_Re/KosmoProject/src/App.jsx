@@ -12,11 +12,12 @@ import MyPage from './pages/MyPage';
 import EditProfile from './pages/EditProfile';
 import TravelList from './components/TravelList';
 import TravelDetail from './components/TravelDetail';
-import CreateTripPage from './Pages/CreateTripPage';
+import CreateTripPage from './pages/CreateTripPage';
 import PlanTripPage from "./pages/PlanTripPage";
+import ALHomePage from './pages/ALHomePage';  // ALHomePage 추가
 
 // 로그인 & 회원가입 관련 컴포넌트
-import LoginPage from './Pages/LoginPage';
+import LoginPage from './pages/LoginPage';
 import IDLoginPage from './pages/IDLoginPage';
 import SignupAgreement from './pages/SignupAgreement';
 import Signup from './pages/Signup';
@@ -57,9 +58,6 @@ const App = () => {
                 <Route path="/findpwd" element={<FindPwd />} />
                 <Route path="/pwd-next" element={<PwdNext />} />
                 <Route path="/resetpwd" element={<ResetPwd />} />
-
-                {/* 게시판 관련 라우트 */}
-                <Route path="/board" element={<ReviewPage />} />
             </Routes>
         </Router>
     );
