@@ -27,6 +27,8 @@ import ResetPwd from './pages/ResetPwd';
 
 // 게시판 관련 컴포넌트
 import ReviewPage from './Pages/boards/review/ReviewPage';
+import ReviewViewPage from './Pages/boards/review/ReviewViewPage';
+import ReviewEditPage from './Pages/boards/review/ReviewEditPage';
 
 const App = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -60,6 +62,9 @@ const App = () => {
                 <Route path="/resetpwd" element={<ResetPwd />} />
 
                 {/* 게시판 관련 라우트 */}
+                <Route path="/reviewboard" element={<ReviewPage />} />
+                <Route path="/reviewboard/:board_idx" element={<ReviewViewPage />} />
+                <Route path="/reviewboard/edit/:board_idx" element={<ReviewEditPage />} />
                 <Route path="/board" element={<ReviewPage />} />
 
                 {/* ✅ ALHomePage 경로 추가 */}
