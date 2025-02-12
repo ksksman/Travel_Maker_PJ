@@ -14,6 +14,7 @@ import TravelList from './components/TravelList';
 import TravelDetail from './components/TravelDetail';
 import CreateTripPage from './Pages/CreateTripPage';
 import PlanTripPage from "./pages/PlanTripPage";
+import ALHomePage from './Pages/ALHomePage';
 
 // 로그인 & 회원가입 관련 컴포넌트
 import LoginPage from './Pages/LoginPage';
@@ -64,6 +65,10 @@ const App = () => {
                 <Route path="/reviewboard" element={<ReviewPage />} />
                 <Route path="/reviewboard/:board_idx" element={<ReviewViewPage />} />
                 <Route path="/reviewboard/edit/:board_idx" element={<ReviewEditPage />} />
+                <Route path="/board" element={<ReviewPage />} />
+
+                {/* ✅ ALHomePage 경로 추가 */}
+                <Route path="/main" element={<ALHomePage />} />
             </Routes>
         </Router>
     );
