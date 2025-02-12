@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import BannerSlider from '../components/BannerSlider';
 import { FaPlusCircle } from 'react-icons/fa';
