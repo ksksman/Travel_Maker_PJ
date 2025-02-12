@@ -20,14 +20,9 @@ const ALHomePage = () => {
         <div className="main-container">
             {/* 상단 네비게이션 바 */}
             <div className="top-navbar">
-                <div className="logo">여행 사이트</div>
+                <div className="logo"></div>
                 <div className="user-actions">
-                    <button className="navigate-button" onClick={() => handleNavigate('/mypage')}>
-                        마이페이지
-                    </button>
-                    <button className="logout-button" onClick={handleLogout}>
-                        로그아웃
-                    </button>
+                   
                 </div>
             </div>
 

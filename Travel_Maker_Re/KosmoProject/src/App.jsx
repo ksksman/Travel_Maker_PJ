@@ -27,6 +27,7 @@ import ResetPwd from './pages/ResetPwd';
 
 const App = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);  // 로그인 상태 관리
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -34,7 +35,8 @@ const App = () => {
 
     return (
         <Router>
-            <Header toggleMenu={toggleMenu} />
+            {/* 로그인 상태와 상태 변경 함수를 Header에 전달 */}
+            <Header toggleMenu={toggleMenu} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
             <SideMenu isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
 
             <Routes>
@@ -48,7 +50,7 @@ const App = () => {
                 <Route path="/plan-trip" element={<PlanTripPage />} />
 
                 {/* 로그인 및 회원가입 라우트 */}
-                <Route path="/login" element={<LoginPage />} />
+                <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} />
                 <Route path="/id-login" element={<IDLoginPage />} />
                 <Route path="/signup-agreement" element={<SignupAgreement />} />
                 <Route path="/signup" element={<Signup />} />

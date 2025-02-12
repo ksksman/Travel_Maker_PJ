@@ -1,7 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-const Header = ({ toggleMenu }) => {
+const Header = ({ toggleMenu, isLoggedIn, setIsLoggedIn }) => {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        setIsLoggedIn(false);  // 로그아웃 처리
+        alert('로그아웃 되었습니다.');
+        navigate('/login');
+    };
+
     return (
         <header>
             <div className="logo-container">
@@ -9,17 +17,29 @@ const Header = ({ toggleMenu }) => {
                     ☰
                 </button>
                 <Link to="/">
-                <img src="/images/logo.png" alt="Travel Maker 로고" className="logo" />
+                    <img src="/images/logo.png" alt="Travel Maker 로고" className="logo" />
                 </Link>
             </div>
+
             <div className="header-content">
                 <h1 className="logo-text">TRAVEL MAKER</h1>
                 <p className="header-subtext">함께 떠나는 랜선 여행, 그리고 더 많은 여행 이야기들.</p>
             </div>
-            <div className="nav-links">
-            <Link to="/login">로그인</Link>
-            <Link to="/signup">회원가입</Link>
 
+            <div className="nav-links">
+                {isLoggedIn ? (
+                    // 로그인 상태일 때
+                    <>
+                        <Link to="/">로그아웃</Link>
+                        <Link to="/mypage">마이페이지</Link>
+                    </>
+                ) : (
+                    // 비로그인 상태일 때
+                    <>
+                        <Link to="/login">로그인</Link>
+                        <Link to="/signup">회원가입</Link>
+                    </>
+                )}
             </div>
         </header>
     );

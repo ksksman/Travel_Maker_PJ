@@ -64,19 +64,36 @@ header {
   gap: 10px;
 }
 
+.nav-links button,
 .nav-links a {
   color: white;
+  font-weight: bold;
   text-decoration: none;
-  padding: 8px 12px;
-  border: 1px solid white;
-  border-radius: 5px;
-  transition: background-color 0.3s;
+  padding: 10px 20px;
+  border: 2px solid white;
+  border-radius: 8px;
+  background-color: transparent;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-align: center;
 }
 
+/* hover 효과 */
+.nav-links button:hover,
 .nav-links a:hover {
   background-color: white;
   color: #007bff;
+  border-color: #007bff;
 }
+
+/* 버튼 활성 상태 */
+.nav-links button:active,
+.nav-links a:active {
+  transform: scale(0.95);
+}
+
+/* 로그아웃 마이페이지 버튼 */
+
 
 .main-container {
   text-align: center;
