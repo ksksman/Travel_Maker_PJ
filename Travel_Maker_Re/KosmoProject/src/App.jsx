@@ -14,7 +14,7 @@ import TravelList from './components/TravelList';
 import TravelDetail from './components/TravelDetail';
 import CreateTripPage from './Pages/CreateTripPage';
 import PlanTripPage from "./pages/PlanTripPage";
-import ALHomePage from './Pages/ALHomePage';
+import ALHomePage from './Pages/ALHomePage';  // ✅ ALHomePage 추가
 
 // 로그인 & 회원가입 관련 컴포넌트
 import LoginPage from './Pages/LoginPage';
