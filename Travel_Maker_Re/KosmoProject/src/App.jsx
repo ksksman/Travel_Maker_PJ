@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 
@@ -7,18 +7,18 @@ import Header from './components/Header';
 import SideMenu from './components/SideMenu';
 
 // 여행 관련 컴포넌트
-import HomePage from './pages/HomePage';
-import MyPage from './pages/MyPage';
+import HomePage from './Pages/HomePage';
+import MyPage from './Pages/Mypage';
 import EditProfile from './pages/EditProfile';
 import TravelList from './components/TravelList';
 import TravelDetail from './components/TravelDetail';
 import CreateTripPage from './pages/CreateTripPage';
 import PlanTripPage from "./pages/PlanTripPage";
-import ALHomePage from './pages/ALHomePage';  // ALHomePage 추가
+import ALHomePage from './Pages/ALHomePage';  // ✅ ALHomePage 추가
 
 // 로그인 & 회원가입 관련 컴포넌트
 import LoginPage from './pages/LoginPage';
-import IDLoginPage from './pages/IDLoginPage';
+import IDLoginPage from './Pages/IDLoginPage';
 import SignupAgreement from './pages/SignupAgreement';
 import Signup from './pages/Signup';
 import FindPwd from './pages/FindPwd';
@@ -58,9 +58,12 @@ const App = () => {
                 <Route path="/findpwd" element={<FindPwd />} />
                 <Route path="/pwd-next" element={<PwdNext />} />
                 <Route path="/resetpwd" element={<ResetPwd />} />
+
                 {/* 게시판 관련 라우트 */}
                 <Route path="/board" element={<ReviewPage />} />
-                <Route path="/ALHomePage" element={<ALHomePage />} />
+
+                {/* ✅ ALHomePage 경로 추가 */}
+                <Route path="/main" element={<ALHomePage />} />
             </Routes>
         </Router>
     );
