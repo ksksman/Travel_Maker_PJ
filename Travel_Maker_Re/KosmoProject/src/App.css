@@ -1199,8 +1199,7 @@ hr {
   outline: none;
   box-shadow: none; /* 그림자 제거 */
 }
-
-/* 후기 게시판 컨테이너 스타일 */
+/* 🔹 후기 게시판 스타일 */
 .review-container {
   width: 90%;
   max-width: 1100px;
@@ -1217,7 +1216,7 @@ hr {
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.2);
 }
 
-/* 후기 게시판 제목 스타일 */
+/* 후기 게시판 제목 */
 .review-title {
   font-size: 28px;
   font-weight: bold;
@@ -1226,7 +1225,7 @@ hr {
   text-align: center;
 }
 
-/* 후기 게시판 테이블 스타일 */
+/* 후기 게시판 테이블 */
 .review-table {
   width: 100%;
   border-collapse: collapse;
@@ -1252,7 +1251,7 @@ hr {
   background-color: #f5f5f5;
 }
 
-/* 반응형 테이블 */
+/* 🔹 반응형 스타일 */
 @media (max-width: 768px) {
   .review-container {
     padding: 15px;
@@ -1270,7 +1269,8 @@ hr {
     font-size: 24px;
   }
 }
-/* 검색창 컨테이너 */
+
+/* 🔹 검색창 스타일 */
 .search-container {
   display: flex;
   justify-content: center;
@@ -1278,24 +1278,16 @@ hr {
   margin-bottom: 20px;
 }
 
-/* 검색 옵션 선택 select */
-.search-select {
+.search-select, .search-input {
   padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 16px;
-  background-color: white;
-  cursor: pointer;
-}
-
-/* 검색창 input */
-.search-input {
-  padding: 10px;
-  width: 200px;
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 16px;
   outline: none;
+}
+
+.search-input {
+  width: 200px;
   transition: border-color 0.3s ease;
 }
 
@@ -1303,7 +1295,6 @@ hr {
   border-color: #007bff;
 }
 
-/* 검색 버튼 */
 .search-button {
   padding: 10px 15px;
   font-size: 16px;
@@ -1319,14 +1310,15 @@ hr {
   background-color: #0056b3;
 }
 
-/* 검색 결과 없을 때 스타일 */
+/* 검색 결과 없음 스타일 */
 .no-results {
   text-align: center;
   font-size: 18px;
   color: #999;
   padding: 20px;
 }
-/* 페이지네이션 스타일 */
+
+/* 🔹 페이지네이션 스타일 */
 .pagination-container {
   display: flex;
   justify-content: center;
@@ -1357,7 +1349,7 @@ hr {
   color: #007bff;
 }
 
-/* 게시글 상세 페이지 스타일 */
+/* 🔹 게시글 상세 페이지 스타일 */
 .review-view-container {
   max-width: 800px;
   margin: 40px auto;
@@ -1368,7 +1360,7 @@ hr {
   position: relative;
 }
 
-/* 🔙 목록으로 돌아가기 버튼 (왼쪽 상단 배치) */
+/* 🔙 목록으로 돌아가기 버튼 */
 .back-button {
   position: absolute;
   top: 10px;
@@ -1387,7 +1379,7 @@ hr {
   background-color: #0056b3;
 }
 
-/* 제목 스타일 */
+/* 게시글 제목 */
 .review-view-title {
   font-size: 28px;
   font-weight: bold;
@@ -1396,7 +1388,7 @@ hr {
   text-align: center;
 }
 
-/* 작성자 및 조회수 & 좋아요 */
+/* 작성자, 조회수, 좋아요 */
 .review-meta {
   display: flex;
   justify-content: space-between;
@@ -1405,7 +1397,7 @@ hr {
   margin-bottom: 10px;
 }
 
-/* 작성일 (오른쪽 아래 배치) */
+/* 작성일 */
 .post-date {
   text-align: right;
   font-size: 14px;
@@ -1413,7 +1405,7 @@ hr {
   margin-bottom: 20px;
 }
 
-/* 조회수 & 좋아요 스타일 (오른쪽 정렬) */
+/* 조회수 & 좋아요 (오른쪽 정렬) */
 .meta-right {
   display: flex;
   gap: 15px;
@@ -1429,6 +1421,28 @@ hr {
   margin-bottom: 20px;
 }
 
+/* 좋아요 버튼 */
+.like-button-container {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.like-button {
+  padding: 10px 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #ff4d4d;
+  color: white;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.like-button:hover {
+  background-color: #cc0000;
+  transform: scale(1.05);
+}
+
 /* ✏ 수정 & 🗑 삭제 버튼 (오른쪽 정렬) */
 .button-container {
   display: flex;
@@ -1436,6 +1450,7 @@ hr {
   gap: 10px;
 }
 
+/* 수정 및 삭제 버튼 */
 .edit-button, .delete-button {
   padding: 10px 15px;
   font-size: 16px;
@@ -1463,29 +1478,7 @@ hr {
   background-color: #c82333;
 }
 
-/* 로딩 및 에러 메시지 */
-.loading, .error {
-  text-align: center;
-  font-size: 18px;
-  color: #999;
-  padding: 20px;
-}
-
-/* 좋아요 버튼 */
-.like-button {
-  background: none;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-  color: red;
-  font-weight: bold;
-  transition: transform 0.2s ease;
-}
-
-.like-button:hover {
-  transform: scale(1.1);
-}
-/* 게시글 수정 페이지 스타일 */
+/* 🔹 게시글 수정 페이지 스타일 */
 .review-edit-container {
   max-width: 600px;
   margin: 40px auto;
@@ -1496,11 +1489,11 @@ hr {
   text-align: center;
 }
 
-/* 제목 입력 필드 스타일 */
-.edit-input {
+/* 제목 및 내용 입력 필드 */
+.edit-input, .edit-textarea {
   width: 100%;
   padding: 10px;
-  font-size: 18px;
+  font-size: 16px;
   border: 1px solid #ddd;
   border-radius: 8px;
   margin-bottom: 15px;
@@ -1508,81 +1501,40 @@ hr {
   transition: border-color 0.3s ease;
 }
 
-.edit-input:focus {
+.edit-input:focus, .edit-textarea:focus {
   border-color: #007bff;
 }
 
-/* 내용 입력 필드 스타일 */
 .edit-textarea {
-  width: 100%;
   height: 200px;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  outline: none;
-  transition: border-color 0.3s ease;
   resize: none;
 }
 
-.edit-textarea:focus {
-  border-color: #007bff;
-}
-
-/* 버튼 컨테이너 */
-.button-container {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-
-/* 수정 완료 버튼 */
-.update-button {
+/* 수정 완료 & 취소 버튼 */
+.update-button, .cancel-button {
   flex: 1;
   padding: 12px;
   font-size: 16px;
-  background-color: #007bff;
-  color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  margin-right: 10px;
+}
+
+.update-button {
+  background-color: #007bff;
+  color: white;
 }
 
 .update-button:hover {
   background-color: #0056b3;
 }
 
-/* 취소 버튼 */
 .cancel-button {
-  flex: 1;
-  padding: 12px;
-  font-size: 16px;
   background-color: #dc3545;
   color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
 .cancel-button:hover {
   background-color: #c82333;
-}
-
-/* 반응형 디자인 */
-@media (max-width: 500px) {
-  .review-edit-container {
-    width: 90%;
-  }
-
-  .button-container {
-    flex-direction: column;
-  }
-
-  .update-button, .cancel-button {
-    width: 100%;
-    margin-bottom: 10px;
-  }
 }

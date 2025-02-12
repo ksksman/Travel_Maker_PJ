@@ -16,8 +16,8 @@ function ReviewViewPage() {
             .then((response) => response.json())
             .then((data) => {
                 setReview(data);
-                setLikes(data.like_count);
-                setViews(data.view_count);
+                setLikes(parseInt(data.like_count));
+                setViews(parseInt(data.view_count));
                 setLoading(false);
             })
             .catch((error) => {
@@ -29,7 +29,7 @@ function ReviewViewPage() {
         fetch(`http://localhost:8586/increaseViewCount.do?board_idx=${board_idx}`, {
             method: "PATCH"
         })
-        .then(() => setViews((prevViews) => prevViews + 1))
+        .then(() => setViews(prevViews => parseInt(prevViews) + 1))
         .catch((error) => console.error("조회수 증가 오류:", error));
 
     }, [board_idx]);
@@ -39,7 +39,7 @@ function ReviewViewPage() {
         fetch(`http://localhost:8586/increaseLikeCount.do?board_idx=${board_idx}`, {
             method: "PATCH"
         })
-        .then(() => setLikes((prevLikes) => prevLikes + 1))
+        .then(() => setLikes(prevLikes => parseInt(prevLikes) + 1))
         .catch((error) => console.error("좋아요 증가 오류:", error));
     }
 
@@ -57,7 +57,7 @@ function ReviewViewPage() {
             .then((response) => {
                 if (response.ok) {
                     alert("게시글이 삭제되었습니다.");
-                    navigate(-1);
+                    navigate("/reviewboard");
                 } else {
                     alert("게시글 삭제에 실패했습니다.");
                 }
@@ -80,7 +80,7 @@ function ReviewViewPage() {
     return (
         <div className="review-view-container">
             {/* 🔙 목록으로 돌아가기 버튼 (왼쪽 상단 배치) */}
-            <button className="back-button" onClick={() => navigate(-1)}>← 목록으로 돌아가기</button>
+            <button className="back-button" onClick={() => navigate("/reviewboard")}>← 목록으로 돌아가기</button>
 
             <h2 className="review-view-title">{review.title}</h2>
 
@@ -89,7 +89,7 @@ function ReviewViewPage() {
                 <span className="author">작성자: {review.nickname}</span>
                 <div className="meta-right">
                     <span>조회수: {views}</span>
-                    <button className="like-button" onClick={handleLike}>❤️ {likes}</button>
+                    <span className="like-count">❤️ {likes}</span>
                 </div>
             </div>
 
@@ -99,6 +99,11 @@ function ReviewViewPage() {
             <div className="review-content">
                 <h2> 추후 여행일정 들어갈 곳 </h2>
                 <p>{review.content}</p>
+            </div>
+
+            {/* 좋아요 버튼 */}
+            <div className="like-button-container">
+                <button className="like-button" onClick={handleLike}>❤️ 좋아요</button>
             </div>
 
             {/* ✏ 수정 & 🗑 삭제 버튼 (오른쪽 정렬) */}

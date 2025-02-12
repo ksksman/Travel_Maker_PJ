@@ -33,7 +33,7 @@ function ReviewEditPage() {
         .then((response) => {
             if (response.ok) {
                 alert("게시글이 수정되었습니다.");
-                navigate(`/review/${board_idx}`);
+                navigate(`/reviewboard/${board_idx}`);
             } else {
                 alert("게시글 수정에 실패했습니다.");
             }
@@ -59,7 +59,8 @@ function ReviewEditPage() {
       />
       <div className="button-container">
           <button className="update-button" onClick={handleUpdate}>수정 완료</button>
-          <button className="cancel-button" onClick={() => navigate(-1)}>취소</button>
+          <button className="cancel-button" 
+            onClick={() => navigate(`/reviewboard/${board_idx}`)}>취소</button>
       </div>
   </div>
     );
