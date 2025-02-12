@@ -60,6 +60,7 @@ const App = () => {
                 <Route path="/resetpwd" element={<ResetPwd />} />
                 {/* 게시판 관련 라우트 */}
                 <Route path="/board" element={<ReviewPage />} />
+                <Route path="/ALHomePage" element={<ALHomePage />} />
             </Routes>
         </Router>
     );
