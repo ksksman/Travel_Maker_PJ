@@ -65,7 +65,7 @@ const App = () => {
                 <Route path="/reviewboard" element={<ReviewPage />} />
                 <Route path="/reviewboard/:board_idx" element={<ReviewViewPage />} />
                 <Route path="/reviewboard/edit/:board_idx" element={<ReviewEditPage />} />
-                <Route path="/board" element={<ReviewPage />} />
+                <Route path="/noticeboard" element={<ReviewPage />} />
 
                 {/* ✅ ALHomePage 경로 추가 */}
                 <Route path="/main" element={<ALHomePage />} />
