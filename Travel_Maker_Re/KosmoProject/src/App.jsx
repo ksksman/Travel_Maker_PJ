@@ -29,6 +29,9 @@ import ResetPwd from './pages/ResetPwd';
 import ReviewPage from './Pages/boards/review/ReviewPage';
 import ReviewViewPage from './Pages/boards/review/ReviewViewPage';
 import ReviewEditPage from './Pages/boards/review/ReviewEditPage';
+import NoticePage from './Pages/boards/notice/NoticePage';
+import NoticeViewPage from './Pages/boards/notice/NoticeViewPage';
+import NoticeEditPage from './Pages/boards/notice/NoticeEditPage';
 
 const App = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -65,7 +68,9 @@ const App = () => {
                 <Route path="/reviewboard" element={<ReviewPage />} />
                 <Route path="/reviewboard/:board_idx" element={<ReviewViewPage />} />
                 <Route path="/reviewboard/edit/:board_idx" element={<ReviewEditPage />} />
-                <Route path="/noticeboard" element={<ReviewPage />} />
+                <Route path="/noticeboard" element={<NoticePage />} />
+                <Route path="/noticeboard/:board_idx" element={<NoticeViewPage />} />
+                <Route path="/noticeboard/edit/:board_idx" element={<NoticeEditPage />} />
 
                 {/* ✅ ALHomePage 경로 추가 */}
                 <Route path="/main" element={<ALHomePage />} />

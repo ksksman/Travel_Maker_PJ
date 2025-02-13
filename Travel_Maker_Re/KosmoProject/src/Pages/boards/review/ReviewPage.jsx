@@ -7,10 +7,11 @@ function ReviewPage() {
     const [searchType, setSearchType] = useState("title"); // 검색 기준 (기본: 제목)
     const [searchKeyword, setSearchKeyword] = useState(""); // 검색 키워드
     const [pageNum, setPageNum] = useState(1); // ✅ 페이지 번호 상태 추가
+    
     const navigate = useNavigate();
 
     // 🔍 기본 게시판 리스트 불러오기 (페이지 로드 시 실행)
-    function fetchReviews(page = 1) {
+    function fetchReviews(page) {
         setPageNum(page); // 현재 페이지 업데이트
         fetch(`http://localhost:8586/restBoardList.do?pageNum=${page}&board_cate=1`) // ✅ 페이지네이션 적용
             .then((response) => response.json())
