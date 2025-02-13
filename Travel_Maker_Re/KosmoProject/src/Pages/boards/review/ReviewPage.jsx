@@ -11,7 +11,7 @@ function ReviewPage() {
     const navigate = useNavigate();
 
     // 🔍 기본 게시판 리스트 불러오기 (페이지 로드 시 실행)
-    function fetchReviews(page) {
+    function fetchReviews(page = 1) {
         setPageNum(page); // 현재 페이지 업데이트
         fetch(`http://localhost:8586/restBoardList.do?pageNum=${page}&board_cate=1`) // ✅ 페이지네이션 적용
             .then((response) => response.json())
