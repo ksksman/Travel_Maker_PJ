@@ -7,15 +7,25 @@ function ReviewPage() {
     const [searchType, setSearchType] = useState("title"); // 검색 기준 (기본: 제목)
     const [searchKeyword, setSearchKeyword] = useState(""); // 검색 키워드
     const [pageNum, setPageNum] = useState(1); // ✅ 페이지 번호 상태 추가
-    
+    const [isPopular, setIsPopular] = useState(false); // ✅ 현재 인기글 보기 여부
+
     const navigate = useNavigate();
 
     // 🔍 기본 게시판 리스트 불러오기 (페이지 로드 시 실행)
-    function fetchReviews(page = 1) {
+    function fetchReviews(page = 1, popular = false) {
         setPageNum(page); // 현재 페이지 업데이트
-        fetch(`http://localhost:8586/restBoardList.do?pageNum=${page}&board_cate=1`) // ✅ 페이지네이션 적용
+        setIsPopular(popular);
+
+        const url = popular
+            ? `http://localhost:8586/popularReviews.do?pageNum=${page}&board_cate=1` // ✅ 인기글 (좋아요 10개 이상)
+            : `http://localhost:8586/restBoardList.do?pageNum=${page}&board_cate=1`; // ✅ 전체글 (board_cate=1)
+
+        
+
+        fetch(url) // ✅ 페이지네이션 적용
             .then((response) => response.json())
             .then((data) => {
+                console.log('api 주소 :>> ', url);
                 setMyJSON(data);
             })
             .catch((error) => {
@@ -66,6 +76,22 @@ function ReviewPage() {
                 후기 게시판
             </h2>
             
+            {/* ✅ 전체글 / 인기글 버튼 */}
+            <div className="filter-buttons">
+                <button
+                    className={`filter-button ${!isPopular ? "active" : ""}`}
+                    onClick={() => fetchReviews(1, false)}
+                >
+                    전체글
+                </button>
+                <button
+                    className={`filter-button ${isPopular ? "active" : ""}`}
+                    onClick={() => fetchReviews(1, true)}
+                >
+                    인기글
+                </button>
+            </div>
+
             <table className="review-table">
                 <thead>
                     <tr>
