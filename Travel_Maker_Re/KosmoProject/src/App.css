@@ -1708,11 +1708,10 @@ hr {
   margin-bottom: 10px;
 }
 
-/* 🔹 댓글 개별 스타일 */
+/* 🔹 개별 댓글 스타일 */
 .comment {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
   background-color: white;
   padding: 10px;
   margin-bottom: 10px;
@@ -1720,15 +1719,36 @@ hr {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+/* 🔹 댓글 내용 */
 .comment-content {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  flex-direction: column;
+  gap: 5px;
 }
 
-.comment-content span {
-  flex: 1;
+/* 🔹 댓글 작성자 + 날짜 한 줄 정렬 */
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.comment-text {
   font-size: 16px;
+  margin: 5px 0;
+}
+
+/* 🔹 댓글 작성자 */
+.comment-nickname {
+  font-weight: bold;
+  color: #007bff;
+  margin-right: 10px;
+}
+
+/* 🔹 댓글 날짜 */
+.comment-date {
+  font-size: 14px;
+  color: #666;
 }
 
 /* 🔹 댓글 수정 입력 필드 */
@@ -1774,6 +1794,42 @@ hr {
   background-color: #c82333;
 }
 
+/* 🔹 댓글 버튼 그룹 */
+.comment-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 5px;
+}
+
+/* 🔹 수정 및 삭제 버튼 */
+.comment-buttons button {
+  padding: 6px 10px;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.comment-buttons button:first-of-type {
+  background-color: #ffc107;
+  color: black;
+}
+
+.comment-buttons button:first-of-type:hover {
+  background-color: #e0a800;
+}
+
+.comment-buttons button:last-of-type {
+  background-color: #dc3545;
+  color: white;
+}
+
+.comment-buttons button:last-of-type:hover {
+  background-color: #c82333;
+}
+
 /* 🔹 댓글 작성 섹션 */
 .add-comment {
   display: flex;
@@ -1805,30 +1861,3 @@ hr {
   background-color: #0056b3;
 }
 
-/* 🔹 수정 및 삭제 버튼 */
-.comment-content button {
-  padding: 6px 10px;
-  font-size: 14px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.comment-content button:first-of-type {
-  background-color: #ffc107;
-  color: black;
-}
-
-.comment-content button:first-of-type:hover {
-  background-color: #e0a800;
-}
-
-.comment-content button:last-of-type {
-  background-color: #dc3545;
-  color: white;
-}
-
-.comment-content button:last-of-type:hover {
-  background-color: #c82333;
-}

@@ -31,7 +31,7 @@ function ReviewPage() {
             return;
         }
 
-        let url = `http://localhost:8586/restBoardSearch.do?pageNum=${pageNum}&searchField=${searchType}&searchWord=${encodeURIComponent(searchKeyword)}`;
+        let url = `http://localhost:8586/restBoardSearch.do?pageNum=${pageNum}&searchField=${searchType}&searchWord=${encodeURIComponent(searchKeyword)}&board_cate=1`;
 
         fetch(url)
             .then((response) => response.json())
