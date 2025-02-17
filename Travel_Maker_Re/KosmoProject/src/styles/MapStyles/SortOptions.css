@@ -1,0 +1,54 @@
+.sort-options {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+/* 🔄 거리순 정렬 버튼 */
+.sort-btn {
+  padding: 6px 12px;
+  border: none;
+  background-color: #a4c8ee;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.sort-btn:hover {
+  background-color: #00258b;
+}
+
+/* 🗑️ "모두 삭제" 버튼 */
+.remove-all-btn {
+  padding: 6px 12px;
+  border: none;
+  background-color: #e77e88;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.remove-all-btn:hover {
+  background-color: #c82333;
+}
+
+/* 📌 핀 표시/숨기기 버튼 */
+.pin-toggle-btn {
+  padding: 6px 12px;
+  border: none;
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.pin-toggle-btn:hover {
+  background-color: #388e3c;
+}

@@ -1,0 +1,92 @@
+.sidebar {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  height: 100vh;
+  background-color: rgb(215, 243, 247) !important
+}
+
+.results-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+}
+
+/* 🔝 검색창 & 일정 정보 (PlanDays) 정렬 */
+.top-section {
+  display: flex;
+  align-items: flex-end; /*  위쪽 정렬 */
+  gap: 20px;
+  width: 100%;
+}
+
+/*  하단 컨테이너 스타일 */
+.sidebar-footer {
+  position: absolute;
+  display: flex;
+  justify-content: space-between; /* 좌우 정렬 */
+  align-items: center;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+  background-color: white;
+  position: absolute;
+  bottom: 10px;
+  width: 33.5%; /* 사이드바 전체 너비 */
+}
+
+/*  뒤로 가기 버튼 */
+.back-btn {
+  padding: 8px 12px;
+  border: 1px solid #000;
+  background-color: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.back-btn:hover {
+  background-color: rgb(60, 62, 68);
+}
+
+.participants {
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 5px; /* ✅ 버튼과 간격 추가 */
+}
+
+/*  저장 버튼 */
+.save-btn {
+  padding: 8px 11px;
+  border: none;
+  background-color: #a4c8ee;
+  color: white;
+  cursor: pointer;
+  border-radius: 0px;
+  font-size: 12px;
+  border: 1px solid #000;
+
+}
+
+/*  임시 저장 버튼 */
+.temp-save-btn {
+  padding: 8px 11px;
+  border: none;
+  background-color: #a4c8ee;
+  color: white;
+  cursor: pointer;
+  border-radius: 0px;
+  font-size: 12px;
+  border: 1px solid #000;
+}
+
+.search-container {
+  display: flex;
+  flex-direction: column; /*  위아래 정렬 */
+  align-items: center; /*  가운데 정렬 */
+}
+
+.search-logo img {
+  width: 10px; /*  로고 크기 조정 */
+  height: auto;
+}
