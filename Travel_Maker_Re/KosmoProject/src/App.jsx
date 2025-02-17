@@ -26,7 +26,15 @@ import PwdNext from "./pages/PwdNext";
 import ResetPwd from "./pages/ResetPwd";
 
 // 게시판 관련 컴포넌트
-import ReviewPage from "./pages/boards/review/ReviewPage";
+import ReviewPage from './Pages/boards/review/ReviewPage';
+import ReviewViewPage from './Pages/boards/review/ReviewViewPage';
+import ReviewEditPage from './Pages/boards/review/ReviewEditPage';
+import NoticePage from './Pages/boards/notice/NoticePage';
+import NoticeViewPage from './Pages/boards/notice/NoticeViewPage';
+import NoticeEditPage from './Pages/boards/notice/NoticeEditPage';
+import QnaPage from './Pages/boards/qna/QnaPage';
+import QnaViewPage from './Pages/boards/qna/QnaViewPage';
+
 
 const App = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
