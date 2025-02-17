@@ -1,0 +1,59 @@
+.search-section {
+  display: flex;
+  flex-direction: column; /* 요소를 위아래 정렬 */
+  align-items: flex-start; /*  가운데 정렬 */
+  width: 100%;
+}
+
+/* 검색 컨테이너 */
+.search-container {
+  display: flex;
+  flex-direction: column; /* 위아래 배치 */
+  gap: 5px; /* 로고와 검색창 간격 */
+  width: 100%;
+}
+
+/*  로고 컨테이너 (클릭 가능) */
+.logo-container {
+  display: flex;
+  cursor: pointer; /*  클릭 가능하도록 */
+}
+
+/*  로고 스타일 */
+.logo {
+  width: 180px;  /* 로고 크기 */
+  height: auto;  /* 비율 유지 */
+}
+
+/* 🔍 검색창과 버튼을 감싸는 div */
+.search-box {
+  display: flex;
+  gap: 5px; /*  검색창과 버튼 사이 간격 */
+  align-items: center;
+}
+
+/* 🔍 검색창 스타일 */
+.search-box input {
+  width: 250px; /*  고정된 검색창 너비 */
+  padding: 6px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  height: 30px;
+}
+
+/* 🔎 검색 버튼 */
+.search-box button {
+  padding: 10px 17px;
+  font-size: 12px;
+  background-color: #a4c8ee;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  height: 42px;
+}
+
+.search-box button:hover {
+  background-color: #00258b;
+}

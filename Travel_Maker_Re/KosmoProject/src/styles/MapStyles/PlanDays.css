@@ -1,0 +1,46 @@
+/* 🗓️ PlanDays 컨테이너 */
+.plan-days {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color:transparent;
+  padding: 12px;
+  border-radius: 8px;
+  width: 470px; /* ✅ 가로 크기 증가 */
+}
+/* 🏷️ 여행 제목 */
+.plan-title {
+  font-size: 14px;
+  font-weight: bold;
+  background:transparent;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-bottom: 8px; /* ✅ 아래 여백 추가 */
+  
+}
+
+/* 🗓️ 날짜 버튼 컨테이너 */
+.plan-dates {
+  display: flex;
+  gap: 8px;
+}
+
+/* 🔵 날짜 버튼 (동그라미) */
+.day-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background-color: #ddd;
+  color: black;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+/* 🔴 선택된 날짜 강조 */
+.day-btn.active {
+  background-color: #e77e88;
+  color: white;
+  font-weight: bold;
+}
