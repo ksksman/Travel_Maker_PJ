@@ -32,6 +32,8 @@ import ReviewEditPage from './Pages/boards/review/ReviewEditPage';
 import NoticePage from './Pages/boards/notice/NoticePage';
 import NoticeViewPage from './Pages/boards/notice/NoticeViewPage';
 import NoticeEditPage from './Pages/boards/notice/NoticeEditPage';
+import QnaPage from './Pages/boards/qna/QnaPage';
+import QnaViewPage from './Pages/boards/qna/QnaViewPage';
 
 const App = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -71,6 +73,8 @@ const App = () => {
                 <Route path="/noticeboard" element={<NoticePage />} />
                 <Route path="/noticeboard/:board_idx" element={<NoticeViewPage />} />
                 <Route path="/noticeboard/edit/:board_idx" element={<NoticeEditPage />} />
+                <Route path='/qnaboard' element={<QnaPage />} />
+                <Route path='/qnaboard/:board_idx' element={<QnaViewPage />} />
 
                 {/* ✅ ALHomePage 경로 추가 */}
                 <Route path="/main" element={<ALHomePage />} />
