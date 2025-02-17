@@ -5,14 +5,17 @@ import { FaPlusCircle } from 'react-icons/fa';
 import '../App.css';
 
 const HomePage = () => {
-    const navigate = useNavigate();
+    const navigate = useNavigate(); // 🔥 useNavigate 훅 사용
 
     const handleNavigate = (path) => {
-        navigate(path); // 원하는 경로로 이동
+        console.log(`Navigating to: ${path}`); // 🔥 디버깅용 로그 추가
+        navigate(path);
     };
 
     return (
         <div className="main-container">
+            {/* ❌ 🔥 여기에 로그인 & 회원가입 버튼이 있으면 삭제해야 함 */}
+            
             {/* 배너 슬라이더 */}
             <BannerSlider />
 
