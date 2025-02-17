@@ -1,11 +1,13 @@
 import "../App.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../AuthContext";
 
 const IDLoginPage = () => {
   const [email, setEmail] = useState(""); // 이메일 상태
   const [password, setPassword] = useState(""); // 비밀번호 상태
   const navigate = useNavigate();
+  const { login } = useAuth(); // Context API 사용
 
   const isFormValid = email.trim() !== "" && password.trim() !== ""; // 유효성 검사
 
@@ -24,11 +26,18 @@ const IDLoginPage = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ email, password }),
+        credentials: "include", // ✅ 쿠키를 포함해서 요청
       });
 
       if (response.ok) {
         const result = await response.text(); // 응답을 문자열로 변환
         alert(result); // "로그인 성공" 또는 "아이디 또는 비밀번호가 틀렸습니다."
+
+        // 로그인 정보 저장 (Context API + localStorage)
+        const userData = { email: email, token:result.token};
+        login(userData); // ContextAPI 업데이트
+        localStorage.setItem("user", JSON.stringify(userData)); // localStorage에 저장
+
         navigate("/main"); // ✅ 로그인 성공 시 ALHomePage로 이동
       } else {
         const errorMessage = await response.text();
