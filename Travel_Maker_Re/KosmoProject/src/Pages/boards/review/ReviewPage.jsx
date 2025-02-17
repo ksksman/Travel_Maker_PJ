@@ -1,16 +1,31 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import '../../../App.css';
 
 function ReviewPage() {
     const [myJSON, setMyJSON] = useState([]);
     const [searchType, setSearchType] = useState("title"); // 검색 기준 (기본: 제목)
     const [searchKeyword, setSearchKeyword] = useState(""); // 검색 키워드
+    const [pageNum, setPageNum] = useState(1); // ✅ 페이지 번호 상태 추가
+    const [isPopular, setIsPopular] = useState(false); // ✅ 현재 인기글 보기 여부
+
+    const navigate = useNavigate();
 
     // 🔍 기본 게시판 리스트 불러오기 (페이지 로드 시 실행)
-    function fetchReviews() {
-        fetch("http://localhost:8586/restBoardList.do?pageNum=1") // 기본 리스트 API
+    function fetchReviews(page = 1, popular = false) {
+        setPageNum(page); // 현재 페이지 업데이트
+        setIsPopular(popular);
+
+        const url = popular
+            ? `http://localhost:8586/popularReviews.do?pageNum=${page}&board_cate=1` // ✅ 인기글 (좋아요 10개 이상)
+            : `http://localhost:8586/restBoardList.do?pageNum=${page}&board_cate=1`; // ✅ 전체글 (board_cate=1)
+
+        
+
+        fetch(url) // ✅ 페이지네이션 적용
             .then((response) => response.json())
             .then((data) => {
+                console.log('api 주소 :>> ', url);
                 setMyJSON(data);
             })
             .catch((error) => {
@@ -22,11 +37,11 @@ function ReviewPage() {
     function fetchSearchResults() {
         if (!searchKeyword.trim()) {
             alert("검색어를 입력해주세요!");
-            fetchReviews(); // 검색어가 없으면 전체 리스트 다시 불러오기
+            fetchReviews(1); // 검색어가 없으면 1페이지부터 다시 불러오기
             return;
         }
 
-        let url = `http://localhost:8586/restBoardSearch.do?searchField=${searchType}&searchWord=${encodeURIComponent(searchKeyword)}`;
+        let url = `http://localhost:8586/restBoardSearch.do?pageNum=${pageNum}&searchField=${searchType}&searchWord=${encodeURIComponent(searchKeyword)}&board_cate=1`;
 
         fetch(url)
             .then((response) => response.json())
@@ -39,8 +54,8 @@ function ReviewPage() {
     }
 
     // 🎯 페이지 로드 시 전체 게시글 리스트 불러오기
-    useEffect(function () {
-        fetchReviews();
+    useEffect(() => {
+        fetchReviews(1);
     }, []);
 
     // Enter 키로 검색 실행
@@ -57,8 +72,25 @@ function ReviewPage() {
 
     return (
         <div className="review-container">
-            <h2 className="review-title"
-                onClick={handleRefresh}>후기 게시판</h2>
+            <h2 className="review-title" onClick={handleRefresh}>
+                후기 게시판
+            </h2>
+            
+            {/* ✅ 전체글 / 인기글 버튼 */}
+            <div className="filter-buttons">
+                <button
+                    className={`filter-button ${!isPopular ? "active" : ""}`}
+                    onClick={() => fetchReviews(1, false)}
+                >
+                    전체글
+                </button>
+                <button
+                    className={`filter-button ${isPopular ? "active" : ""}`}
+                    onClick={() => fetchReviews(1, true)}
+                >
+                    인기글
+                </button>
+            </div>
 
             <table className="review-table">
                 <thead>
@@ -73,7 +105,9 @@ function ReviewPage() {
                 <tbody>
                     {myJSON.length > 0 ? (
                         myJSON.map((data) => (
-                            <tr key={data.review_id}>
+                            <tr key={data.board_idx}
+                                onClick={() => navigate(`/reviewboard/${data.board_idx}`)}
+                                className="clickable-row">
                                 <td>{data.title}</td>
                                 <td>{data.nickname}</td>
                                 <td>{data.view_count}</td>
@@ -89,8 +123,7 @@ function ReviewPage() {
                 </tbody>
             </table>
             {/* 🔎 검색 필터 */}
-            <div className="search-container"
-                style={{paddingTop:20}}>
+            <div className="search-container" style={{ paddingTop: 20 }}>
                 <select
                     className="search-select"
                     value={searchType}
@@ -112,7 +145,27 @@ function ReviewPage() {
                     🔍 검색
                 </button>
             </div>
+            {/* ✅ 페이지네이션 버튼 추가 */}
+            <div className="pagination-container">
+                <button
+                    className="page-button"
+                    onClick={() => fetchReviews(pageNum - 1)}
+                    disabled={pageNum <= 1} // 1페이지에서는 비활성화
+                >
+                    ◀ 이전
+                </button>
+                <span className="page-number">페이지 {pageNum}</span>
+                <button
+                    className="page-button"
+                    onClick={() => fetchReviews(pageNum + 1)}
+                    disabled={myJSON.length < 10} // 데이터가 10개 미만이면 다음 페이지 없음
+                >
+                    다음 ▶
+                </button>
+            </div>
+            
         </div>
+        
     );
 }
 

@@ -68,7 +68,14 @@ const App = () => {
                 <Route path="/resetpwd" element={<ResetPwd />} />
 
                 {/* 게시판 관련 라우트 */}
-                <Route path="/board" element={<ReviewPage />} />
+                <Route path="/reviewboard" element={<ReviewPage />} />
+                <Route path="/reviewboard/:board_idx" element={<ReviewViewPage />} />
+                <Route path="/reviewboard/edit/:board_idx" element={<ReviewEditPage />} />
+                <Route path="/noticeboard" element={<NoticePage />} />
+                <Route path="/noticeboard/:board_idx" element={<NoticeViewPage />} />
+                <Route path="/noticeboard/edit/:board_idx" element={<NoticeEditPage />} />
+                <Route path='/qnaboard' element={<QnaPage />} />
+                <Route path='/qnaboard/:board_idx' element={<QnaViewPage />} />
 
                 {/* ✅ ALHomePage 경로 추가 */}
                 <Route path="/main" element={<ALHomePage />} />
