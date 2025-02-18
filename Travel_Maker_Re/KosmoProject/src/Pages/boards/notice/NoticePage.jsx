@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../AuthContext";
 import '../../../App.css';
 
 function NoticePage() {
+    const { user } = useAuth(); // 로그인 정보 가져오기
     const [notices, setNotices] = useState([]);
     // const [searchType, setSearchType] = useState("title"); // 검색 기준 (기본: 제목)
     // const [searchKeyword, setSearchKeyword] = useState(""); // 검색 키워드
@@ -60,11 +62,28 @@ function NoticePage() {
         window.location.reload();
     }
 
+    // ✅ 글쓰기 버튼 클릭 이벤트 (로그인 확인)
+    const handleWriteClick = () => {
+        if (user) {
+            navigate("/noticeboard/write", { state: { nickname: user.nickname } }); // ✅ 작성자 정보 전달
+        } else {
+        }
+    };
+
     return (
         <div className="review-container">
             <h2 className="review-title" onClick={handleRefresh}>
                 공지사항
             </h2>
+
+            {/* ✅ 관리자 계정(admin)일 경우 글쓰기 버튼 표시 */}
+            {user && user.nickname === "admin" && (
+                <div className="boards-button-container">
+                    <button className="write-button" onClick={handleWriteClick}>
+                        ✏️ 글쓰기
+                    </button>
+                </div>
+            )}
 
             <table className="review-table">
                 <thead>

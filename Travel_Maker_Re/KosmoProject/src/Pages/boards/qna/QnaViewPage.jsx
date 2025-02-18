@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useAuth } from "../../../AuthContext";
 import "../../../App.css";
 
 function QnaViewPage() {
+  const { user } = useAuth();
   const { board_idx } = useParams();
   const navigate = useNavigate();
   const [qna, setQna] = useState(null);
@@ -58,15 +60,23 @@ function QnaViewPage() {
       return;
     }
 
+    if (!user) {
+      alert("로그인 후 댓글을 작성할 수 있습니다.");
+      return;
+    }
+
+    const postData = {
+      qa_id: board_idx, // ✅ 게시글 ID
+      nickname: user.nickname, // ✅ 로그인한 사용자 닉네임
+      content: newComment,
+    };
+
     fetch(`http://localhost:8586/addComment.do`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        board_idx: board_idx,
-        content: newComment,
-      }),
+      body: JSON.stringify(postData),
     })
       .then((response) => {
         if (response.ok) {
@@ -153,6 +163,8 @@ function QnaViewPage() {
         <p>{qna.content}</p>
       </div>
 
+      {/* ✅ 로그인한 사용자와 게시글 작성자가 같을 경우에만 수정, 삭제 버튼 표시 */}
+      {user && user.nickname === qna.nickname && (
       <div className="button-container">
         <button
           className="edit-button"
@@ -167,6 +179,7 @@ function QnaViewPage() {
           🗑 삭제
         </button>
       </div>
+      )}
 
       {/* ✅ 댓글 목록 */}
       <div className="comments-section">
@@ -193,6 +206,9 @@ function QnaViewPage() {
                     <span className="comment-date">{comment.comment_date}</span>
                   </div>
                   <p className="comment-text">{comment.content}</p>
+
+                  {/* ✅ 로그인한 사용자와 댓글 작성자가 같을 경우에만 수정, 삭제 버튼 표시 */}
+                  {user && user.nickname === comment.nickname && (
                   <div className="comment-buttons">
                     <button
                       onClick={() =>
@@ -207,6 +223,7 @@ function QnaViewPage() {
                       🗑 삭제
                     </button>
                   </div>
+                  )}
                 </div>
               )}
             </div>

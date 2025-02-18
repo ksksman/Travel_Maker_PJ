@@ -27,13 +27,16 @@ import ResetPwd from "./pages/ResetPwd";
 
 // 게시판 관련 컴포넌트
 import ReviewPage from './Pages/boards/review/ReviewPage';
+import ReviewWritePage from "./Pages/boards/review/ReviewWritePage";
 import ReviewViewPage from './Pages/boards/review/ReviewViewPage';
 import ReviewEditPage from './Pages/boards/review/ReviewEditPage';
 import NoticePage from './Pages/boards/notice/NoticePage';
+import NoticeWritePage from "./Pages/boards/notice/NoticeWritePage";
 import NoticeViewPage from './Pages/boards/notice/NoticeViewPage';
 import NoticeEditPage from './Pages/boards/notice/NoticeEditPage';
 import QnaPage from './Pages/boards/qna/QnaPage';
 import QnaViewPage from './Pages/boards/qna/QnaViewPage';
+import QnaWritePage from "./Pages/boards/qna/QnaWritePage";
 
 
 const App = () => {
@@ -69,13 +72,16 @@ const App = () => {
 
                 {/* 게시판 관련 라우트 */}
                 <Route path="/reviewboard" element={<ReviewPage />} />
+                <Route path="/reviewboard/write" element={<ReviewWritePage />} />
                 <Route path="/reviewboard/:board_idx" element={<ReviewViewPage />} />
                 <Route path="/reviewboard/edit/:board_idx" element={<ReviewEditPage />} />
                 <Route path="/noticeboard" element={<NoticePage />} />
+                <Route path="/noticeboard/write" element={<NoticeWritePage />} />
                 <Route path="/noticeboard/:board_idx" element={<NoticeViewPage />} />
                 <Route path="/noticeboard/edit/:board_idx" element={<NoticeEditPage />} />
                 <Route path='/qnaboard' element={<QnaPage />} />
                 <Route path='/qnaboard/:board_idx' element={<QnaViewPage />} />
+                <Route path='/qnaboard/write' element={<QnaWritePage />} />
 
                 {/* ✅ ALHomePage 경로 추가 */}
                 <Route path="/main" element={<ALHomePage />} />
