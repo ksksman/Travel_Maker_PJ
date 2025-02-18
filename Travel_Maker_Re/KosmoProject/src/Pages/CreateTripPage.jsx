@@ -13,10 +13,27 @@ const CreateTripPage = () => {
   // UI 상태
   const [showCalendar, setShowCalendar] = useState(false);
   const [showTitleInput, setShowTitleInput] = useState(true);
+  const [showInvitePopup, setShowInvitePopup] = useState(false);
+
+  // 날짜 상태
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
 
-  // "다음" 버튼 클릭 시 → 제목 입력창을 숨기고 달력 표시
+  // 하드코딩된 친구 목록 (초대할 수 있는 친구 목록)
+  const [friendsList] = useState(["김철수", "이영희", "박지민", "최윤아", "정우성"]);
+
+  // 초대된 친구 목록 (동행자)
+  const [inviteList, setInviteList] = useState([]);
+
+  // 로컬 날짜를 "YYYY-MM-DD" 형식으로 변환하는 함수
+  const formatDate = (date) => {
+    const yyyy = date.getFullYear();
+    const mm = ("0" + (date.getMonth() + 1)).slice(-2);
+    const dd = ("0" + date.getDate()).slice(-2);
+    return `${yyyy}-${mm}-${dd}`;
+  };
+
+  // "다음" 버튼 클릭 → 제목 입력창 숨기고 달력 표시
   const handleNext = () => {
     if (tripTitle.trim() === "") {
       alert("여행 제목을 입력해주세요.");
@@ -26,32 +43,63 @@ const CreateTripPage = () => {
     setShowCalendar(true);
   };
 
-  // "날짜 선택 완료" 버튼 클릭 시 → 선택한 날짜 저장 후 달력 닫기
+  // "날짜 선택 완료" 버튼 클릭 → 동행자 초대 팝업 표시
   const handleConfirmDates = () => {
     if (!startDate || !endDate) {
       alert("가는 날과 오는 날을 선택해주세요.");
       return;
     }
     setShowCalendar(false);
+    setShowInvitePopup(true);
   };
 
-  // 달력 화면에서 "이전" 버튼 클릭 시 → 제목 입력창만 보이도록 날짜 초기화
+  // "이전" 버튼 클릭 → 제목 입력 화면으로 돌아감
   const handlePreviousTitle = () => {
     setShowCalendar(false);
     setShowTitleInput(true);
-    setStartDate(null); // 선택한 날짜 초기화
-    setEndDate(null);   // 선택한 날짜 초기화
+    setStartDate(null);
+    setEndDate(null);
   };
 
-  // 선택된 날짜 화면에서 "날짜 수정" 버튼 클릭 시 → 달력 화면으로 돌아가기
+  // 날짜 수정 버튼 클릭 → 달력 화면 다시 표시
   const handleEditDates = () => {
     setShowCalendar(true);
+    setShowInvitePopup(false);
+  };
+
+  // 친구 초대 추가 (동일 친구 중복 초대 방지)
+  const handleAddFriend = (friend) => {
+    if (inviteList.includes(friend)) {
+      alert("이미 초대한 친구입니다.");
+      return;
+    }
+    setInviteList([...inviteList, friend]);
+  };
+
+  // 초대된 친구 삭제
+  const handleRemoveInvite = (friend) => {
+    setInviteList(inviteList.filter((invite) => invite !== friend));
+  };
+
+  // plan 객체 생성 및 /plan-trip 페이지로 이동 (inviteList 포함)
+  const goToPlanTrip = () => {
+    if (!startDate || !endDate) {
+      alert("날짜를 선택해주세요.");
+      return;
+    }
+    const plan = {
+      title: tripTitle,
+      startDate: formatDate(startDate), // 로컬 날짜 포맷 사용
+      endDate: formatDate(endDate),
+      inviteList: inviteList,
+    };
+    navigate("/plan-trip", { state: { plan } });
   };
 
   return (
     <div className="create-trip-container">
-      {/* 제목 입력 섹션 */}
-      {showTitleInput && !showCalendar && (
+      {/* 여행 제목 입력 */}
+      {showTitleInput && !showCalendar && !showInvitePopup && (
         <div className="trip-title-section">
           <h2>새 여행 만들기</h2>
           <div className="trip-title-input">
@@ -60,7 +108,7 @@ const CreateTripPage = () => {
               type="text"
               value={tripTitle}
               onChange={(e) => setTripTitle(e.target.value)}
-              placeholder="예: 일본 도쿄 여행"
+              placeholder="ex) 1박2일 해운대 여행!"
             />
           </div>
           <button className="next-button" onClick={handleNext}>
@@ -69,7 +117,7 @@ const CreateTripPage = () => {
         </div>
       )}
 
-      {/* 달력 팝업 */}
+      {/* 여행 날짜 선택 */}
       {showCalendar && (
         <div className="calendar-popup">
           <h3>여행 날짜 선택</h3>
@@ -113,8 +161,44 @@ const CreateTripPage = () => {
         </div>
       )}
 
-      {/* 선택된 날짜 표시 */}
-      {!showCalendar && startDate && endDate && (
+      {/* 동행자 초대 팝업 */}
+      {showInvitePopup && (
+        <div className="invite-popup">
+          <h3>동행자 초대</h3>
+          {/* 친구 목록에서 선택 */}
+          <div className="friends-list">
+            <p>초대할 친구를 선택하세요:</p>
+            <ul>
+              {friendsList.map((friend, index) => (
+                <li key={index}>
+                  {friend}
+                  <button onClick={() => handleAddFriend(friend)}>초대</button>
+                </li>
+              ))}
+            </ul>
+          </div>
+          {/* 초대된 친구 목록 */}
+          <h4>초대된 친구 목록</h4>
+          <ul className="invite-list">
+            {inviteList.map((friend, index) => (
+              <li key={index}>
+                {friend} <button onClick={() => handleRemoveInvite(friend)}>삭제</button>
+              </li>
+            ))}
+          </ul>
+          <div className="invite-buttons">
+            <button className="edit-dates-button" onClick={handleEditDates}>
+              날짜 수정
+            </button>
+            <button className="next-step-button" onClick={goToPlanTrip}>
+              관광지 계획짜기
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* 선택된 날짜 표시 (동행자 초대 후) */}
+      {!showCalendar && !showInvitePopup && startDate && endDate && (
         <div className="selected-dates">
           <p>가는 날: {startDate.toLocaleDateString()}</p>
           <p>오는 날: {endDate.toLocaleDateString()}</p>
@@ -122,7 +206,7 @@ const CreateTripPage = () => {
             <button className="edit-dates-button" onClick={handleEditDates}>
               날짜 수정
             </button>
-            <button className="next-step-button" onClick={() => navigate("/plan-trip")}>
+            <button className="next-step-button" onClick={goToPlanTrip}>
               관광지 계획짜기
             </button>
           </div>
