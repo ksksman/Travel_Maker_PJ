@@ -8,24 +8,30 @@ const ResetPwd = () => {
   const navigate = useNavigate();
   const location = useLocation(); // 🔹 현재 URL에서 이메일 정보 가져오기
 
-  // 🔹 이메일 정보 가져오기 (비밀번호 찾기 페이지에서 전달)
-  const queryEmail = new URLSearchParams(location.search).get("email");
-  const storedEmail = localStorage.getItem("resetEmail");
-  const email = queryEmail || storedEmail;
+  // ✅ URL 또는 localStorage에서 이메일 정보 가져오기
+  const queryEmail = new URLSearchParams(location.search).get("email"); 
+  const storedEmail = localStorage.getItem("resetEmail"); 
+  const email = queryEmail || storedEmail;  // ✅ URL에 없으면 localStorage에서 가져오기
 
-  // 🔹 이메일 정보가 없으면 경고 후 뒤로 가기
+  console.log("🔍 ResetPwd에서 가져온 email:", email);  // ✅ 디버깅용 로그 추가
+
+  // ✅ 이메일이 없으면 경고 후 다시 입력하도록 처리
   useEffect(() => {
     if (!email) {
-      alert("이메일 정보가 없습니다. 다시 시도해 주세요.");
+      alert("⚠ 이메일 정보가 없습니다. 다시 시도해 주세요.");
       navigate("/find-password");
+    } else {
+      localStorage.setItem("resetEmail", email);  // ✅ 이메일 정보 저장 (다시 시도할 수 있도록)
     }
   }, [email, navigate]);
 
   const handlePasswordChange = (e) => setNewPassword(e.target.value);
   const handleConfirmPasswordChange = (e) => setConfirmPassword(e.target.value);
 
+  // ✅ 비밀번호 유효성 검사 함수 추가
   const validatePassword = (password) => {
-    const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$/;
+    const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,16}$/;
+
     return regex.test(password);
   };
 
@@ -52,7 +58,7 @@ const ResetPwd = () => {
       const result = await response.text();
       if (response.ok) {
         alert(`✅ ${result}`);
-        localStorage.removeItem("resetEmail"); // 이메일 정보 삭제
+        localStorage.removeItem("resetEmail"); // ✅ 이메일 정보 삭제
         navigate("/id-login"); // 🔹 로그인 페이지로 이동
       } else {
         alert(`❌ 비밀번호 변경 실패: ${result}`);

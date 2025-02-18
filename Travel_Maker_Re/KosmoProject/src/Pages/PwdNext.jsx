@@ -1,24 +1,35 @@
 import "../App.css";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // useNavigate 가져오기
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const PwdNext = () => {
-  const [email, setEmail] = useState(""); // ✅ 이메일 입력값 상태 저장
-  const [verificationCode, setVerificationCode] = useState(""); // ✅ 인증번호 입력값 상태 저장
-  const [message, setMessage] = useState(""); // ✅ 서버 응답 메시지 저장
-  const navigate = useNavigate(); // navigate 함수 사용
+  const [email, setEmail] = useState("");
+  const [verificationCode, setVerificationCode] = useState("");
+  const [message, setMessage] = useState("");
+  const [timeLeft, setTimeLeft] = useState(0); // 🔹 타이머 상태 추가
+  const navigate = useNavigate();
 
-  // ✅ 이메일 입력 핸들러
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
+  useEffect(() => {
+    let timer;
+    if (timeLeft > 0) {
+      timer = setInterval(() => {
+        setTimeLeft((prevTime) => prevTime - 1);
+      }, 1000);
+    } else {
+      clearInterval(timer);
+    }
+    return () => clearInterval(timer);
+  }, [timeLeft]);
+
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const sec = seconds % 60;
+    return `${minutes}:${sec < 10 ? "0" : ""}${sec}`;
   };
 
-  // ✅ 인증번호 입력 핸들러
-  const handleVerificationCodeChange = (e) => {
-    setVerificationCode(e.target.value);
-  };
+  const handleEmailChange = (e) => setEmail(e.target.value);
+  const handleVerificationCodeChange = (e) => setVerificationCode(e.target.value);
 
-  // ✅ "인증번호 받기" 버튼 클릭 시 API 요청
   const handleSendCode = async () => {
     if (!email) {
       alert("이메일을 입력하세요!");
@@ -29,11 +40,12 @@ const PwdNext = () => {
       const response = await fetch("http://localhost:8586/api/user/find-password", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({ email }), // 이메일 데이터를 서버로 보냄
+        body: new URLSearchParams({ email }),
       });
 
       if (response.ok) {
         setMessage("✅ 인증번호가 이메일로 전송되었습니다!");
+        setTimeLeft(300); // 🔹 5분(300초) 타이머 시작
       } else {
         const errorMessage = await response.text();
         setMessage("❌ 오류 발생: " + errorMessage);
@@ -44,7 +56,6 @@ const PwdNext = () => {
     }
   };
 
-  // ✅ "다음" 버튼 클릭 시 인증번호 확인 후 비밀번호 재설정 페이지로 이동
   const handleNextClick = async (e) => {
     e.preventDefault();
 
@@ -62,7 +73,7 @@ const PwdNext = () => {
 
       if (response.ok) {
         alert("✅ 인증 성공! 비밀번호를 재설정해주세요.");
-        navigate("/resetpwd"); // 비밀번호 재설정 페이지로 이동
+        navigate("/resetpwd");
       } else {
         alert("❌ 인증 실패! 올바른 코드를 입력하세요.");
       }
@@ -87,7 +98,7 @@ const PwdNext = () => {
               className="input"
               placeholder="이메일을 입력하세요"
               value={email}
-              onChange={handleEmailChange} // ✅ 이메일 입력값 업데이트
+              onChange={handleEmailChange}
             />
           </div>
           <div className="form-row">
@@ -95,12 +106,13 @@ const PwdNext = () => {
               className="button small"
               type="button"
               style={{ width: "150px", marginBottom: "15px" }}
-              onClick={handleSendCode} // ✅ "인증번호 받기" 클릭 시 API 요청 실행
+              onClick={handleSendCode}
+              disabled={timeLeft > 0}
             >
-              인증번호 받기
+              {"인증번호 받기"}
             </button>
           </div>
-          {message && <p style={{ fontSize: "14px", color: "blue" }}>{message}</p>} {/* ✅ 메시지 표시 */}
+          {message && <p style={{ fontSize: "14px", color: "blue" }}>{message}</p>}
 
           <div className="form-row">
             <label className="form-label">인증번호</label>
@@ -109,11 +121,24 @@ const PwdNext = () => {
               className="input"
               placeholder="인증번호 6자리 입력"
               value={verificationCode}
-              onChange={handleVerificationCodeChange} // ✅ 인증번호 입력값 업데이트
+              onChange={handleVerificationCodeChange}
+              disabled={timeLeft === 0}
             />
           </div>
-          <button className="button" type="submit" onClick={handleNextClick}>
-            다음
+
+          {/* 🔥 남은 시간 빨간색 표시 */}
+          {timeLeft > 0 ? (
+            <p style={{ color: "red", fontSize: "12px", fontWeight: "bold" }}>
+              ⏳ 남은 시간: {formatTime(timeLeft)}
+            </p>
+          ) : (
+            <p style={{ color: "red", fontSize: "12px", fontWeight: "bold" }}>
+              ⏳ 인증번호가 만료되었습니다. 다시 요청해주세요.
+            </p>
+          )}
+
+          <button className="button" type="submit" onClick={handleNextClick} disabled={timeLeft === 0}>
+            확인
           </button>
         </form>
       </div>
