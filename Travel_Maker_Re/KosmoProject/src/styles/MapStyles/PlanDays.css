@@ -27,13 +27,13 @@
 
 /* 🔵 날짜 버튼 (동그라미) */
 .day-btn {
-  width: 32px;
-  height: 32px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
   border: none;
   background-color: #ddd;
   color: black;
-  font-size: 14px;
+  font-size: 11px;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
 }
