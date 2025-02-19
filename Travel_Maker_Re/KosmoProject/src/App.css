@@ -1452,25 +1452,75 @@ hr {
     font-size: 24px;
   }
 }
-
-/* 🔹 검색창 스타일 */
-.search-container {
+/* 🔹 글쓰기 버튼 컨테이너 */
+.write-button-container {
   display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 20px;
+  justify-content: flex-end; /* 버튼을 오른쪽 정렬 */
+  margin: 20px 0;
 }
 
-.search-select, .search-input {
+/* 🔹 글쓰기 버튼 */
+.write-button {
+  background-color: #007bff; /* 기본 색상 (파란색) */
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* 🔹 글쓰기 버튼 호버 효과 */
+.write-button:hover {
+  background-color: #0056b3; /* 어두운 파란색 */
+  transform: scale(1.05); /* 살짝 확대 */
+}
+
+/* 🔹 글쓰기 버튼 활성화 효과 */
+.write-button:active {
+  background-color: #004494;
+  transform: scale(0.98);
+}
+
+/* 🔹 반응형 스타일 (모바일 화면에서 정렬 변경) */
+@media (max-width: 768px) {
+  .write-button-container {
+      justify-content: center; /* 모바일에서는 가운데 정렬 */
+  }
+
+  .write-button {
+      width: 80%; /* 버튼 너비 조정 */
+      text-align: center;
+  }
+}
+
+/* 🔹 검색 요소들을 가로로 정렬하고 화면 중앙 배치 */
+.search-wrapper {
+  display: flex;
+  justify-content: center; /* ✅ 가로 중앙 정렬 */
+  align-items: center; /* ✅ 요소 높이를 맞춰 세로 중앙 정렬 */
+  gap: 10px; /* ✅ 요소 간 간격 */
+  width: 100%;
+  margin: 20px auto; /* ✅ 전체 화면에서 중앙 정렬 */
+}
+
+/* 🔹 검색 요소 기본 스타일 */
+.search-select {
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 16px;
-  outline: none;
+  max-width: 150px;
 }
 
 .search-input {
-  width: 200px;
+  width: 250px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
   transition: border-color 0.3s ease;
 }
 
@@ -1478,6 +1528,7 @@ hr {
   border-color: #007bff;
 }
 
+/* 🔹 검색 버튼 스타일 */
 .search-button {
   padding: 10px 15px;
   font-size: 16px;
@@ -1487,11 +1538,28 @@ hr {
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  max-width: 120px;
 }
 
 .search-button:hover {
   background-color: #0056b3;
 }
+
+/* 🔹 반응형 스타일 (모바일 최적화) */
+@media (max-width: 768px) {
+  .search-wrapper {
+    flex-direction: column; /* ✅ 모바일에서는 세로 정렬 */
+    gap: 5px;
+  }
+
+  .search-select,
+  .search-input,
+  .search-button {
+    width: 100%; /* ✅ 모바일에서 가득 차도록 설정 */
+    max-width: none;
+  }
+}
+
 
 /* 검색 결과 없음 스타일 */
 .no-results {
@@ -1889,5 +1957,111 @@ hr {
 
 .add-comment button:hover {
   background-color: #0056b3;
+}
+
+/* 🔹 게시판 입력 필드 라벨 */
+.board-form-label {
+  display: block;
+  font-size: 0.9rem; /* 폰트 크기 약간 증가 */
+  font-weight: bold;
+  margin-bottom: 6px; /* 라벨과 입력 필드 사이 간격 확대 */
+}
+
+/* 🔹 게시판 입력 필드 */
+.board-input {
+  width: 100%;
+  padding: 10px; /* 내부 패딩 증가 */
+  font-size: 15px; /* 폰트 크기 약간 증가 */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  margin-bottom: 12px; /* 필드 간 간격 증가 */
+}
+
+/* 🔹 게시판 텍스트 영역 (textarea) */
+.board-textarea {
+  height: 180px; /* 기본 높이 증가 */
+  resize: vertical; /* 세로 방향 조정 가능 */
+  margin-bottom: 12px; /* 입력 필드 간 간격 증가 */
+}
+
+/* 🔹 반응형 스타일 (모바일에서 여백 조정) */
+@media (max-width: 768px) {
+  .board-form-label {
+      font-size: 0.85rem;
+  }
+
+  .board-input {
+      font-size: 14px;
+      padding: 8px;
+      margin-bottom: 10px; /* 모바일에서 약간 줄임 */
+  }
+
+  .board-textarea {
+      height: 150px; /* 모바일에서 높이 조정 */
+      margin-bottom: 10px;
+  }
+}
+
+/* 🔹 게시판 글쓰기 버튼 컨테이너 (우측 하단 배치) */
+.boards-button-container {
+  display: flex;
+  justify-content: flex-end; /* 버튼을 우측 정렬 */
+  gap: 10px; /* 버튼 간격 */
+  margin-top: 20px;
+  padding-bottom: 20px;
+}
+
+/* 🔹 등록 및 취소 버튼 스타일 */
+.boards-button {
+  flex: 1; /* 모든 버튼 동일한 비율로 설정 */
+  max-width: 150px; /* 버튼 최대 너비 설정 */
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* 🔹 등록 버튼 (파란색) */
+.boards-submit-button {
+  background-color: #007bff;
+  color: white;
+}
+
+.boards-submit-button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+/* 🔹 취소 버튼 (빨간색) */
+.boards-cancel-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.boards-cancel-button:hover {
+  background-color: #b52b38;
+  transform: scale(1.05);
+}
+
+/* 🔹 버튼 클릭 시 효과 */
+.boards-button:active {
+  transform: scale(0.95);
+}
+
+/* 🔹 반응형 스타일 (모바일에서 버튼 크기 조정) */
+@media (max-width: 768px) {
+  .boards-button-container {
+      justify-content: center; /* 모바일에서는 버튼 중앙 정렬 */
+  }
+
+  .boards-button {
+      width: 45%; /* 버튼 너비 균등 배치 */
+      max-width: none;
+  }
 }
 

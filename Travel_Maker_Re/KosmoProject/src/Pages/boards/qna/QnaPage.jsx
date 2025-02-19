@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../AuthContext";
 import '../../../App.css';
 
 function QnaPage() {
+    const { user } = useAuth(); // 로그인 정보 가져오기
     const [notices, setNotices] = useState([]);
     const [searchType, setSearchType] = useState("title"); // 검색 기준 (기본: 제목)
     const [searchKeyword, setSearchKeyword] = useState(""); // 검색 키워드
@@ -60,12 +62,27 @@ function QnaPage() {
         window.location.reload();
     }
 
+    // ✅ 글쓰기 버튼 클릭 이벤트 (로그인 확인)
+    const handleWriteClick = () => {
+        if (user) {
+            navigate("/qnaboard/write", { state: { nickname: user.nickname } }); // ✅ 작성자 정보 전달
+        } else {
+            alert("글쓰기는 로그인 후 이용 가능합니다.");
+            navigate("/login"); // ✅ 로그인 페이지로 이동
+        }
+    };
+
     return (
         <div className="review-container">
             <h2 className="review-title" onClick={handleRefresh}>
                 질문 게시판
             </h2>
-
+            {/* ✅ 글쓰기 버튼 (로그인 여부 확인) */}
+            <div className="write-button-container">
+                <button className="write-button" onClick={handleWriteClick}>
+                    글쓰기 ✏️
+                </button>
+            </div>
             <table className="review-table">
                 <thead>
                     <tr>
@@ -96,7 +113,7 @@ function QnaPage() {
             </table>
 
             {/* 🔎 검색 필터 */}
-            <div className="search-container" style={{ paddingTop: 20 }}>
+            <div className="search-wrapper">
                 <select
                     className="search-select"
                     value={searchType}

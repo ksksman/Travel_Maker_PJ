@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useAuth } from "../../../AuthContext";
 import '../../../App.css';
 
 function ReviewViewPage() {
+    const { user } = useAuth(); // 로그인 정보 가져오기
     const { board_idx } = useParams();
     const navigate = useNavigate();
     const [review, setReview] = useState(null);
     const [loading, setLoading] = useState(true);
     const [likes, setLikes] = useState(0);
     const [views, setViews] = useState(0);
+    const [hasLiked, setHasLiked] = useState(false); // ✅ 사용자가 이미 좋아요를 눌렀는지 확인
 
     // 🔍 특정 게시글 상세 정보 불러오기
     useEffect(() => {
@@ -32,14 +35,39 @@ function ReviewViewPage() {
         .then(() => setViews(prevViews => parseInt(prevViews) + 1))
         .catch((error) => console.error("조회수 증가 오류:", error));
 
-    }, [board_idx]);
+        // ✅ 사용자가 이 게시글에 좋아요를 눌렀는지 확인 (localStorage 활용)
+        if (user) {
+            const likedPosts = JSON.parse(localStorage.getItem("likedPosts")) || {};
+            if (likedPosts[board_idx] && likedPosts[board_idx].includes(user.nickname)) {
+                setHasLiked(true);
+            }
+        }
+    }, [board_idx, user]);
 
     // ✅ 좋아요 증가 기능
     function handleLike() {
+        if (!user) {
+            alert("로그인 후 좋아요를 누를 수 있습니다.");
+            return;
+        }
+        if (hasLiked) {
+            return;
+        }
         fetch(`http://localhost:8586/increaseLikeCount.do?board_idx=${board_idx}`, {
             method: "PATCH"
         })
-        .then(() => setLikes(prevLikes => parseInt(prevLikes) + 1))
+        .then(() => {
+            setLikes(prevLikes => parseInt(prevLikes) + 1);
+            setHasLiked(true);
+
+            // ✅ 사용자가 좋아요를 누른 게시물 저장 (localStorage 활용)
+            const likedPosts = JSON.parse(localStorage.getItem("likedPosts")) || {};
+            if (!likedPosts[board_idx]) {
+                likedPosts[board_idx] = [];
+            }
+            likedPosts[board_idx].push(user.nickname);
+            localStorage.setItem("likedPosts", JSON.stringify(likedPosts));
+        })
         .catch((error) => console.error("좋아요 증가 오류:", error));
     }
 
@@ -103,14 +131,19 @@ function ReviewViewPage() {
 
             {/* 좋아요 버튼 */}
             <div className="like-button-container">
-                <button className="like-button" onClick={handleLike}>❤️ 좋아요</button>
+                <button className="like-button" onClick={handleLike} disabled={hasLiked}>
+                    {hasLiked ? "❤️ 좋아요 완료" : "❤️ 좋아요"}
+                </button>
             </div>
 
             {/* ✏ 수정 & 🗑 삭제 버튼 (오른쪽 정렬) */}
+            {/* ✅ 로그인한 사용자와 게시글 작성자가 같을 경우에만 수정, 삭제 버튼 표시 */}
+            {user && user.nickname === review.nickname && (
             <div className="button-container">
                 <button className="edit-button" onClick={handleEdit}>✏ 수정</button>
                 <button className="delete-button" onClick={handleDelete}>🗑 삭제</button>
             </div>
+            )}
         </div>
     );
 }
