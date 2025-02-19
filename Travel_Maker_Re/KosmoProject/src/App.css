@@ -1407,7 +1407,7 @@ hr {
 .filter-buttons {
   display: flex;
   justify-content: center;
-  margin-bottom: 15px;
+  margin: 20px 0;
 }
 
 .filter-button {
@@ -1495,7 +1495,11 @@ hr {
       text-align: center;
   }
 }
-
+.review-upper-container{
+  display: flex;
+  align-items: center;
+  gap: 60%;
+}
 /* 🔹 검색 요소들을 가로로 정렬하고 화면 중앙 배치 */
 .search-wrapper {
   display: flex;

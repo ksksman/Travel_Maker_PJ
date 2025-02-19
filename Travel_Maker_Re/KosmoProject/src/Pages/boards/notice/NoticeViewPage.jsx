@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useAuth } from "../../../AuthContext";
 import '../../../App.css';
 
 function NoticeViewPage() {
+    const { user } = useAuth();
     const { board_idx } = useParams();
     const navigate = useNavigate();
     const [notice, setNotice] = useState(null);
@@ -89,10 +91,13 @@ function NoticeViewPage() {
             </div>
 
             {/* ✏ 수정 & 🗑 삭제 버튼 (오른쪽 정렬) */}
+            {/* ✅ 로그인한 사용자와 댓글 작성자가 같을 경우에만 수정, 삭제 버튼 표시 */}
+            {user && user.nickname === notice.nickname && (
             <div className="button-container">
                 <button className="edit-button" onClick={handleEdit}>✏ 수정</button>
                 <button className="delete-button" onClick={handleDelete}>🗑 삭제</button>
             </div>
+            )}
         </div>
     );
 }
