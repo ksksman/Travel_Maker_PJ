@@ -24,7 +24,7 @@ const Header = ({ toggleMenu }) => {
             <div className="nav-links">
                 {user ? (
                     <>
-                        <Link to="/mypage">마이페이지</Link> {/* ✅ 로그인 시 마이페이지 표시 */}
+                        <Link to="/mypage">{user.nickname} 님</Link> {/* ✅ 로그인 시 마이페이지 표시 */}
                         <button onClick={logout} className="logout-button">로그아웃</button>
                     </>
                 ) : (

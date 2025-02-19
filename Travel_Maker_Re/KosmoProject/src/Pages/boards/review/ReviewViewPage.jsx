@@ -34,15 +34,18 @@ function ReviewViewPage() {
         })
         .then(() => setViews(prevViews => parseInt(prevViews) + 1))
         .catch((error) => console.error("조회수 증가 오류:", error));
+        
+    }, [board_idx]);
 
-        // ✅ 사용자가 이 게시글에 좋아요를 눌렀는지 확인 (localStorage 활용)
+    // ✅ 사용자가 이 게시글에 좋아요를 눌렀는지 확인 (user 변경 시 실행)
+    useEffect(() => {
         if (user) {
             const likedPosts = JSON.parse(localStorage.getItem("likedPosts")) || {};
             if (likedPosts[board_idx] && likedPosts[board_idx].includes(user.nickname)) {
                 setHasLiked(true);
             }
         }
-    }, [board_idx, user]);
+    }, [user]); // ✅ `user`가 변경될 때만 실행
 
     // ✅ 좋아요 증가 기능
     function handleLike() {

@@ -84,11 +84,28 @@ function ReviewPage() {
             <h2 className="review-title" onClick={() => window.location.reload()}>
                 후기 게시판
             </h2>
-            {/* ✅ 글쓰기 버튼 (로그인 여부 확인) */}
-            <div className="write-button-container">
-                <button className="write-button" onClick={handleWriteClick}>
-                    글쓰기 ✏️
-                </button>
+            <div className="review-upper-container">
+                {/* ✅ 전체글 / 인기글 버튼 */}
+                <div className="filter-buttons">
+                    <button
+                        className={`filter-button ${!isPopular ? "active" : ""}`}
+                        onClick={() => fetchReviews(1, false)}
+                    >
+                        전체글
+                    </button>
+                    <button
+                        className={`filter-button ${isPopular ? "active" : ""}`}
+                        onClick={() => fetchReviews(1, true)}
+                    >
+                        인기글
+                    </button>
+                </div>
+                {/* ✅ 글쓰기 버튼 (로그인 여부 확인) */}
+                <div className="write-button-container">
+                    <button className="write-button" onClick={handleWriteClick}>
+                        글쓰기 ✏️
+                    </button>
+                </div>
             </div>
             <table className="review-table">
                 <thead>
