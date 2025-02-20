@@ -14,13 +14,13 @@ import TravelList from "./components/TravelList";
 import TravelDetail from "./components/TravelDetail";
 import CreateTripPage from "./pages/CreateTripPage";
 import PlanTripPage from "./pages/PlanTripPage";
-import ALHomePage from "./pages/ALHomePage";
+import ALHomePage from "./Pages/ALHomePage";
 
 // 로그인 & 회원가입 관련 컴포넌트
-import LoginPage from "./pages/LoginPage";
-import IDLoginPage from "./pages/IDLoginPage";
+import LoginPage from "./Pages/LoginPage";
+import IDLoginPage from "./Pages/IDLoginPage";
 import SignupAgreement from "./pages/SignupAgreement";
-import Signup from "./pages/Signup";
+import Signup from "./Pages/Signup";
 import FindPwd from "./pages/FindPwd";
 import PwdNext from "./pages/PwdNext";
 import ResetPwd from "./pages/ResetPwd";
