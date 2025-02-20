@@ -1,11 +1,12 @@
 import "../App.css";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
 
 const IDLoginPage = () => {
   const [email, setEmail] = useState(""); // 이메일 상태
   const [password, setPassword] = useState(""); // 비밀번호 상태
+  const emailInputRef = useRef(null); // 로그인 실패시 입력필드에 포커스
   const navigate = useNavigate();
   const { login } = useAuth(); // Context API 사용
 
@@ -13,6 +14,7 @@ const IDLoginPage = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    emailInputRef.current
 
     if (!isFormValid) {
       alert("이메일과 비밀번호를 입력해주세요.");
@@ -31,14 +33,25 @@ const IDLoginPage = () => {
 
       if (response.ok) {
         const result = await response.text(); // 응답을 문자열로 변환
+        console.log('result :>> ', result);
         alert(result); // "로그인 성공" 또는 "아이디 또는 비밀번호가 틀렸습니다."
+        if (result=="로그인 성공") {
+          // 로그인 정보 저장 (Context API + localStorage)
+          const userData = { email: email, token:result.token};
+          login(userData); // ContextAPI 업데이트
+          localStorage.setItem("user", JSON.stringify(userData)); // localStorage에 저장
 
-        // 로그인 정보 저장 (Context API + localStorage)
-        const userData = { email: email, token:result.token};
-        login(userData); // ContextAPI 업데이트
-        localStorage.setItem("user", JSON.stringify(userData)); // localStorage에 저장
-
-        navigate("/main"); // ✅ 로그인 성공 시 ALHomePage로 이동
+          navigate("/main"); // ✅ 로그인 성공 시 ALHomePage로 이동
+          setTimeout(() => {
+            window.location.reload();
+          }, 100); // ✅ 새로고침 (0.1초 후 실행)
+        }else{
+          setTimeout(() => {
+            window.location.reload();
+          }, 100);
+          
+        }
+        
       } else {
         const errorMessage = await response.text();
         alert("로그인 실패: " + errorMessage);
@@ -48,6 +61,10 @@ const IDLoginPage = () => {
       alert("로그인 중 오류가 발생했습니다.");
     }
   };
+  
+  useEffect(() => {
+    emailInputRef.current.focus();
+  }, []);
 
   const goToFindPWD = () => {
     navigate("/findpwd"); // 비밀번호 찾기 페이지로 이동
@@ -65,6 +82,7 @@ const IDLoginPage = () => {
             className="input"
             value={email}
             onChange={(e) => setEmail(e.target.value)} // 입력값 업데이트
+            ref={emailInputRef}
           />
           <input
             type="password"

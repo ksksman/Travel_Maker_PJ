@@ -18,7 +18,7 @@ import ALHomePage from "./pages/ALHomePage";
 
 // 로그인 & 회원가입 관련 컴포넌트
 import LoginPage from "./pages/LoginPage";
-import IDLoginPage from "./pages/IDLoginPage";
+import IDLoginPage from "./Pages/IDLoginPage";
 import SignupAgreement from "./pages/SignupAgreement";
 import Signup from "./pages/Signup";
 import FindPwd from "./pages/FindPwd";
