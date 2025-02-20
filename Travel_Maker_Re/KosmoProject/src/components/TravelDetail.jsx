@@ -6,7 +6,6 @@ const TravelDetail = () => {
   const { tripId } = useParams();
   const navigate = useNavigate();
 
-  // tripId가 없으면 목록으로 리다이렉트
   useEffect(() => {
     if (!tripId) {
       console.error("유효하지 않은 tripId");
@@ -46,10 +45,8 @@ const TravelDetail = () => {
       });
   }, [tripId]);
 
-  // itineraryDates가 없으면 빈 배열로 처리
   const itineraryDates = trip?.itineraryDates || [];
 
-  // 여행 삭제 처리
   const handleDeleteTrip = () => {
     if (window.confirm("정말 삭제하시겠습니까?")) {
       fetch(`http://localhost:8586/api/trips/${tripId}`, {
@@ -71,7 +68,6 @@ const TravelDetail = () => {
     }
   };
 
-  // 후기 저장 처리 (후기, 평점 업데이트)
   const handleSaveReview = () => {
     fetch(`http://localhost:8586/api/trips/${tripId}/review`, {
       method: "PUT",
@@ -98,50 +94,49 @@ const TravelDetail = () => {
   return (
     <div className="travel-detail-container">
       <h1 className="travel-title">{trip.tripTitle || "여행 제목 미정"}</h1>
-      <p className="travel-period">
-        여행 기간: {trip.startDate} ~ {trip.endDate}
-      </p>
-
-      <div className="date-selector">
-        <label>날짜 선택:</label>
-        <select
-          value={selectedDate}
-          onChange={(e) => setSelectedDate(e.target.value)}
-        >
-          {itineraryDates.length > 0 ? (
-            itineraryDates.map((date) => (
-              <option key={date} value={date}>
-                {date}
-              </option>
-            ))
-          ) : (
-            <option value="">일정 없음</option>
-          )}
-        </select>
-      </div>
-
-      <div className="itinerary-section">
-        <h2>{selectedDate ? `${selectedDate} 일정` : "일정"}</h2>
-        {trip.itinerary && trip.itinerary[selectedDate] ? (
-          trip.itinerary[selectedDate].map((place, index) => (
-            <div key={index} className="itinerary-card">
-              {place}
-            </div>
-          ))
-        ) : (
-          <p>일정 정보가 없습니다.</p>
-        )}
+      <div className="period-edit-container">
+        <p className="travel-period">
+          여행 기간: {trip.startDate} ~ {trip.endDate}
+        </p>
+        {/* 조건 없이 바로 /plan-trip 으로 이동 */}
         <button
-          onClick={() => {
-            if (trip.status === "계획중") {
-              navigate("/plan-trip", { state: { tripId } });
-            } else {
-              alert("여행 완료 상태에서는 일정 수정이 불가능합니다.");
-            }
-          }}
+          className="edit-itinerary-button"
+          onClick={() => navigate("/plan-trip")}
         >
           일정 수정
         </button>
+      </div>
+
+      <div className="itinerary-section">
+        <h2 className="section-title">여행 일정</h2>
+        <div className="date-selector">
+          <label>날짜 선택:</label>
+          <select
+            value={selectedDate}
+            onChange={(e) => setSelectedDate(e.target.value)}
+          >
+            {itineraryDates.length > 0 ? (
+              itineraryDates.map((date) => (
+                <option key={date} value={date}>
+                  {date}
+                </option>
+              ))
+            ) : (
+              <option value="">일정 없음</option>
+            )}
+          </select>
+        </div>
+        <div className="itinerary-content">
+          {trip.itinerary && trip.itinerary[selectedDate] ? (
+            trip.itinerary[selectedDate].map((place, index) => (
+              <div key={index} className="itinerary-card">
+                {place}
+              </div>
+            ))
+          ) : (
+            <p>해당 날짜의 일정이 없습니다.</p>
+          )}
+        </div>
       </div>
 
       <div className="review-section">
@@ -151,7 +146,7 @@ const TravelDetail = () => {
           value={review}
           onChange={(e) => setReview(e.target.value)}
         />
-        {/* 평점 섹션을 후기와 저장 버튼 사이에 배치 */}
+        {/* 평점 영역을 후기 텍스트와 저장 버튼 사이에 배치 */}
         <div className="rating-container">
           <h3>나의 평점:</h3>
           {[1, 2, 3, 4, 5].map((star) => (
