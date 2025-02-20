@@ -14,7 +14,6 @@ const IDLoginPage = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    emailInputRef.current
 
     if (!isFormValid) {
       alert("이메일과 비밀번호를 입력해주세요.");
@@ -45,11 +44,10 @@ const IDLoginPage = () => {
           setTimeout(() => {
             window.location.reload();
           }, 100); // ✅ 새로고침 (0.1초 후 실행)
-        }else{
+        } else {
           setTimeout(() => {
             window.location.reload();
           }, 100);
-          
         }
         
       } else {

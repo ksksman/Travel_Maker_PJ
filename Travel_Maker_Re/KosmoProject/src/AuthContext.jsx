@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
       .then((data) => {
         if (data && data.email) {
           console.log("✅ 로그인 상태 유지됨:", data);
-          setUser({ email: data.email, nickname: data.nickname });
+          setUser({ id: data.user_Id, email: data.email, nickname: data.nickname });
         } else {
           console.log("❌ 로그인 정보 없음");
           setUser(null);
