@@ -144,6 +144,7 @@ const Signup = () => {
           {/* 비밀번호 입력 */}
           <div className="form-row">
             <label className="form-label">비밀번호 *</label>
+            <p style={{color:"red", fontSize:"10px"}}>영어+숫자 8자리이상으로 입력해주세요</p>
             <input
               type="password"
               className="input"
