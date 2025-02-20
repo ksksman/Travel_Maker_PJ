@@ -12,7 +12,7 @@ import MyPage from "./pages/MyPage";
 import EditProfile from "./pages/EditProfile";
 import TravelList from "./components/TravelList";
 import TravelDetail from "./components/TravelDetail";
-import CreateTripPage from "./pages/CreateTripPage";
+import CreateTripPage from "./Pages/CreateTripPage";
 import PlanTripPage from "./pages/PlanTripPage";
 import ALHomePage from "./pages/ALHomePage";
 
