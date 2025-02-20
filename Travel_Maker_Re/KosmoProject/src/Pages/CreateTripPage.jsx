@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "../styles/CreateTripPage.css";
+// AuthContext에서 로그인 정보 가져오기
+import { useAuth } from "../AuthContext";
+
 
 const CreateTripPage = () => {
   const navigate = useNavigate();
-
+  const { user } = useAuth(); // 로그인된 사용자 정보 (예: user.id, user.nickname 등)
+  
   // 여행 제목 상태
   const [tripTitle, setTripTitle] = useState("");
 
@@ -32,6 +36,11 @@ const CreateTripPage = () => {
     const dd = ("0" + date.getDate()).slice(-2);
     return `${yyyy}-${mm}-${dd}`;
   };
+
+  // 컴포넌트 마운트 시 AuthContext에서 받은 user 정보 확인 (디버깅)
+  useEffect(() => {
+    console.log("CreateTripPage - 로그인된 user 정보:", user);
+  }, [user]);
 
   // "다음" 버튼 클릭 → 제목 입력창 숨기고 달력 표시
   const handleNext = () => {
@@ -81,19 +90,51 @@ const CreateTripPage = () => {
     setInviteList(inviteList.filter((invite) => invite !== friend));
   };
 
-  // plan 객체 생성 및 /plan-trip 페이지로 이동 (inviteList 포함)
+  // 여행 생성 API 호출 후, /plan-trip 페이지로 이동
   const goToPlanTrip = () => {
     if (!startDate || !endDate) {
       alert("날짜를 선택해주세요.");
       return;
     }
-    const plan = {
+    if (!user || !user.id) {
+      alert("로그인 정보가 없습니다. 다시 로그인해주세요.");
+      return;
+    }
+
+    const tripData = {
+      userId: user.id, // AuthContext에서 가져온 로그인된 사용자 ID 사용
       title: tripTitle,
-      startDate: formatDate(startDate), // 로컬 날짜 포맷 사용
-      endDate: formatDate(endDate),
-      inviteList: inviteList,
+      startDate: formatDate(startDate),
+      endDate: formatDate(endDate)
     };
-    navigate("/plan-trip", { state: { plan } });
+
+    // 백엔드 API 호출 (POST)
+    fetch("http://localhost:8586/api/trips/create", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(tripData)
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.text();
+        } else {
+          throw new Error("API 호출 실패, 상태: " + response.status);
+        }
+      })
+      .then((message) => {
+        alert(message);
+        const plan = {
+          title: tripTitle,
+          startDate: formatDate(startDate),
+          endDate: formatDate(endDate),
+          inviteList: inviteList
+        };
+        navigate("/plan-trip", { state: { plan } });
+      })
+      .catch((error) => {
+        console.error("여행 생성 실패:", error);
+        alert("여행 생성에 실패했습니다.");
+      });
   };
 
   return (
@@ -165,7 +206,6 @@ const CreateTripPage = () => {
       {showInvitePopup && (
         <div className="invite-popup">
           <h3>동행자 초대</h3>
-          {/* 친구 목록에서 선택 */}
           <div className="friends-list">
             <p>초대할 친구를 선택하세요:</p>
             <ul>
@@ -177,7 +217,6 @@ const CreateTripPage = () => {
               ))}
             </ul>
           </div>
-          {/* 초대된 친구 목록 */}
           <h4>초대된 친구 목록</h4>
           <ul className="invite-list">
             {inviteList.map((friend, index) => (
