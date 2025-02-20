@@ -46,7 +46,7 @@ function ReviewPage() {
             return;
         }
 
-        let url = `http://localhost:8586/restBoardSearch.do?pageNum=${pageNum}&searchField=${searchType}&searchWord=${encodeURIComponent(searchKeyword)}`;
+        let url = `http://localhost:8586/restBoardSearch.do?pageNum=${pageNum}&searchField=${searchType}&searchWord=${encodeURIComponent(searchKeyword)}&board_cate=1`;
 
         fetch(url)
             .then((response) => response.json())
@@ -78,6 +78,9 @@ function ReviewPage() {
             navigate("/login"); // ✅ 로그인 페이지로 이동
         }
     };
+    const handleSeWriteClick = () => {
+        navigate("/sewrite", { state: { nickname: user.nickname } });
+    }
 
     return (
         <div className="review-container">
@@ -102,6 +105,9 @@ function ReviewPage() {
                 </div>
                 {/* ✅ 글쓰기 버튼 (로그인 여부 확인) */}
                 <div className="write-button-container">
+                    <button onClick={handleSeWriteClick}>
+                        스마트에디터 테스트
+                    </button>
                     <button className="write-button" onClick={handleWriteClick}>
                         글쓰기 ✏️
                     </button>

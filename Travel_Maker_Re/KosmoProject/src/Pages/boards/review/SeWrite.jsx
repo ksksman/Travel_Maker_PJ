@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../../AuthContext";
-import SmartEditor from "../SmartEditor";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+
 import "../../../App.css";
 
-function ReviewWritePage() {
+function SeWrite() {
     const navigate = useNavigate();
     const { user } = useAuth(); // ✅ 로그인 정보 가져오기
     const nickname = user?.nickname || ""; // ✅ 로그인한 사용자의 닉네임
@@ -46,25 +47,28 @@ function ReviewWritePage() {
     };
 
     return (
-        <div className="review-container">
-            <script type="text/javascript" src="/public/smarteditor/js/HuskyEZCreator.js" charSet="utf-8"></script>
+        <div className="">
             <h2 className="review-title">후기 작성</h2>
-            <form className="board-write-form" onSubmit={handleSubmit}>
-                <label className="board-form-label">제목</label>
-                <input type="text" className="board-input" value={title} onChange={(e) => setTitle(e.target.value)} required />
+            <form className="" onSubmit={handleSubmit}>
+                <label className="">제목</label>
+                <input type="text" className="" value={title} onChange={(e) => setTitle(e.target.value)} required />
 
-                <label className="board-form-label">내용</label>
-                {/* <SmartEditor setContent={setContent} />  */}
+                <label className="">내용</label>
+                <CKEditor
+                    editor={ClassicEditor}
+                    data={content}
+                    onChange={(event, editor) => {
+                        const data = editor.getData();
+                        setContent(data); // ✅ CKEditor 내용 저장
+                    }} />
                 
-                <textarea 
-                    name="editorTxt" id="editorTxt"
-                    className="board-input board-textarea" value={content} onChange={(e) => setContent(e.target.value)} required />
+                <textarea className="board-input board-textarea" value={content} onChange={(e) => setContent(e.target.value)} required />
 
-                <label className="board-form-label">작성자</label>
+                <label className="">작성자</label>
                 <input type="text" className="board-input" value={nickname} readOnly />
 
                 {/* ✅ 버튼 컨테이너 */}
-                <div className="boards-button-container">
+                <div className="">
                     <button type="submit" className="boards-button boards-submit-button">등록</button>
                     <button type="button" className="boards-button boards-cancel-button" onClick={() => navigate(-1)}>취소</button>
                 </div>
@@ -73,4 +77,4 @@ function ReviewWritePage() {
     );
 }
 
-export default ReviewWritePage;
+export default SeWrite;

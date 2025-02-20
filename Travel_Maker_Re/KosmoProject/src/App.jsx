@@ -37,6 +37,8 @@ import NoticeEditPage from './Pages/boards/notice/NoticeEditPage';
 import QnaPage from './Pages/boards/qna/QnaPage';
 import QnaViewPage from './Pages/boards/qna/QnaViewPage';
 import QnaWritePage from "./Pages/boards/qna/QnaWritePage";
+import QnaEditPage from "./Pages/boards/qna/QnaEditPage";
+import SeWrite from "./Pages/boards/review/SeWrite";
 
 
 const App = () => {
@@ -82,6 +84,8 @@ const App = () => {
                 <Route path='/qnaboard' element={<QnaPage />} />
                 <Route path='/qnaboard/:board_idx' element={<QnaViewPage />} />
                 <Route path='/qnaboard/write' element={<QnaWritePage />} />
+                <Route path='/qnaboard/edit/:board_idx' element={<QnaEditPage />} />
+                <Route path="/sewrite" element={<SeWrite />} />
 
                 {/* ✅ ALHomePage 경로 추가 */}
                 <Route path="/main" element={<ALHomePage />} />
