@@ -81,19 +81,50 @@ const CreateTripPage = () => {
     setInviteList(inviteList.filter((invite) => invite !== friend));
   };
 
-  // plan 객체 생성 및 /plan-trip 페이지로 이동 (inviteList 포함)
+  // 여행 생성 API 호출 후, /plan-trip 페이지로 이동
   const goToPlanTrip = () => {
     if (!startDate || !endDate) {
       alert("날짜를 선택해주세요.");
       return;
     }
-    const plan = {
+
+    const tripData = {
+      userId: 1, // 로그인된 사용자 ID (하드코딩 또는 실제 값으로 교체)
       title: tripTitle,
-      startDate: formatDate(startDate), // 로컬 날짜 포맷 사용
-      endDate: formatDate(endDate),
-      inviteList: inviteList,
+      startDate: formatDate(startDate),
+      endDate: formatDate(endDate)
     };
-    navigate("/plan-trip", { state: { plan } });
+
+    // 백엔드 API 호출 (POST)
+    fetch("http://localhost:8586/api/trips/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(tripData)
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.text();
+        } else {
+          throw new Error("API 호출 실패, 상태: " + response.status);
+        }
+      })
+      .then((message) => {
+        alert(message);
+        // API 호출 성공 후 plan 객체를 포함하여 다음 페이지로 이동
+        const plan = {
+          title: tripTitle,
+          startDate: formatDate(startDate),
+          endDate: formatDate(endDate),
+          inviteList: inviteList
+        };
+        navigate("/plan-trip", { state: { plan } });
+      })
+      .catch((error) => {
+        console.error("여행 생성 실패:", error);
+        alert("여행 생성에 실패했습니다.");
+      });
   };
 
   return (
