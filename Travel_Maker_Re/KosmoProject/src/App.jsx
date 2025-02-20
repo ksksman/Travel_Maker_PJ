@@ -57,7 +57,7 @@ const App = () => {
                 <Route path="/mypage" element={<MyPage />} />
                 <Route path="/edit-profile" element={<EditProfile />} />
                 <Route path="/trips" element={<TravelList />} />
-                <Route path="/trips/:id" element={<TravelDetail />} />
+                <Route path="/trips/:tripId" element={<TravelDetail />} />
                 <Route path="/create-trip" element={<CreateTripPage />} />
                 <Route path="/plan-trip" element={<PlanTripPage />} /> {/* 헤더 없이 표시됨 */}
 
