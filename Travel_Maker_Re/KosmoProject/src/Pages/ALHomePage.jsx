@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BannerSlider from '../components/BannerSlider';
 import { FaPlusCircle } from 'react-icons/fa';
@@ -5,6 +6,17 @@ import '../App.css';
 
 const ALHomePage = () => {
     const navigate = useNavigate();
+    const [topLikedReviews, setTopLikedReviews] = useState([]); // 후기 게시글 Top3 데이터
+
+    // ✅ 백엔드에서 좋아요가 가장 많은 게시물 3개 가져오기
+    useEffect(() => {
+        fetch("http://localhost:8586/topLikedReviews.do")
+            .then((response) => response.json())
+            .then((data) => {
+                setTopLikedReviews(data);
+            })
+            .catch((error) => console.error("후기 게시판 인기글 불러오기 오류:", error));
+    }, []);
 
     const handleNavigate = (path) => {
         navigate(path);
@@ -74,24 +86,18 @@ const ALHomePage = () => {
                         </button>
                         <h2>후기 게시판 인기글</h2>
                         <ul className="popular-posts-list">
-                            <li>
-                                <a href="/board/post/1" className="post-item">
-                                    <span className="post-title">여행 후기 - 제주도에서의 하루</span>
-                                    <span className="post-likes">❤️ 120 좋아요</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/board/post/2" className="post-item">
-                                    <span className="post-title">강릉 맛집 추천!</span>
-                                    <span className="post-likes">❤️ 98 좋아요</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/board/post/3" className="post-item">
-                                    <span className="post-title">서울 야경 투어 후기</span>
-                                    <span className="post-likes">❤️ 85 좋아요</span>
-                                </a>
-                            </li>
+                            {topLikedReviews.length > 0 ? (
+                                topLikedReviews.map((post) => (
+                                    <li key={post.board_idx}>
+                                        <a href={`/reviewboard/${post.board_idx}`} className="post-item">
+                                            <span className="post-title">{post.title}</span>
+                                            <span className="post-likes">❤️ {post.like_count} 좋아요</span>
+                                        </a>
+                                    </li>
+                                ))
+                            ) : (
+                                <li className="no-results">🔥 인기 게시글이 없습니다.</li>
+                            )}
                         </ul>
                     </div>
                 </div>

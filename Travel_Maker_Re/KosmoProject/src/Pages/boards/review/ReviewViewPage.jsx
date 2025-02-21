@@ -21,6 +21,7 @@ function ReviewViewPage() {
                 setReview(data);
                 setLikes(parseInt(data.like_count));
                 setViews(parseInt(data.view_count));
+                console.log('data.view :>> ', data.view);
                 setLoading(false);
             })
             .catch((error) => {

@@ -10,19 +10,17 @@ function ReviewPage() {
     const [searchType, setSearchType] = useState("title");
     const [searchKeyword, setSearchKeyword] = useState("");
     const [pageNum, setPageNum] = useState(1);
+    const [totalPageNum, setTotalPageNum] = useState(0);
     const [isPopular, setIsPopular] = useState(false);
+    const [isSearchActivate, setIsSearchActive] = useState(false); // 검색여부 상태
 
     const navigate = useNavigate();
-
-    // ✅ 로그인 상태 확인 로그
-    // useEffect(() => {
-    //     console.log("현재 Context에 저장된 로그인 정보:", user);
-    // }, [user]);
 
     // 🔍 게시판 리스트 불러오기
     function fetchReviews(page = 1, popular = false) {
         setPageNum(page);
         setIsPopular(popular);
+        setIsSearchActive(false); // 검색여부 초기화
 
         const url = popular
             ? `http://localhost:8586/popularReviews.do?pageNum=${page}&board_cate=1`
@@ -31,8 +29,9 @@ function ReviewPage() {
         fetch(url)
             .then((response) => response.json())
             .then((data) => {
-                console.log('API 요청 URL:', url);
+                console.log('API 요청 URL:', data.length);
                 setMyJSON(data);
+                setTotalPageNum(data.length);
             })
             .catch((error) => {
                 console.error("게시판 리스트 API 호출 오류:", error);
@@ -53,6 +52,7 @@ function ReviewPage() {
             .then((response) => response.json())
             .then((data) => {
                 setMyJSON(data);
+                setIsSearchActive(true); // 검색여부 활성화 상태로 변경
             })
             .catch((error) => {
                 console.error("검색 API 호출 오류:", error);
@@ -70,13 +70,13 @@ function ReviewPage() {
             fetchSearchResults();
         }
     }
+
     // ✅ 글쓰기 버튼 클릭 이벤트 (로그인 확인)
     const handleWriteClick = () => {
         if (user) {
             navigate("/reviewboard/write", { state: { nickname: user.nickname } }); // ✅ 작성자 정보 전달
         } else {
             alert("글쓰기는 로그인 후 이용 가능합니다.");
-            navigate("/login"); // ✅ 로그인 페이지로 이동
         }
     };
 
@@ -97,6 +97,7 @@ function ReviewPage() {
                     <button
                         className={`filter-button ${isPopular ? "active" : ""}`}
                         onClick={() => fetchReviews(1, true)}
+                        disabled={isSearchActivate}
                     >
                         인기글
                     </button>
@@ -169,7 +170,16 @@ function ReviewPage() {
                 >
                     ◀ 이전
                 </button>
-                <span className="page-number">페이지 {pageNum}</span>
+                {/* 현재 pageNum이 5 미만이면 pageNum까지만, 5 이상이면 5개 표시 */}
+                {Array.from({ length: Math.min(pageNum, 5) }, (_, i) => i + 1).map((page) => (
+                    <span
+                        key={page}
+                        className={`page-number ${page === pageNum ? "active" : ""}`} // 현재 페이지 강조
+                        onClick={() => fetchReviews(page)}
+                    >
+                        {page}
+                    </span>
+                ))}
                 <button
                     className="page-button"
                     onClick={() => fetchReviews(pageNum + 1)}
