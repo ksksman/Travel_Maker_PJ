@@ -18,7 +18,6 @@ const TravelDetail = () => {
   const [selectedDate, setSelectedDate] = useState("");
   const [review, setReview] = useState("");
   const [rating, setRating] = useState(0);
-  const [itinerary, setItinerary] = useState([]);
 
   useEffect(() => {
     fetch(`http://localhost:8586/api/trips/${tripId}`, {
@@ -31,12 +30,6 @@ const TravelDetail = () => {
         setTrip(data);
         setReview(data.review || "");
         setRating(data.rating || 0);
-        const dates = data.itineraryDates || [];
-        if (dates.length > 0) {
-          setSelectedDate(dates[0]);
-        } else {
-          setSelectedDate("");
-        }
         setLoading(false);
       })
       .catch((err) => {
@@ -45,7 +38,23 @@ const TravelDetail = () => {
       });
   }, [tripId]);
 
-  const itineraryDates = trip?.itineraryDates || [];
+  // 시작일과 종료일 사이의 날짜 배열 생성 함수 ("YYYY-MM-DD" 형식)
+  const generateDateRange = (start, end) => {
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+    const dates = [];
+    for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+      dates.push(new Date(d).toISOString().split("T")[0]);
+    }
+    return dates;
+  };
+
+  const dateOptions =
+    trip && trip.itineraryDates && trip.itineraryDates.length > 0
+      ? trip.itineraryDates
+      : trip
+      ? generateDateRange(trip.startDate, trip.endDate)
+      : [];
 
   const handleDeleteTrip = () => {
     if (window.confirm("정말 삭제하시겠습니까?")) {
@@ -68,24 +77,29 @@ const TravelDetail = () => {
     }
   };
 
+  // 후기 저장 처리: "저장하시겠습니까?" 확인 후 저장, 성공 시 trip 상태를 "여행완료"로 업데이트
   const handleSaveReview = () => {
-    fetch(`http://localhost:8586/api/trips/${tripId}/review`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({ review, rating }),
-    })
-      .then((res) => {
-        if (res.ok) {
-          alert("후기가 저장되었습니다!");
-        } else {
-          throw new Error("후기 저장 실패");
-        }
+    if (window.confirm("저장하시겠습니까? 저장을 한 후에는 일정 수정을 하실수 없습니다.")) {
+      fetch(`http://localhost:8586/api/trips/${tripId}/review`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ review, rating }),
       })
-      .catch((err) => {
-        console.error("후기 저장 실패:", err);
-        alert("후기 저장 실패");
-      });
+        .then((res) => {
+          if (res.ok) {
+            alert("후기가 저장되었습니다! 일정 수정을 하실 수 없습니다.");
+            // 여행 상태를 업데이트하여 일정 수정 버튼을 감춤
+            setTrip({ ...trip, status: "여행완료" });
+          } else {
+            throw new Error("후기 저장 실패");
+          }
+        })
+        .catch((err) => {
+          console.error("후기 저장 실패:", err);
+          alert("후기 저장 실패");
+        });
+    }
   };
 
   if (loading) return <p>여행 정보를 불러오는 중...</p>;
@@ -94,17 +108,20 @@ const TravelDetail = () => {
   return (
     <div className="travel-detail-container">
       <h1 className="travel-title">{trip.tripTitle || "여행 제목 미정"}</h1>
+      
+      {/* 여행 기간 중앙 정렬, 일정 수정 버튼은 오른쪽에 표시 */}
       <div className="period-edit-container">
         <p className="travel-period">
           여행 기간: {trip.startDate} ~ {trip.endDate}
         </p>
-        {/* 조건 없이 바로 /plan-trip 으로 이동 */}
-        <button
-          className="edit-itinerary-button"
-          onClick={() => navigate("/plan-trip")}
-        >
-          일정 수정
-        </button>
+        {trip.status === "계획중" && (
+          <button
+            className="edit-itinerary-button"
+            onClick={() => navigate("/plan-trip")}
+          >
+            일정 수정
+          </button>
+        )}
       </div>
 
       <div className="itinerary-section">
@@ -115,8 +132,8 @@ const TravelDetail = () => {
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}
           >
-            {itineraryDates.length > 0 ? (
-              itineraryDates.map((date) => (
+            {dateOptions.length > 0 ? (
+              dateOptions.map((date) => (
                 <option key={date} value={date}>
                   {date}
                 </option>
