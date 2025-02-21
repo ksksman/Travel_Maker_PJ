@@ -677,88 +677,52 @@ footer {
   background-color: #0056b3;
 }
 
-/* 친구 요청 리스트 항목 */
-.friend-requests-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.request-item {
+/* 친구 요청 리스트 스타일 */
+.my-page .friend-requests-list li {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* 버튼을 오른쪽으로 정렬 */
   align-items: center;
-  padding: 12px 0;
+  padding: 10px;
   border-bottom: 1px solid #ddd;
 }
 
-.request-item:last-child {
-  border-bottom: none;
-}
-
 /* 버튼 컨테이너 */
-.buttons-container {
+.my-page .friend-buttons {
   display: flex;
-  gap: 10px;
+  gap: 10px; /* 버튼 사이 간격 */
 }
 
-/* 수락 및 거절 버튼 스타일 */
-.accept-button {
-  background-color: #28a745;
-  color: white;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.accept-button:hover {
-  background-color: #218838;
-}
-
-.reject-button {
-  background-color: #FF4B4B;
-  color: white;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.reject-button:hover {
-  background-color: #c82333;
-}
-
-/* 수락 버튼 */
+/* ✅ 수락 버튼 (초록색) */
 .my-page .accept-button {
-  background-color: #28a745;
+  background-color: #4CAF50; /* 초록색 */
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
 }
 
-.my-page .accept-button:hover {
-  background-color: #218838;
-}
-
-/* 거절 버튼 */
+/* ❌ 거절 버튼 (빨간색) */
 .my-page .reject-button {
-  background-color: #FF4B4B;
+  background-color: #FF4C4C; /* 빨간색 */
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* 마우스 호버 효과 */
+.my-page .accept-button:hover {
+  background-color: #45a049;
 }
 
 .my-page .reject-button:hover {
-  background-color: #c82333;
+  background-color: #d32f2f;
 }
 
-/* 로그아웃 및 회원탈퇴 버튼 */
-.my-page .logout-button {
-  background-color: #007bff;
-}
-
-.my-page .delete-account-button {
-  background-color: #ff4d4f;
-}
-
-.my-page .delete-account-button:hover {
-  background-color: #d9363e;
-}
 
 /* 설정 아이콘과 텍스트 */
 .my-page .settings-container {
@@ -854,6 +818,178 @@ footer {
   cursor: not-allowed;
 }
 
+
+
+.friend-request-section {
+  margin-top: 20px;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+}
+
+.friend-request-section h3 {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  justify-content: center;
+}
+
+.search-bar input {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+  transition: border 0.3s ease-in-out;
+  background: #f8f8f8;
+}
+
+.search-bar input:focus {
+  border-color: #4CAF50;
+  background: #ffffff;
+}
+
+.search-bar button {
+  padding: 12px 18px;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.search-bar button:hover {
+  background: #45a049;
+  transform: scale(1.05);
+}
+
+.search-results {
+  list-style: none;
+  padding: 0;
+}
+
+.search-results li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: white;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  transition: transform 0.2s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.search-results li:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.search-results span {
+  font-size: 16px;
+  color: #333;
+  font-weight: bold;
+}
+
+.search-results button {
+  background: #008CBA;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.search-results button:hover {
+  background: #007bb5;
+  transform: scale(1.05);
+}
+
+.friend-list-container {
+  margin-top: 20px;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.friend-list-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #007bff;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #007bff;
+}
+
+.friend-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.friend-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid #ddd; /* ✅ 구분선 추가 */
+}
+
+.friend-item:last-child {
+  border-bottom: none; /* ✅ 마지막 항목에는 구분선 제거 */
+}
+
+/*로그아웃 회원탈퇴 CSS*/
+.account-actions {
+  display: flex;
+  justify-content: flex-start;  /* 왼쪽 정렬 */
+  margin-top: 15px;  /* 친구 요청 목록과 간격 추가 */
+  padding-left: 10px;  /* 왼쪽 여백 */
+}
+
+.logout-btn {
+  background-color: #f0ad4e;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin-right: 10px; /* 회원탈퇴 버튼과 간격 */
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.delete-account-btn {
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.logout-btn:hover {
+  background-color: #ec971f;
+}
+
+.delete-account-btn:hover {
+  background-color: #c9302c;
+}
 
 
 /* 개인정보수정 페이지 */

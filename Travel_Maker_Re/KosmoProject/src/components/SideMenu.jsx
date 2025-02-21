@@ -36,7 +36,7 @@ const SideMenu = ({ isMenuOpen, setIsMenuOpen }) => {
             </ul>
             <hr />
             <ul>
-                <li><Link to="/notice" onClick={closeMenu}>공지사항</Link></li>
+                <li><Link to="/notice" onClick={closeMenu}>Q&A 게시판</Link></li>
                 <li><Link to="/board" onClick={closeMenu}>후기 게시판</Link></li>
             </ul>
             <hr />
