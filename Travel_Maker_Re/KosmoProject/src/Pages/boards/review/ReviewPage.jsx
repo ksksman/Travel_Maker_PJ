@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { data, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../AuthContext";
 
 import '../../../App.css';
@@ -29,13 +29,23 @@ function ReviewPage() {
         fetch(url)
             .then((response) => response.json())
             .then((data) => {
-                console.log('API 요청 URL:', data.length);
+                console.log('API 요청 URL:', url);
                 setMyJSON(data);
-                setTotalPageNum(data.length);
             })
             .catch((error) => {
                 console.error("게시판 리스트 API 호출 오류:", error);
             });
+
+        // 전체 페이지 갯수 가져오기
+        fetch(`http://localhost:8586/boardTotalLength.do?board_cate=1`)
+        .then((response) => response.json())
+        .then((data) => {
+            console.log('data :>> ', data);
+            setTotalPageNum(Math.ceil(data.totalCount/10)); // 페이지 개수 계산
+        })
+        .catch((error) => {
+            console.error("전체 게시글 개수 API 호출 오류:", error);
+        })
     }
 
     // 🔎 검색 실행 (검색 버튼 클릭 시 실행)
@@ -165,29 +175,46 @@ function ReviewPage() {
             <div className="pagination-container">
                 <button
                     className="page-button"
-                    onClick={() => fetchReviews(pageNum - 1)}
-                    disabled={pageNum <= 1} // 1페이지에서는 비활성화
+                    onClick={() => {
+                        const newPage = Math.max(1, pageNum - 5);
+                        setPageNum(newPage);
+                        fetchReviews(newPage); // 페이지 데이터 불러오기
+                    }}
+                    disabled={pageNum <= 5} // 첫 번째 그룹이면 비활성화
                 >
                     ◀ 이전
                 </button>
-                {/* 현재 pageNum이 5 미만이면 pageNum까지만, 5 이상이면 5개 표시 */}
-                {Array.from({ length: Math.min(pageNum, 5) }, (_, i) => i + 1).map((page) => (
-                    <span
+
+                {/* 동적으로 페이지 번호 생성 */}
+                {Array.from({ length: Math.min(5, totalPageNum - Math.floor((pageNum - 1) / 5) * 5) }, (_, i) => {
+                    const pageStart = Math.floor((pageNum - 1) / 5) * 5 + 1;
+                    return pageStart + i;
+                }).map((page) => (
+                    <button
                         key={page}
                         className={`page-number ${page === pageNum ? "active" : ""}`} // 현재 페이지 강조
-                        onClick={() => fetchReviews(page)}
+                        onClick={() => {
+                            setPageNum(page);
+                            fetchReviews(page);
+                        }}
                     >
                         {page}
-                    </span>
+                    </button>
                 ))}
+
                 <button
                     className="page-button"
-                    onClick={() => fetchReviews(pageNum + 1)}
-                    disabled={myJSON.length < 10} // 데이터가 10개 미만이면 다음 페이지 없음
+                    onClick={() => {
+                        const newPage = Math.min(totalPageNum, pageNum + 5);
+                        setPageNum(newPage);
+                        fetchReviews(newPage); // 페이지 데이터 불러오기
+                    }}
+                    disabled={pageNum > totalPageNum} // 마지막 그룹이면 비활성화
                 >
                     다음 ▶
                 </button>
             </div>
+
         </div>
     );
 }

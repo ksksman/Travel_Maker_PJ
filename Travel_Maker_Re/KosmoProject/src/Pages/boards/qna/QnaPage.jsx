@@ -9,6 +9,7 @@ function QnaPage() {
     const [searchType, setSearchType] = useState("title"); // 검색 기준 (기본: 제목)
     const [searchKeyword, setSearchKeyword] = useState(""); // 검색 키워드
     const [pageNum, setPageNum] = useState(1); // 페이지 번호 상태 추가
+    const [totalPageNum, setTotalPageNum] = useState(0);
     
     const navigate = useNavigate();
 
@@ -23,6 +24,16 @@ function QnaPage() {
             .catch((error) => {
                 console.error("질문 게시글 리스트 API 호출 오류:", error);
             });
+        // 전체 페이지 갯수 가져오기
+        fetch(`http://localhost:8586/boardTotalLength.do?board_cate=2`)
+        .then((response) => response.json())
+        .then((data) => {
+            console.log('data :>> ', data);
+            setTotalPageNum(Math.ceil(data.totalCount/10)); // 페이지 개수 계산
+        })
+        .catch((error) => {
+            console.error("전체 게시글 개수 API 호출 오류:", error);
+        })
     }
 
     // 🔎 검색 실행 (검색 버튼 클릭 시 실행)
@@ -86,10 +97,10 @@ function QnaPage() {
             <table className="review-table">
                 <thead>
                     <tr>
-                        <th style={{ width: "50%" }}>제목</th>
-                        <th style={{ width: "20%" }}>작성자</th>
-                        <th style={{ width: "15%" }}>조회수</th>
-                        <th style={{ width: "15%" }}>작성일</th>
+                        <th style={{ width: "40%" }}>제목</th>
+                        <th style={{ width: "15%" }}>작성자</th>
+                        <th style={{ width: "10%" }}>조회수</th>
+                        <th style={{ width: "20%" }}>작성일</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -140,16 +151,41 @@ function QnaPage() {
             <div className="pagination-container">
                 <button
                     className="page-button"
-                    onClick={() => fetchNotices(pageNum - 1)}
-                    disabled={pageNum <= 1} // 1페이지에서는 비활성화
+                    onClick={() => {
+                        const newPage = Math.max(1, pageNum - 5);
+                        setPageNum(newPage);
+                        fetchReviews(newPage); // 페이지 데이터 불러오기
+                    }}
+                    disabled={pageNum <= 5} // 첫 번째 그룹이면 비활성화
                 >
                     ◀ 이전
                 </button>
-                <span className="page-number">페이지 {pageNum}</span>
+
+                {/* 동적으로 페이지 번호 생성 */}
+                {Array.from({ length: Math.min(5, totalPageNum - Math.floor((pageNum - 1) / 5) * 5) }, (_, i) => {
+                    const pageStart = Math.floor((pageNum - 1) / 5) * 5 + 1;
+                    return pageStart + i;
+                }).map((page) => (
+                    <button
+                        key={page}
+                        className={`page-number ${page === pageNum ? "active" : ""}`} // 현재 페이지 강조
+                        onClick={() => {
+                            setPageNum(page);
+                            fetchReviews(page);
+                        }}
+                    >
+                        {page}
+                    </button>
+                ))}
+
                 <button
                     className="page-button"
-                    onClick={() => fetchNotices(pageNum + 1)}
-                    disabled={notices.length < 10} // 데이터가 10개 미만이면 다음 페이지 없음
+                    onClick={() => {
+                        const newPage = Math.min(totalPageNum, pageNum + 5);
+                        setPageNum(newPage);
+                        fetchReviews(newPage); // 페이지 데이터 불러오기
+                    }}
+                    disabled={pageNum > totalPageNum} // 마지막 그룹이면 비활성화
                 >
                     다음 ▶
                 </button>
