@@ -49,25 +49,29 @@ function ReviewPage() {
     }
 
     // 🔎 검색 실행 (검색 버튼 클릭 시 실행)
-    function fetchSearchResults() {
-        if (!searchKeyword.trim()) {
-            alert("검색어를 입력해주세요!");
-            fetchReviews(1); // 검색어가 없으면 1페이지부터 다시 불러오기
-            return;
-        }
+function fetchSearchResults() {
+    // 전체글 버튼 활성화 (인기글 비활성화) 및 1페이지로 초기화
+    setIsPopular(false);
+    setPageNum(1);
 
-        let url = `http://localhost:8586/restBoardSearch.do?pageNum=${pageNum}&searchField=${searchType}&searchWord=${encodeURIComponent(searchKeyword)}&board_cate=1`;
-
-        fetch(url)
-            .then((response) => response.json())
-            .then((data) => {
-                setMyJSON(data);
-                setIsSearchActive(true); // 검색여부 활성화 상태로 변경
-            })
-            .catch((error) => {
-                console.error("검색 API 호출 오류:", error);
-            });
+    if (!searchKeyword.trim()) {
+        alert("검색어를 입력해주세요!");
+        fetchReviews(1); // 검색어가 없으면 1페이지부터 다시 불러오기
+        return;
     }
+
+    const url = `http://localhost:8586/restBoardSearch.do?pageNum=1&searchField=${searchType}&searchWord=${encodeURIComponent(searchKeyword)}&board_cate=1`;
+
+    fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+            setMyJSON(data);
+            setIsSearchActive(true); // 검색여부 활성화 상태로 변경
+        })
+        .catch((error) => {
+            console.error("검색 API 호출 오류:", error);
+        });
+}
 
     // 🎯 페이지 로드 시 전체 게시글 리스트 불러오기
     useEffect(() => {
