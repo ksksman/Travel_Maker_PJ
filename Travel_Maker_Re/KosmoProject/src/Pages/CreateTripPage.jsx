@@ -96,13 +96,13 @@ const CreateTripPage = () => {
       alert("날짜를 선택해주세요.");
       return;
     }
-    if (!user || !user.id) {
+    if (!user || !user.user_Id) {
       alert("로그인 정보가 없습니다. 다시 로그인해주세요.");
       return;
     }
 
     const tripData = {
-      userId: user.id, // AuthContext에서 가져온 로그인된 사용자 ID 사용
+      userId: user.user_Id, // AuthContext에서 가져온 로그인된 사용자 ID 사용
       title: tripTitle,
       startDate: formatDate(startDate),
       endDate: formatDate(endDate)

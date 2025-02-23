@@ -39,6 +39,7 @@ const SideMenu = ({ isMenuOpen, setIsMenuOpen }) => {
                 <li><Link to="/noticeboard" onClick={closeMenu}>공지사항</Link></li>
                 <li><Link to="/reviewboard" onClick={closeMenu}>후기 게시판</Link></li>
                 <li><Link to="/qnaboard" onClick={closeMenu}>질문 게시판</Link></li>
+
             </ul>
             <hr />
             <ul>

@@ -1,184 +1,77 @@
-/* 📌 전체 컨테이너 스타일 */
+/* TravelDetail.css */
 .travel-detail-container {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 20px;
   max-width: 600px;
   margin: 40px auto;
-  background-color: #ffffff;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   font-family: "Arial", sans-serif;
 }
 
-/* 📌 제목 스타일 */
 .travel-title {
   font-size: 24px;
   font-weight: bold;
-  color: #333;
+  color: #0073e6;
+  text-align: center;
   margin-bottom: 10px;
+}
+
+/* 여행 기간과 일정 수정 버튼 */
+.period-edit-container {
+  position: relative;
+  margin-bottom: 20px;
   text-align: center;
 }
 
-/* 📌 여행 날짜 스타일 */
-.travel-date {
+.travel-period {
   font-size: 16px;
-  color: #777;
+  color: #555;
+  margin: 0;
   text-align: center;
-  margin-bottom: 20px;
 }
 
-/* 📌 여행 일정 선택 버튼 */
-.itinerary-selector {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.day-button {
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 10px 15px;
-  margin: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.day-button:hover {
-  background-color: #f0f0f0;
-}
-
-.day-button.active {
-  background-color: #007bff;
-  color: #fff;
-  border-color: #007bff;
-}
-
-/* 📌 일정 상세 스타일 */
-.itinerary-details {
-  background-color: #f9f9f9;
-  padding: 15px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-}
-
-.itinerary-details h3 {
-  margin-bottom: 10px;
-  color: #333;
-}
-
-.itinerary-details ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.itinerary-details li {
+.edit-itinerary-button {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
   padding: 8px 12px;
-  border-bottom: 1px solid #ddd;
-  color: #444;
-}
-
-.itinerary-details li:last-child {
-  border-bottom: none;
-}
-
-/* 📌 리뷰 섹션 */
-.review-section {
-  margin-bottom: 20px;
-}
-
-.review-text {
-  background-color: #f8f8f8;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-  min-height: 50px;
-}
-
-.review-textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 14px;
-  resize: none;
-}
-
-/* 📌 버튼 스타일 */
-.button-group {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-
-.button-group button {
-  flex: 1;
-  margin: 5px;
-  padding: 10px 15px;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 16px;
-  text-align: center;
-  transition: all 0.3s ease;
-}
-
-.share-button {
-  background-color: #28a745;
-  color: white;
-}
-
-.excel-button {
   background-color: #ffc107;
-  color: black;
-}
-
-.delete-button {
-  background-color: #dc3545;
   color: white;
-}
-
-.share-button:hover,
-.excel-button:hover,
-.delete-button:hover {
-  opacity: 0.8;
-}
-
-/* 📌 별점 스타일 */
-.rating-section {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.star {
-  font-size: 24px;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
-  transition: color 0.3s ease;
+  transition: background 0.3s ease;
 }
 
-.star.filled {
-  color: gold;
+.edit-itinerary-button:hover {
+  background-color: #e0a800;
 }
 
-.star:hover {
-  color: orange;
-}
-
-/* 📌 목록으로 돌아가기 버튼 */
-.back-link {
-  display: block;
-  text-align: center;
-  margin-top: 20px;
-  color: #007bff;
-  text-decoration: none;
-  font-size: 16px;
-}
-
-.back-link:hover {
-  text-decoration: underline;
-}
-/* 날짜 선택 드롭다운 스타일 */
-.date-selector {
+/* 여행 일정 영역 */
+.itinerary-section {
   margin-bottom: 20px;
+}
+
+.section-title {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* 날짜 선택 드롭다운 */
+.date-selector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.date-selector label {
+  font-weight: bold;
 }
 
 .date-selector select {
@@ -189,32 +82,124 @@
   cursor: pointer;
 }
 
-/* ✅ 여행 상세보기 컨테이너 */
-.travel-detail-container {
-  max-width: 600px;
-  margin: 50px auto;
-  padding: 20px;
-  text-align: center;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  min-height: 100vh;
+/* 일정 내용 */
+.itinerary-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-/* ✅ 방 배경 설정 스타일 */
-.background-upload {
-  margin-bottom: 15px;
+.itinerary-card {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  color: #444;
 }
 
-.background-upload-input {
-  display: block;
-  margin: 0 auto;
+/* 후기 영역 */
+.review-section {
+  margin-top: 20px;
 }
 
-/* ✅ 제목 스타일 */
-.travel-title {
-  font-size: 24px;
-  font-weight: bold;
+.review-section h3 {
+  font-size: 18px;
+  color: #333;
   margin-bottom: 10px;
 }
 
+.review-textarea {
+  width: 100%;
+  min-height: 80px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+  resize: vertical;
+  font-size: 14px;
+}
+
+/* 평점 영역 (후기 저장 버튼 위에 배치) */
+.rating-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.rating-container h3 {
+  margin-right: 10px;
+  font-size: 18px;
+  color: #333;
+}
+
+.star {
+  font-size: 24px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  margin-right: 4px;
+  color: #ccc;
+}
+
+.star:hover,
+.star.selected {
+  color: gold;
+}
+
+/* 버튼 그룹 */
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.button-group .button {
+  flex: 1;
+  padding: 10px;
+  margin: 0 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s ease;
+}
+
+.button-share {
+  background: #28a745;
+  color: white;
+}
+
+.button-share:hover {
+  background: #218838;
+}
+
+.button-excel {
+  background: #17a2b8;
+  color: white;
+}
+
+.button-excel:hover {
+  background: #138496;
+}
+
+.button-delete {
+  background: #dc3545;
+  color: white;
+}
+
+.button-delete:hover {
+  background: #c82333;
+}
+
+.back-link {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  font-size: 16px;
+  color: #0073e6;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}

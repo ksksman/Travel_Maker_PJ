@@ -34,12 +34,13 @@ const IDLoginPage = () => {
         const result = await response.text(); // 응답을 문자열로 변환
         console.log('result :>> ', result);
         alert(result); // "로그인 성공" 또는 "아이디 또는 비밀번호가 틀렸습니다."
-
         if (result=="로그인 성공") {
           // 로그인 정보 저장 (Context API + localStorage)
           const userData = { email: email, token:result.token};
           login(userData); // ContextAPI 업데이트
           localStorage.setItem("user", JSON.stringify(userData)); // localStorage에 저장
+
+
           navigate("/main"); // ✅ 로그인 성공 시 ALHomePage로 이동
           setTimeout(() => {
             window.location.reload();
@@ -58,6 +59,10 @@ const IDLoginPage = () => {
       alert("로그인 중 오류가 발생했습니다.");
     }
   };
+  
+  useEffect(() => {
+    emailInputRef.current.focus();
+  }, []);
 
   useEffect(() => {
     emailInputRef.current.focus();

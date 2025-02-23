@@ -6,9 +6,10 @@ const LoginPage = () => {
 
   const handleSocialLogin = (provider) => {
     if (provider === "kakao") {
-      window.location.href =
-        `https://kauth.kakao.com/oauth/authorize?client_id=505aa7a43fc70156cefefe89b119839f&redirect_uri=http://localhost:8586/auth/kakao/callback&response_type=code&prompt=login`;
-  
+      window.location.href = 
+      `https://kauth.kakao.com/oauth/authorize?client_id=389b95d1ffd38f723c94e788919d6b4d&redirect_uri=http://localhost:8586/auth/kakao/callback&response_type=code&prompt=login`
+
+      
     } else if (provider === "naver") {
       window.location.href = `https://nid.naver.com/oauth2.0/authorize?
         client_id=YOUR_NAVER_CLIENT_ID

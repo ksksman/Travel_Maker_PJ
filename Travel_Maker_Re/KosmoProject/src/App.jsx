@@ -13,12 +13,12 @@ import EditProfile from "./pages/EditProfile";
 import TravelList from "./components/TravelList";
 import TravelDetail from "./components/TravelDetail";
 import CreateTripPage from "./Pages/CreateTripPage";
-import PlanTripPage from "./pages/PlanTripPage";
+import PlanTripPage from "./Pages/PlanTripPage";
 import ALHomePage from "./pages/ALHomePage";
 
 // 로그인 & 회원가입 관련 컴포넌트
 import LoginPage from "./pages/LoginPage";
-import IDLoginPage from "./pages/IDLoginPage";
+import IDLoginPage from "./Pages/IDLoginPage";
 import SignupAgreement from "./pages/SignupAgreement";
 import Signup from "./pages/Signup";
 import FindPwd from "./pages/FindPwd";
@@ -58,7 +58,7 @@ const App = () => {
                 <Route path="/mypage" element={<MyPage />} />
                 <Route path="/edit-profile" element={<EditProfile />} />
                 <Route path="/trips" element={<TravelList />} />
-                <Route path="/trips/:id" element={<TravelDetail />} />
+                <Route path="/trips/:tripId" element={<TravelDetail />} />
                 <Route path="/create-trip" element={<CreateTripPage />} />
                 <Route path="/plan-trip" element={<PlanTripPage />} /> {/* 헤더 없이 표시됨 */}
 
