@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { data, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../AuthContext";
+
 import '../../../App.css';
 
 function ReviewPage() {
@@ -9,19 +10,17 @@ function ReviewPage() {
     const [searchType, setSearchType] = useState("title");
     const [searchKeyword, setSearchKeyword] = useState("");
     const [pageNum, setPageNum] = useState(1);
+    const [totalPageNum, setTotalPageNum] = useState(0);
     const [isPopular, setIsPopular] = useState(false);
+    const [isSearchActivate, setIsSearchActive] = useState(false); // 검색여부 상태
 
     const navigate = useNavigate();
-
-    // ✅ 로그인 상태 확인 로그
-    // useEffect(() => {
-    //     console.log("현재 Context에 저장된 로그인 정보:", user);
-    // }, [user]);
 
     // 🔍 게시판 리스트 불러오기
     function fetchReviews(page = 1, popular = false) {
         setPageNum(page);
         setIsPopular(popular);
+        setIsSearchActive(false); // 검색여부 초기화
 
         const url = popular
             ? `http://localhost:8586/popularReviews.do?pageNum=${page}&board_cate=1`
@@ -36,6 +35,17 @@ function ReviewPage() {
             .catch((error) => {
                 console.error("게시판 리스트 API 호출 오류:", error);
             });
+
+        // 전체 페이지 갯수 가져오기
+        fetch(`http://localhost:8586/boardTotalLength.do?board_cate=1`)
+        .then((response) => response.json())
+        .then((data) => {
+            console.log('data :>> ', data);
+            setTotalPageNum(Math.ceil(data.totalCount/10)); // 페이지 개수 계산
+        })
+        .catch((error) => {
+            console.error("전체 게시글 개수 API 호출 오류:", error);
+        })
     }
 
     // 🔎 검색 실행 (검색 버튼 클릭 시 실행)
@@ -52,6 +62,7 @@ function ReviewPage() {
             .then((response) => response.json())
             .then((data) => {
                 setMyJSON(data);
+                setIsSearchActive(true); // 검색여부 활성화 상태로 변경
             })
             .catch((error) => {
                 console.error("검색 API 호출 오류:", error);
@@ -69,13 +80,13 @@ function ReviewPage() {
             fetchSearchResults();
         }
     }
+
     // ✅ 글쓰기 버튼 클릭 이벤트 (로그인 확인)
     const handleWriteClick = () => {
         if (user) {
             navigate("/reviewboard/write", { state: { nickname: user.nickname } }); // ✅ 작성자 정보 전달
         } else {
             alert("글쓰기는 로그인 후 이용 가능합니다.");
-            navigate("/login"); // ✅ 로그인 페이지로 이동
         }
     };
 
@@ -96,6 +107,7 @@ function ReviewPage() {
                     <button
                         className={`filter-button ${isPopular ? "active" : ""}`}
                         onClick={() => fetchReviews(1, true)}
+                        disabled={isSearchActivate}
                     >
                         인기글
                     </button>
@@ -163,20 +175,46 @@ function ReviewPage() {
             <div className="pagination-container">
                 <button
                     className="page-button"
-                    onClick={() => fetchReviews(pageNum - 1)}
-                    disabled={pageNum <= 1} // 1페이지에서는 비활성화
+                    onClick={() => {
+                        const newPage = Math.max(1, pageNum - 5);
+                        setPageNum(newPage);
+                        fetchReviews(newPage); // 페이지 데이터 불러오기
+                    }}
+                    disabled={pageNum <= 5} // 첫 번째 그룹이면 비활성화
                 >
                     ◀ 이전
                 </button>
-                <span className="page-number">페이지 {pageNum}</span>
+
+                {/* 동적으로 페이지 번호 생성 */}
+                {Array.from({ length: Math.min(5, totalPageNum - Math.floor((pageNum - 1) / 5) * 5) }, (_, i) => {
+                    const pageStart = Math.floor((pageNum - 1) / 5) * 5 + 1;
+                    return pageStart + i;
+                }).map((page) => (
+                    <button
+                        key={page}
+                        className={`page-number ${page === pageNum ? "active" : ""}`} // 현재 페이지 강조
+                        onClick={() => {
+                            setPageNum(page);
+                            fetchReviews(page);
+                        }}
+                    >
+                        {page}
+                    </button>
+                ))}
+
                 <button
                     className="page-button"
-                    onClick={() => fetchReviews(pageNum + 1)}
-                    disabled={myJSON.length < 10} // 데이터가 10개 미만이면 다음 페이지 없음
+                    onClick={() => {
+                        const newPage = Math.min(totalPageNum, pageNum + 5);
+                        setPageNum(newPage);
+                        fetchReviews(newPage); // 페이지 데이터 불러오기
+                    }}
+                    disabled={pageNum > totalPageNum} // 마지막 그룹이면 비활성화
                 >
                     다음 ▶
                 </button>
             </div>
+
         </div>
     );
 }

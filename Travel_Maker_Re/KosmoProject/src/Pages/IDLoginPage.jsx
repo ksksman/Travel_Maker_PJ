@@ -40,6 +40,7 @@ const IDLoginPage = () => {
           login(userData); // ContextAPI 업데이트
           localStorage.setItem("user", JSON.stringify(userData)); // localStorage에 저장
 
+
           navigate("/main"); // ✅ 로그인 성공 시 ALHomePage로 이동
           setTimeout(() => {
             window.location.reload();
@@ -49,7 +50,6 @@ const IDLoginPage = () => {
             window.location.reload();
           }, 100);
         }
-        
       } else {
         const errorMessage = await response.text();
         alert("로그인 실패: " + errorMessage);
@@ -60,6 +60,10 @@ const IDLoginPage = () => {
     }
   };
   
+  useEffect(() => {
+    emailInputRef.current.focus();
+  }, []);
+
   useEffect(() => {
     emailInputRef.current.focus();
   }, []);

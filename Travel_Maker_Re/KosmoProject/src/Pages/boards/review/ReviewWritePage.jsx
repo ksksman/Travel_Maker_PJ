@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useRef, useState, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../../AuthContext";
+
+// import ReactQuill from "react-quill";
+// import "/node_modules/react-quill/dist/quill.snow.css";
+
 import "../../../App.css";
 
 function ReviewWritePage() {
@@ -12,6 +16,8 @@ function ReviewWritePage() {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [attached_file, setAttached_file] = useState("");
+    const quillRef = useRef(null); // Quill 에디터 참조
+
     // ✅ 후기 작성 요청
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -53,7 +59,7 @@ function ReviewWritePage() {
 
                 <label className="board-form-label">내용</label>
                 <textarea className="board-input board-textarea" value={content} onChange={(e) => setContent(e.target.value)} required />
-
+                
                 <label className="board-form-label">작성자</label>
                 <input type="text" className="board-input" value={nickname} readOnly />
 
