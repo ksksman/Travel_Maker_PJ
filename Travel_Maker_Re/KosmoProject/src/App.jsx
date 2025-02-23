@@ -13,7 +13,7 @@ import EditProfile from "./pages/EditProfile";
 import TravelList from "./components/TravelList";
 import TravelDetail from "./components/TravelDetail";
 import CreateTripPage from "./Pages/CreateTripPage";
-import PlanTripPage from "./pages/PlanTripPage";
+import PlanTripPage from "./Pages/PlanTripPage";
 import ALHomePage from "./pages/ALHomePage";
 
 // 로그인 & 회원가입 관련 컴포넌트
