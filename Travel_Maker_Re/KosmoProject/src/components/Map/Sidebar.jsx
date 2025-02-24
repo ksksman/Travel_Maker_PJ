@@ -1,4 +1,3 @@
-// Sidebar.jsx (전체 예시)
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; 
 import SearchBar from "./SearchBar";
@@ -16,7 +15,9 @@ const Sidebar = ({
   setMapCenter, 
   showPins, 
   setShowPins,
-  plan  // plan 객체
+  plan,
+  selectedDate,  //  추가 (날짜 상태)
+  setSelectedDate // ✅추가 (날짜 변경 함수)
 }) => {
   const [query, setQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -24,12 +25,10 @@ const Sidebar = ({
   const [pageNo, setPageNo] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
-  // 동행자 목록을 plan.inviteList로 설정
   const participants = plan.inviteList || [];
-
   const navigate = useNavigate();
 
-  // 관광지 검색
+  //  🔹 검색 기능 (API 호출)
   const handleSearch = async () => {
     if (!query.trim()) {
       console.error("검색어를 입력하세요.");
@@ -49,13 +48,14 @@ const Sidebar = ({
     }
   };
 
-  // "더보기" 버튼 클릭 시
+  //  🔹 "더보기" 버튼 클릭 시
   const loadMore = async () => {
     try {
       const nextPage = pageNo + 1;
       const response = await axios.get("http://localhost:8586/api/places/search", {
         params: { query, pageNo: nextPage, numOfRows: 10 }
       });
+
       if (response.data.length > 0) {
         setSearchResults((prevResults) => [...prevResults, ...response.data]);
         setPageNo(nextPage);
@@ -67,7 +67,7 @@ const Sidebar = ({
     }
   };
 
-  // 이전 페이지로 이동
+  //  "이전 페이지" 버튼 기능
   const goBack = () => {
     navigate(-1);
   };
@@ -80,7 +80,13 @@ const Sidebar = ({
           setQuery={setQuery} 
           setSearchResults={setSearchResults} 
         />
-        <PlanDays plan={plan} />
+        
+        {/*  날짜 선택 컴포넌트 - PlanDays 추가 */}
+        <PlanDays 
+          plan={plan} 
+          selectedDate={selectedDate} 
+          setSelectedDate={setSelectedDate} 
+        />
       </div>
 
       <div className="results-container">
@@ -91,8 +97,10 @@ const Sidebar = ({
           hasMore={hasMore} 
           onLoadMore={loadMore} 
         />
+
+        {/*  선택한 날짜의 일정만 필터링해서 표시 */}
         <SelectedPlaces 
-          selectedPlaces={selectedPlaces} 
+          selectedPlaces={selectedPlaces.filter(place => place.date === selectedDate)} //  날짜 필터링 적용
           setSelectedPlaces={setSelectedPlaces} 
           setMapCenter={setMapCenter} 
           showPins={showPins} 
@@ -103,16 +111,15 @@ const Sidebar = ({
       <div className="sidebar-footer">
         <button className="back-btn" onClick={goBack}> ← 이전페이지</button>
 
-        {/* 참여자 표시 부분 */}
+        {/*  🔹 참여자 목록 표시 */}
         <span className="participants">
           {participants.length > 0 
-            ? `참여자: ${participants.join(", ")}`
+            ? `참여자: ${participants.join(", ")}` 
             : "초대한 친구가 없습니다."
           }
         </span>
 
         <div className="footer-buttons">
-          <button className="temp-save-btn">임시저장</button>
           <button className="save-btn">저장</button>
         </div>
       </div>

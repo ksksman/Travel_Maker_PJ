@@ -1,36 +1,40 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react"; 
 
 const Map = ({ selectedPlaces, mapCenter, showPins }) => {
-    const mapRef = useRef(null); // ✅ 지도 객체를 유지하기 위한 ref
+    const mapRef = useRef(null);
+    const markersRef = useRef([]); //  마커를 저장할 배열 추가
 
     useEffect(() => {
         if (!mapRef.current) {
-            //  초기 지도 생성 (한 번만 실행)
             mapRef.current = new window.naver.maps.Map("map", {
                 center: new window.naver.maps.LatLng(mapCenter.lat, mapCenter.lng),
                 zoom: 13
             });
         } else {
-            //  지도 중심 변경 시 이동
             mapRef.current.setCenter(new window.naver.maps.LatLng(mapCenter.lat, mapCenter.lng));
         }
-    }, [mapCenter]); //  mapCenter 변경 시에만 지도 이동
+    }, [mapCenter]);
 
     useEffect(() => {
         if (!mapRef.current) return;
 
-        // 기존 마커 초기화
-        mapRef.current?.overlays?.forEach((marker) => marker.setMap(null));
-        mapRef.current.overlays = [];
+        //  기존 마커 삭제 (안전한 방식으로 마커를 초기화)
+        markersRef.current.forEach(marker => marker.setMap(null));
+        markersRef.current = [];
 
         if (showPins) {
             selectedPlaces.forEach(place => {
+                // 🚨 좌표가 없는 경우 마커 표시 안함
+                if (!place.lat || !place.lng) {
+                    console.warn(`좌표가 없는 관광지: ${place.name}`, place);
+                    return; 
+                }
+
                 const marker = new window.naver.maps.Marker({
                     position: new window.naver.maps.LatLng(place.lat, place.lng),
                     map: mapRef.current
                 });
 
-                //  마커 위에 호버하면 툴팁(인포윈도우) 표시
                 const infoWindow = new window.naver.maps.InfoWindow({
                     content: `<div style="padding:5px; font-size:14px;">${place.name}</div>`,
                 });
@@ -43,10 +47,10 @@ const Map = ({ selectedPlaces, mapCenter, showPins }) => {
                     infoWindow.close();
                 });
 
-                mapRef.current.overlays.push(marker);
+                markersRef.current.push(marker); // ✅마커 배열에 추가
             });
         }
-    }, [selectedPlaces, showPins]); //  핀 보이기/숨기기 시 지도 중심 변경 없음
+    }, [selectedPlaces, showPins]);
 
     return <div id="map" style={{ width: "100%", height: "100vh" }}></div>;
 };

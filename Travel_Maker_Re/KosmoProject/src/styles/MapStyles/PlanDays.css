@@ -8,17 +8,18 @@
   border-radius: 8px;
   width: 470px; /* ✅ 가로 크기 증가 */
 }
+
 /* 🏷️ 여행 제목 */
 .plan-title {
-  font-size: 14px;
+  font-size: 18px; /* ✅ 기존 14px → 18px */
   font-weight: bold;
-  background:transparent;
-  padding: 5px 10px;
-  border-radius: 5px;
-  margin-bottom: 8px; /* ✅ 아래 여백 추가 */
-  
+  color: #333; /* ✅ 가독성을 위해 검은색 */
+  text-align: center; /* ✅ 중앙 정렬 */
+  width: 100%; /* ✅ 전체 너비 */
+  padding: 10px 15px;
+  margin-top: 15px; /* ✅ 위 여백 추가 */
+  margin-bottom: 10px;
 }
-
 /* 🗓️ 날짜 버튼 컨테이너 */
 .plan-dates {
   display: flex;
