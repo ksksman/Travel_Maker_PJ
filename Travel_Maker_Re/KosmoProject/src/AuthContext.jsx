@@ -1,34 +1,20 @@
 import { createContext, useState, useContext, useEffect } from "react";
 
+// AuthContext 생성
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true); // ✅ 로딩 상태 추가
+  const [loading, setLoading] = useState(true);
 
-  // ✅ 서버에서 로그인 상태 확인 (SNS & 일반 로그인)
+  // 로그인 상태 확인 (일반 로그인 & SNS 로그인)
   useEffect(() => {
-    fetch("http://localhost:8586/api/user/me", {
-      method: "GET",
-      credentials: "include", // ✅ 쿠키 포함 요청
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data && data.email) {
-          console.log("✅ 로그인 상태 유지됨:", data);
-          setUser(data);
-        } else {
-          console.log("❌ 로그인 정보 없음");
-          setUser(null);
     const checkLoginStatus = async () => {
       try {
-        // ✅ 1) 일반 로그인 (`/api/user/me`)
+        // ✅ 1) 일반 로그인 확인 (`/api/user/me`)
         const userResponse = await fetch("http://localhost:8586/api/user/me", {
           method: "GET",
-          credentials: "include", // ✅ 쿠키 포함 요청
+          credentials: "include", // 쿠키 포함
           headers: { "Content-Type": "application/json" },
         });
 
@@ -41,7 +27,7 @@ export const AuthProvider = ({ children }) => {
           }
         }
 
-        // ✅ 2) SNS 로그인 (`/auth/me`)
+        // ✅ 2) SNS 로그인 확인 (`/auth/me`)
         const oauthResponse = await fetch("http://localhost:8586/auth/me", {
           method: "GET",
           credentials: "include",
@@ -75,40 +61,38 @@ export const AuthProvider = ({ children }) => {
     setUser(userData);
   };
 
- // ✅ 로그아웃 (일반 로그인 & SNS 로그인 모두 처리)
-const logout = async () => {
-  try {
-    // ✅ 일반 로그인 로그아웃 호출
-    await fetch("http://localhost:8586/api/user/logout", {
-      method: "POST",
-      credentials: "include",
-    });
+  // ✅ 로그아웃 (일반 & SNS 로그아웃 처리)
+  const logout = async () => {
+    try {
+      // 일반 로그인 로그아웃 요청
+      await fetch("http://localhost:8586/api/user/logout", {
+        method: "POST",
+        credentials: "include",
+      });
 
-    // ✅ SNS 로그인 로그아웃 호출
-    await fetch("http://localhost:8586/auth/logout", {
-      method: "POST",
-      credentials: "include",
-    });
+      // SNS 로그인 로그아웃 요청
+      await fetch("http://localhost:8586/auth/logout", {
+        method: "POST",
+        credentials: "include",
+      });
 
-    console.log("✅ 로그아웃 완료 (기본 & SNS)");
-    setUser(null);
-    localStorage.clear(); // ✅ 로컬스토리지 초기화
-    sessionStorage.clear(); // ✅ 세션스토리지 초기화
+      console.log("✅ 로그아웃 완료 (기본 & SNS)");
+      setUser(null);
+      localStorage.clear(); // 로컬 스토리지 초기화
+      sessionStorage.clear(); // 세션 스토리지 초기화
 
-    // ✅ 쿠키 삭제 (클라이언트에서 직접 삭제)
-    document.cookie.split(";").forEach((c) => {
-      document.cookie = c
-        .replace(/^ +/, "")
-        .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
-    });
+      // 쿠키 삭제
+      document.cookie.split(";").forEach((c) => {
+        document.cookie = c
+          .replace(/^ +/, "")
+          .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+      });
 
-    window.location.href = "/login"; // ✅ 로그인 페이지로 이동
-  } catch (error) {
-    console.error("🚨 로그아웃 중 오류 발생:", error);
-  }
-};
-
-  
+      window.location.href = "/login"; // 로그인 페이지로 이동
+    } catch (error) {
+      console.error("🚨 로그아웃 중 오류 발생:", error);
+    }
+  };
 
   return (
     <AuthContext.Provider value={{ user, login, logout, loading }}>
