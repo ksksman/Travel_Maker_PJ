@@ -7,11 +7,11 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // ✅ 로그인 상태 확인 (일반 로그인 & SNS 로그인)
+  // 로그인 상태 확인 (일반 로그인 & SNS 로그인)
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
-        // ✅ 일반 로그인 & SNS 로그인 API 병렬 요청
+        // 일반 로그인 & SNS 로그인 API 병렬 요청
         const [userResponse, oauthResponse] = await Promise.allSettled([
           fetch("http://localhost:8586/api/user/me", {
             method: "GET",
@@ -25,26 +25,23 @@ export const AuthProvider = ({ children }) => {
           }),
         ]);
 
-        // ✅ 1) SNS 로그인이 성공하면 우선적으로 설정
+        // 1) SNS 로그인 우선 확인
         if (oauthResponse.status === "fulfilled" && oauthResponse.value.ok) {
           const oauthData = await oauthResponse.value.json();
           if (oauthData.nickname) {
             console.log("✅ [SNS 로그인] 유지됨:", oauthData);
-            setUser({
-              email: oauthData.providerUserId + "@kakao.com",
-              nickname: oauthData.nickname,
-              authType: "kakao",
-            });
+            // 두 번째 코드처럼 SNS 로그인일 경우 email을 추가
+            setUser(oauthData);
             return;
           }
         }
 
-        // ✅ 2) 일반 로그인 확인 (SNS 로그인이 실패한 경우)
+        // 2) 일반 로그인 확인 (SNS 로그인 실패 시)
         if (userResponse.status === "fulfilled" && userResponse.value.ok) {
           const userData = await userResponse.value.json();
           if (userData.email) {
             console.log("✅ [기본 로그인] 유지됨:", userData);
-            setUser({ email: userData.email, nickname: userData.nickname, authType: "local" });
+            setUser(userData);
             return;
           }
         }
@@ -62,12 +59,12 @@ export const AuthProvider = ({ children }) => {
     checkLoginStatus();
   }, []);
 
-  // ✅ 로그인 (Context에 저장)
+  // 로그인 (Context에 저장)
   const login = (userData) => {
     setUser(userData);
   };
 
-  // ✅ 로그아웃 (일반 & SNS 로그아웃 처리)
+  // 로그아웃 (일반 & SNS 로그아웃 처리)
   const logout = async () => {
     try {
       // 일반 로그인 로그아웃 요청
