@@ -11,7 +11,7 @@ import "../App.css";
 
 const MyPage = () => {
     const { userId } = useParams();
-    const currentUserId = userId ? parseInt(userId, 10) : 1;
+    const currentUserId = userId ? parseInt(userId, 10) : 59;
     const navigate = useNavigate();
 
     // ✅ 사용자 프로필
