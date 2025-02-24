@@ -21,12 +21,21 @@ const LoginPage = () => {
       window.location.href = 
       `https://kauth.kakao.com/oauth/authorize?client_id=389b95d1ffd38f723c94e788919d6b4d&redirect_uri=http://localhost:8586/auth/kakao/callback&response_type=code&prompt=login`;
     } else if (provider === "naver") {
-      window.location.href = `https://nid.naver.com/oauth2.0/authorize?
-        client_id=YOUR_NAVER_CLIENT_ID
-        &redirect_uri=YOUR_NAVER_REDIRECT_URI
-        &response_type=code`;
+      // 🔹 프론트에서 직접 URL을 만드는 것이 아니라, 백엔드에서 받은 URL을 사용
+      fetch("http://localhost:8586/auth/naver/login", {
+          method: "GET",
+          credentials: "include" // ✅ 세션 유지
+      })
+      .then(response => response.json())
+      .then(data => {
+          if (data.loginUrl) {
+              window.location.href = data.loginUrl; // ✅ 백엔드에서 생성한 URL 사용
+          }
+      })
+      .catch(error => console.error("🚨 네이버 로그인 URL 요청 실패:", error));
     }
-  };
+};
+
   // ✅ 아이디 로그인 페이지 이동
   const IDLogin = () => {
     navigate("/id-login");
