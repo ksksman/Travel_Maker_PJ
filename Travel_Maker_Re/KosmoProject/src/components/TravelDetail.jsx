@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useAuth } from "../AuthContext"; 
 import "../styles/TravelDetail.css";
 
 const TravelDetail = () => {
   const { tripId } = useParams();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -102,6 +105,33 @@ const TravelDetail = () => {
     }
   };
 
+  const handleSharePost = async () => {
+    if (!trip || !user) {
+        alert("로그인 정보나 여행 정보가 없습니다.");
+        return;
+    }
+
+    const postData = {
+        title: trip.tripTitle,
+        content: review,
+        nickname: user.nickname, // ✅ 실제 로그인 사용자 정보
+        board_cate: 1,
+        tripId: trip.tripId, // ✅ tripId 추가
+    };
+
+    try {
+        const response = await axios.post("http://localhost:8586/restBoardWrite.do", postData);
+        if (response.status === 200) {
+            alert("게시물이 공유되었습니다!");
+            navigate("/reviewboard");
+        } else {
+            throw new Error("게시물 공유 실패");
+        }
+    } catch (error) {
+        console.error("게시물 공유 오류:", error);
+    }
+};
+
   if (loading) return <p>여행 정보를 불러오는 중...</p>;
   if (!trip) return <p>여행 정보를 찾을 수 없습니다.</p>;
 
@@ -182,7 +212,8 @@ const TravelDetail = () => {
       </div>
 
       <div className="button-group">
-        <button className="button button-share">게시물에 공유</button>
+        <button className="button button-share"
+          onClick={handleSharePost}>게시물에 공유</button>
         <button className="button button-excel">엑셀로 저장</button>
         <button className="button button-delete" onClick={handleDeleteTrip}>
           삭제
