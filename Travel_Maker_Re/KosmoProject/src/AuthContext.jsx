@@ -30,11 +30,7 @@ export const AuthProvider = ({ children }) => {
           const oauthData = await oauthResponse.value.json();
           if (oauthData.nickname) {
             console.log("✅ [SNS 로그인] 유지됨:", oauthData);
-            setUser({
-              email: oauthData.providerUserId + "@kakao.com",
-              nickname: oauthData.nickname,
-              authType: "kakao",
-            });
+            setUser(oauthData);
             return;
           }
         }
@@ -44,7 +40,7 @@ export const AuthProvider = ({ children }) => {
           const userData = await userResponse.value.json();
           if (userData.email) {
             console.log("✅ [기본 로그인] 유지됨:", userData);
-            setUser({ email: userData.email, nickname: userData.nickname, authType: "local" });
+            setUser(userData);
             return;
           }
         }

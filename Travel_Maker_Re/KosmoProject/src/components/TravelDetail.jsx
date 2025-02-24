@@ -111,6 +111,11 @@ const TravelDetail = () => {
         return;
     }
 
+    if (trip.status !== "여행완료") {
+      alert("여행이 완료된 경우에만 공유할 수 있습니다.");
+      return;
+    }
+
     const postData = {
         title: trip.tripTitle,
         content: review,
