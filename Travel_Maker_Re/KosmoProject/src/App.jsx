@@ -40,18 +40,18 @@ import QnaViewPage from './Pages/boards/qna/QnaViewPage';
 import QnaWritePage from "./Pages/boards/qna/QnaWritePage";
 import QnaEditPage from "./Pages/boards/qna/QnaEditPage";
 
-
 const App = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const location = useLocation(); //  현재 페이지 경로 가져오기
+    const location = useLocation(); // 현재 페이지 경로 가져오기
 
-    const hideHeaderPaths = ["/plan-trip"]; //  헤더를 숨길 페이지 목록
+    // ✅ 헤더 & 사이드 메뉴를 숨길 경로 설정 (동적 파라미터 포함)
+    const hideHeaderRegex = /^\/plan-trip(\/\d+)?$/;
 
     return (
         <>
-            {/* 📌 plan-trip 경로에서는 헤더 & 사이드메뉴 숨김 */}
-            {!hideHeaderPaths.includes(location.pathname) && <Header toggleMenu={setIsMenuOpen} />}
-            {!hideHeaderPaths.includes(location.pathname) && <SideMenu isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />}
+            {/* 📌 특정 경로에서는 헤더 & 사이드메뉴 숨김 */}
+            {!hideHeaderRegex.test(location.pathname) && <Header toggleMenu={setIsMenuOpen} />}
+            {!hideHeaderRegex.test(location.pathname) && <SideMenu isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />}
 
             <Routes>
                 {/* 여행 관련 라우트 */}
@@ -59,9 +59,9 @@ const App = () => {
                 <Route path="/mypage" element={<MyPage />} />
                 <Route path="/edit-profile" element={<EditProfile />} />
                 <Route path="/trips" element={<TravelList />} />
-                <Route path="/trips/:tripId" element={<TravelDetail />} />
+                <Route path="/trips/:tripId" element={<TravelDetail />} /> {/* ✅ tripId 일관성 유지 */}
                 <Route path="/create-trip" element={<CreateTripPage />} />
-                <Route path="/plan-trip" element={<PlanTripPage />} /> {/* 헤더 없이 표시됨 */}
+                <Route path="/plan-trip/:tripId" element={<PlanTripPage />} /> {/* 헤더 없이 표시됨 */}
 
                 {/* 로그인 및 회원가입 라우트 */}
                 <Route path="/login" element={<LoginPage />} />

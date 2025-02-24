@@ -114,28 +114,28 @@ const CreateTripPage = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(tripData)
     })
-      .then((response) => {
-        if (response.ok) {
-          return response.text();
-        } else {
-          throw new Error("API 호출 실패, 상태: " + response.status);
-        }
-      })
-      .then((message) => {
-        alert(message);
-        const plan = {
-          title: tripTitle,
-          startDate: formatDate(startDate),
-          endDate: formatDate(endDate),
-          inviteList: inviteList
-        };
-        navigate("/plan-trip", { state: { plan } });
-      })
-      .catch((error) => {
-        console.error("여행 생성 실패:", error);
-        alert("여행 생성에 실패했습니다.");
-      });
-  };
+    .then((response) => response.json()) // ✅ JSON 응답으로 tripId 받아오기
+    .then((data) => {
+      if (data.tripId) {
+        alert("여행이 성공적으로 생성되었습니다.");
+        navigate(`/plan-trip/${data.tripId}`, {
+          state: {
+            tripId: data.tripId,
+            title: tripTitle,
+            startDate: formatDate(startDate),
+            endDate: formatDate(endDate),
+            inviteList: inviteList,
+          },
+        });
+      } else {
+        throw new Error("tripId가 응답에 포함되지 않았습니다.");
+      }
+    })
+    .catch((error) => {
+      console.error("여행 생성 실패:", error);
+      alert("여행 생성에 실패했습니다.");
+    });
+};
 
   return (
     <div className="create-trip-container">
