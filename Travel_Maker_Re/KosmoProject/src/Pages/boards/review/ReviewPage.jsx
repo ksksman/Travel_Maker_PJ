@@ -12,6 +12,7 @@ function ReviewPage() {
     const [pageNum, setPageNum] = useState(1);
     const [totalPageNum, setTotalPageNum] = useState(0);
     const [isPopular, setIsPopular] = useState(false);
+    const [isLikedPosts, setIsLikedPosts] = useState(false); // 좋아요한 게시물 보기 여부
     const [isSearchActivate, setIsSearchActive] = useState(false); // 검색여부 상태
 
     const navigate = useNavigate();
@@ -48,30 +49,54 @@ function ReviewPage() {
         })
     }
 
-    // 🔎 검색 실행 (검색 버튼 클릭 시 실행)
-function fetchSearchResults() {
-    // 전체글 버튼 활성화 (인기글 비활성화) 및 1페이지로 초기화
-    setIsPopular(false);
-    setPageNum(1);
+    // 🔎 좋아요한 게시글 불러오기
+    function fetchLikedPosts() {
+        if (!user) {
+            alert("좋아요한 게시물을 보려면 로그인해야 합니다.");
+            return;
+        }
 
-    if (!searchKeyword.trim()) {
-        alert("검색어를 입력해주세요!");
-        fetchReviews(1); // 검색어가 없으면 1페이지부터 다시 불러오기
-        return;
+        setPageNum(1);
+        setIsPopular(false);
+        setIsSearchActive(false);
+        setIsLikedPosts(true); // ✅ 좋아요한 게시물 보기 활성화
+
+        const url = `http://localhost:8586/likedPosts.do?userId=${user.user_Id}`;
+
+        fetch(url)
+            .then((response) => response.json())
+            .then((data) => {
+                setMyJSON(data);
+            })
+            .catch((error) => {
+                console.error("좋아요한 게시물 API 호출 오류:", error);
+            });
     }
 
-    const url = `http://localhost:8586/restBoardSearch.do?pageNum=1&searchField=${searchType}&searchWord=${encodeURIComponent(searchKeyword)}&board_cate=1`;
+    // 🔎 검색 실행 (검색 버튼 클릭 시 실행)
+    function fetchSearchResults() {
+        // 전체글 버튼 활성화 (인기글 비활성화) 및 1페이지로 초기화
+        setIsPopular(false);
+        setPageNum(1);
 
-    fetch(url)
-        .then((response) => response.json())
-        .then((data) => {
-            setMyJSON(data);
-            setIsSearchActive(true); // 검색여부 활성화 상태로 변경
-        })
-        .catch((error) => {
-            console.error("검색 API 호출 오류:", error);
-        });
-}
+        if (!searchKeyword.trim()) {
+            alert("검색어를 입력해주세요!");
+            fetchReviews(1); // 검색어가 없으면 1페이지부터 다시 불러오기
+            return;
+        }
+
+        const url = `http://localhost:8586/restBoardSearch.do?pageNum=1&searchField=${searchType}&searchWord=${encodeURIComponent(searchKeyword)}&board_cate=1`;
+
+        fetch(url)
+            .then((response) => response.json())
+            .then((data) => {
+                setMyJSON(data);
+                setIsSearchActive(true); // 검색여부 활성화 상태로 변경
+            })
+            .catch((error) => {
+                console.error("검색 API 호출 오류:", error);
+            });
+    }
 
     // 🎯 페이지 로드 시 전체 게시글 리스트 불러오기
     useEffect(() => {
@@ -84,15 +109,6 @@ function fetchSearchResults() {
             fetchSearchResults();
         }
     }
-
-    // ✅ 글쓰기 버튼 클릭 이벤트 (로그인 확인)
-    const handleWriteClick = () => {
-        if (user) {
-            navigate("/reviewboard/write", { state: { nickname: user.nickname } }); // ✅ 작성자 정보 전달
-        } else {
-            alert("글쓰기는 로그인 후 이용 가능합니다.");
-        }
-    };
 
     return (
         <div className="review-container">
@@ -116,10 +132,14 @@ function fetchSearchResults() {
                         인기글
                     </button>
                 </div>
-                {/* ✅ 글쓰기 버튼 (로그인 여부 확인) */}
+                {/* ✅ 좋아요한 게시글 보기 버튼 */}
                 <div className="write-button-container">
-                    <button className="write-button" onClick={handleWriteClick}>
-                        글쓰기 ✏️
+                    <button
+                        className={`liked-posts-button ${isLikedPosts ? "active" : ""}`}
+                        onClick={fetchLikedPosts}
+                        disabled={isSearchActivate}
+                    >
+                        좋아요한 게시물
                     </button>
                 </div>
             </div>
