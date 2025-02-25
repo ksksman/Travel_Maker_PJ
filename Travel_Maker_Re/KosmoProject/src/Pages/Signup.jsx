@@ -25,6 +25,9 @@ const Signup = () => {
   const handleOpenPopup = () => setShowPopup(true);
   const handleClosePopup = () => setShowPopup(false);
 
+  const validatePassword = (password) => {
+    return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,16}$/.test(password);
+  };
   // ✅ 닉네임 중복 확인 요청
   const checkNickname = async () => {
     if (!nickname) {
@@ -86,6 +89,14 @@ const Signup = () => {
         alert("비밀번호가 일치하지 않습니다!");
         return;
     }
+    if (!validatePassword(password)) {
+      alert("⚠ 비밀번호는 8~16자의 영문, 숫자 조합이어야 합니다.");
+      return;
+    }
+    if (nicknameAvailable === false || nicknameAvailable === null) {
+      alert("닉네임 중복 확인을 진행해주세요!");
+      return;
+  }
 
     if (nicknameAvailable === false) {
         alert("닉네임을 다시 입력해주세요!");

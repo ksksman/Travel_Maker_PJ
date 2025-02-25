@@ -1,25 +1,25 @@
 import "../App.css";
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
 
 const IDLoginPage = () => {
+  const [email, setEmail] = useState(""); // 이메일 상태
+  const [password, setPassword] = useState(""); // 비밀번호 상태
+  const [rememberMe, setRememberMe] = useState(false); // 로그인 유지 상태
+  const emailInputRef = useRef(null);
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  // 🔹 초기값을 불러오기 (localStorage에서 값 가져오기)
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
-
-  // ✅ useEffect를 이용해서 localStorage 값 가져오기
   useEffect(() => {
-    const savedEmail = localStorage.getItem("savedEmail");
+    // ✅ localStorage에서 이메일과 로그인 유지 상태 불러오기
+    const savedEmail = localStorage.getItem("rememberedEmail");
     const savedRememberMe = localStorage.getItem("rememberMe") === "true";
 
-    if (savedRememberMe && savedEmail) {
+    if (savedEmail && savedRememberMe) {
       setEmail(savedEmail);
       setRememberMe(true);
+      console.log("✅ 저장된 이메일 불러오기:", savedEmail);
     }
   }, []);
 
@@ -40,36 +40,45 @@ const IDLoginPage = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ email, password }),
-        credentials: "include",
+        credentials: "include", // ✅ 쿠키 포함
       });
 
       if (response.ok) {
         const result = await response.text();
+        console.log("✅ 로그인 결과:", result);
         alert(result);
 
-        // ✅ 로그인 유지 체크 시 이메일 저장
-        if (rememberMe) {
-          localStorage.setItem("savedEmail", email);
-          localStorage.setItem("rememberMe", "true");
-        } else {
-          localStorage.removeItem("savedEmail");
-          localStorage.removeItem("rememberMe");
+        if (result === "로그인 성공") {
+          const userData = { email: email, token: result.token };
+          login(userData);
+
+          // ✅ 로그인 유지 체크 여부에 따라 localStorage 저장
+          if (rememberMe) {
+            localStorage.setItem("rememberedEmail", email);
+            localStorage.setItem("rememberMe", "true");
+          } else {
+            localStorage.removeItem("rememberedEmail");
+            localStorage.setItem("rememberMe", "false");
+          }
+
+          navigate("/main");
+          setTimeout(() => {
+            window.location.reload();
+          }, 100);
         }
-
-        // ✅ 로그인 정보 저장
-        const userData = { email: email, token: result.token };
-        login(userData);
-        localStorage.setItem("user", JSON.stringify(userData));
-
-        navigate("/main");
       } else {
         const errorMessage = await response.text();
         alert("로그인 실패: " + errorMessage);
       }
     } catch (error) {
-      console.error("로그인 요청 실패:", error);
+      console.error("🚨 로그인 요청 실패:", error);
       alert("로그인 중 오류가 발생했습니다.");
     }
+  };
+
+  const handleRememberMeChange = () => {
+    setRememberMe((prev) => !prev);
+    console.log("✅ 로그인 유지 체크 상태:", !rememberMe);
   };
 
   const goToFindPWD = () => {
@@ -88,6 +97,7 @@ const IDLoginPage = () => {
             className="input"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            ref={emailInputRef}
           />
           <input
             type="password"
@@ -101,10 +111,10 @@ const IDLoginPage = () => {
               type="checkbox"
               id="remember-me"
               checked={rememberMe}
-              onChange={(e) => setRememberMe(e.target.checked)}
+              onChange={handleRememberMeChange}
             />
             <label htmlFor="remember-me" className="remember-text">
-              로그인 유지
+            아이디 저장하기
             </label>
           </div>
           <button

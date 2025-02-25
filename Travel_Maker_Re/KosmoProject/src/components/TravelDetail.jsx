@@ -35,7 +35,6 @@ const TravelDetail = () => {
         setTrip(data);
         setReview(data.review || "");
         setRating(data.rating || 0);
-        // 일정 날짜 목록이 있으면 첫 날짜를 기본 선택
         if (data.itineraryDates && data.itineraryDates.length > 0) {
           setSelectedDate(data.itineraryDates[0]);
         } else {
@@ -119,7 +118,6 @@ const TravelDetail = () => {
   if (loading) return <p>여행 정보를 불러오는 중...</p>;
   if (!trip) return <p>여행 정보를 찾을 수 없습니다.</p>;
 
-  // 여행 기간 전체 날짜(백엔드에서 병합한 itineraryDates) 사용
   const dateOptions = trip.itineraryDates || [];
 
   return (
@@ -131,20 +129,32 @@ const TravelDetail = () => {
           여행 기간: {trip.startDate} ~ {trip.endDate}
         </p>
         {trip.status === "계획중" && (
-          <button className="edit-itinerary-button" onClick={() => navigate("/plan-trip")}>
+          <button
+            className="edit-itinerary-button"
+            onClick={() =>
+              navigate(`/plan-trip/${trip.tripId}`, { state: { plan: trip } })
+            }
+          >
             일정 수정
           </button>
         )}
       </div>
 
-      {/* 동행자 표시 부분 */}
       <div className="participants-section">
-        <p className="participants-label">
-          {trip.participantNames && trip.participantNames.length > 0
-            ? `동행자: ${trip.participantNames.join(", ")}`
-            : "나만의 여행!"}
-        </p>
+  {trip.participantNames && trip.participantNames.length > 0 ? (
+    <>
+      <p className="participants-label">동행자:</p>
+      <div className="participants-list">
+        {trip.participantNames.map((name, idx) => (
+          <span key={idx} className="participant-badge">{name}</span>
+        ))}
       </div>
+    </>
+  ) : (
+    <p className="participants-label">나만의 여행!</p>
+  )}
+</div>
+
 
       <div className="itinerary-section">
         <h2 className="section-title">여행 일정</h2>
@@ -189,7 +199,7 @@ const TravelDetail = () => {
           ))}
         </div>
         <button className="button button-edit" onClick={handleSaveReview}>
-          저장
+          여행 완료
         </button>
       </div>
 
