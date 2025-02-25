@@ -12,6 +12,10 @@ function ReviewViewPage() {
     const [likes, setLikes] = useState(0);
     const [views, setViews] = useState(0);
     const [hasLiked, setHasLiked] = useState(false); // ✅ 사용자가 이미 좋아요를 눌렀는지 확인
+    const [tripData, setTripData] = useState(null);
+    const [selectedDate, setSelectedDate] = useState(""); // 선택된 날짜
+    const [itinerary, setItinerary] = useState({}); // 날짜별 일정 목록
+    
 
     // 🔍 특정 게시글 상세 정보 불러오기
     useEffect(() => {
@@ -21,7 +25,24 @@ function ReviewViewPage() {
                 setReview(data);
                 setLikes(parseInt(data.like_count));
                 setViews(parseInt(data.view_count));
-                console.log('data.view :>> ', data.view);
+                
+                console.log('data :>> ', data);
+                // ✅ 해당 게시글이 여행 정보(tripId)와 연결되어 있으면 추가 API 호출
+                if (data.tripId) {
+                    fetch(`http://localhost:8586/api/trips/tripWithItinerary/${data.tripId}`)
+                        .then((res) => res.json())
+                        .then((trip) => {
+                            setTripData(trip);
+                            setItinerary(trip.itinerary || {});
+
+                            // 여행 일정 날짜 목록 설정
+                            const itineraryDates = Object.keys(trip.itinerary || {});
+                            if (itineraryDates.length > 0) {
+                                setSelectedDate(itineraryDates[0]); // 첫 번째 날짜를 기본값으로 설정
+                            }
+                        })
+                        .catch((err) => console.error("여행 정보 불러오기 오류:", err));
+                }
                 setLoading(false);
             })
             .catch((error) => {
@@ -128,8 +149,48 @@ function ReviewViewPage() {
             {/* 🔎 작성일 */}
             <div className="post-date">작성일: {review.post_date}</div>
 
+            {/* 🔥 여행 평점 추가 */}
+            {tripData && (
+                <div className="trip-rating">
+                    {/* <h3>여행 평점:</h3> */}
+                    {[1, 2, 3, 4, 5].map((star) => (
+                        <span
+                            key={star}
+                            className={`star ${tripData.rating >= star ? "selected" : ""}`}
+                        >
+                            ★
+                        </span>
+                    ))}
+                    {/* <span className="rating-text">({tripData.rating || "-"})</span> */}
+                </div>
+            )}
+
             <div className="review-content">
-                <h2> 추후 여행일정 들어갈 곳 </h2>
+                {/* ✅ 여행 일정 출력 */}
+                {tripData && (
+                    <div className="itinerary-section">
+                        <h2 className="section-title">여행 일정</h2>
+                        <div className="date-selector">
+                            <label>날짜 선택:</label>
+                            <select value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)}>
+                                {Object.keys(itinerary).map((date) => (
+                                    <option key={date} value={date}>{date}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="itinerary-content">
+                            {itinerary[selectedDate] && itinerary[selectedDate].length > 0 ? (
+                                itinerary[selectedDate].map((place, index) => (
+                                    <div key={index} className="itinerary-card">
+                                        {place}
+                                    </div>
+                                ))
+                            ) : (
+                                <p>해당 날짜의 일정이 없습니다.</p>
+                            )}
+                        </div>
+                    </div>
+                )}
                 <p>{review.content}</p>
             </div>
 
