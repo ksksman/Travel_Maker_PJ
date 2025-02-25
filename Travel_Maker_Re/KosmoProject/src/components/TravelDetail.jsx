@@ -21,6 +21,7 @@ const TravelDetail = () => {
       navigate("/trips");
       return;
     }
+
     fetch(`http://localhost:8586/api/trips/${tripId}`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
@@ -34,7 +35,7 @@ const TravelDetail = () => {
         setTrip(data);
         setReview(data.review || "");
         setRating(data.rating || 0);
-        // 일정 날짜 목록이 있으면 첫 날짜를 기본 선택, 없으면 startDate
+        // 일정 날짜 목록이 있으면 첫 날짜를 기본 선택
         if (data.itineraryDates && data.itineraryDates.length > 0) {
           setSelectedDate(data.itineraryDates[0]);
         } else {
@@ -130,14 +131,19 @@ const TravelDetail = () => {
           여행 기간: {trip.startDate} ~ {trip.endDate}
         </p>
         {trip.status === "계획중" && (
-          // 수정: 일정 수정 시, 해당 tripId를 포함한 URL로 이동
-          <button
-            className="edit-itinerary-button"
-            onClick={() => navigate(`/plan-trip/${trip.tripId}`, { state: { plan: trip } })}
-          >
+          <button className="edit-itinerary-button" onClick={() => navigate("/plan-trip")}>
             일정 수정
           </button>
         )}
+      </div>
+
+      {/* 동행자 표시 부분 */}
+      <div className="participants-section">
+        <p className="participants-label">
+          {trip.participantNames && trip.participantNames.length > 0
+            ? `동행자: ${trip.participantNames.join(", ")}`
+            : "나만의 여행!"}
+        </p>
       </div>
 
       <div className="itinerary-section">

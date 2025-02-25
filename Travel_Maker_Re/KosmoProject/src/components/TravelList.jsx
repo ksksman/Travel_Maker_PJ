@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/TravelList.css";
-import { useAuth } from "../AuthContext"; // 실제 경로에 맞게 수정
+import { useAuth } from "../AuthContext";
 
 const TravelList = () => {
   const navigate = useNavigate();
@@ -9,18 +9,18 @@ const TravelList = () => {
   const [trips, setTrips] = useState([]);
   const fileInputRefs = useRef({});
 
-  // 여행 목록 가져오기: 로그인된 사용자 필터링
   useEffect(() => {
     if (!loading && user) {
-      fetch("http://localhost:8586/api/trips", {
+      // 백엔드에서 내가 생성하거나 참여한 여행 모두 반환하도록 수정했으므로, 
+      // 여기서는 별도의 필터링을 하지 않고 전체 응답을 사용합니다.
+      fetch(`http://localhost:8586/api/trips?userId=${user.user_Id}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
         credentials: "include"
       })
         .then((res) => res.json())
         .then((data) => {
-          const filtered = data.filter((trip) => trip.userId === user.user_Id);
-          setTrips(filtered);
+          setTrips(data);
         })
         .catch((err) => console.error("여행 목록 가져오기 실패:", err));
     }
@@ -38,12 +38,9 @@ const TravelList = () => {
     );
   }
 
-  // 파일 업로드 및 이미지 업데이트 함수
   const handleImageUpload = (tripId, file) => {
     const formData = new FormData();
     formData.append("file", file);
-
-    // 이미지 업로드 API 호출
     fetch("http://localhost:8586/api/upload", {
       method: "POST",
       body: formData
@@ -51,7 +48,6 @@ const TravelList = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.imageUrl) {
-          // 이미지 URL 업데이트 API 호출
           fetch(`http://localhost:8586/api/trips/${tripId}/review/image`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -145,6 +141,11 @@ const TravelList = () => {
               <p>
                 <strong>상태:</strong> {trip.status}
               </p>
+              {trip.participantNames && trip.participantNames.length > 0 && (
+                <p>
+                  <strong>동행자:</strong> {trip.participantNames.join(", ")}
+                </p>
+              )}
             </div>
           </div>
         ))}
