@@ -6,11 +6,24 @@ import { useAuth } from "../AuthContext";
 const IDLoginPage = () => {
   const [email, setEmail] = useState(""); // 이메일 상태
   const [password, setPassword] = useState(""); // 비밀번호 상태
-  const emailInputRef = useRef(null); // 로그인 실패시 입력필드에 포커스
+  const [rememberMe, setRememberMe] = useState(false); // 로그인 유지 상태
+  const emailInputRef = useRef(null);
   const navigate = useNavigate();
-  const { login } = useAuth(); // Context API 사용
+  const { login } = useAuth();
 
-  const isFormValid = email.trim() !== "" && password.trim() !== ""; // 유효성 검사
+  useEffect(() => {
+    // ✅ localStorage에서 이메일과 로그인 유지 상태 불러오기
+    const savedEmail = localStorage.getItem("rememberedEmail");
+    const savedRememberMe = localStorage.getItem("rememberMe") === "true";
+
+    if (savedEmail && savedRememberMe) {
+      setEmail(savedEmail);
+      setRememberMe(true);
+      console.log("✅ 저장된 이메일 불러오기:", savedEmail);
+    }
+  }, []);
+
+  const isFormValid = email.trim() !== "" && password.trim() !== "";
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -27,25 +40,28 @@ const IDLoginPage = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ email, password }),
-        credentials: "include", // ✅ 쿠키를 포함해서 요청
+        credentials: "include", // ✅ 쿠키 포함
       });
 
       if (response.ok) {
-        const result = await response.text(); // 응답을 문자열로 변환
-        console.log('result :>> ', result);
-        alert(result); // "로그인 성공" 또는 "아이디 또는 비밀번호가 틀렸습니다."
-        if (result=="로그인 성공") {
-          // 로그인 정보 저장 (Context API + localStorage)
-          const userData = { email: email, token:result.token};
-          login(userData); // ContextAPI 업데이트
-          localStorage.setItem("user", JSON.stringify(userData)); // localStorage에 저장
+        const result = await response.text();
+        console.log("✅ 로그인 결과:", result);
+        alert(result);
 
+        if (result === "로그인 성공") {
+          const userData = { email: email, token: result.token };
+          login(userData);
 
-          navigate("/main"); // ✅ 로그인 성공 시 ALHomePage로 이동
-          setTimeout(() => {
-            window.location.reload();
-          }, 100); // ✅ 새로고침 (0.1초 후 실행)
-        } else {
+          // ✅ 로그인 유지 체크 여부에 따라 localStorage 저장
+          if (rememberMe) {
+            localStorage.setItem("rememberedEmail", email);
+            localStorage.setItem("rememberMe", "true");
+          } else {
+            localStorage.removeItem("rememberedEmail");
+            localStorage.setItem("rememberMe", "false");
+          }
+
+          navigate("/main");
           setTimeout(() => {
             window.location.reload();
           }, 100);
@@ -55,21 +71,18 @@ const IDLoginPage = () => {
         alert("로그인 실패: " + errorMessage);
       }
     } catch (error) {
-      console.error("로그인 요청 실패:", error);
+      console.error("🚨 로그인 요청 실패:", error);
       alert("로그인 중 오류가 발생했습니다.");
     }
   };
-  
-  useEffect(() => {
-    emailInputRef.current.focus();
-  }, []);
 
-  useEffect(() => {
-    emailInputRef.current.focus();
-  }, []);
+  const handleRememberMeChange = () => {
+    setRememberMe((prev) => !prev);
+    console.log("✅ 로그인 유지 체크 상태:", !rememberMe);
+  };
 
   const goToFindPWD = () => {
-    navigate("/findpwd"); // 비밀번호 찾기 페이지로 이동
+    navigate("/findpwd");
   };
 
   return (
@@ -83,7 +96,7 @@ const IDLoginPage = () => {
             placeholder="이메일"
             className="input"
             value={email}
-            onChange={(e) => setEmail(e.target.value)} // 입력값 업데이트
+            onChange={(e) => setEmail(e.target.value)}
             ref={emailInputRef}
           />
           <input
@@ -91,18 +104,23 @@ const IDLoginPage = () => {
             placeholder="비밀번호"
             className="input"
             value={password}
-            onChange={(e) => setPassword(e.target.value)} // 입력값 업데이트
+            onChange={(e) => setPassword(e.target.value)}
           />
           <div className="additional-options">
-            <input type="checkbox" id="remember-me" />
+            <input
+              type="checkbox"
+              id="remember-me"
+              checked={rememberMe}
+              onChange={handleRememberMeChange}
+            />
             <label htmlFor="remember-me" className="remember-text">
-              로그인 유지
+            아이디 저장하기
             </label>
           </div>
           <button
             type="submit"
-            className={`button email ${isFormValid ? "active" : "disabled"}`} // 클래스 동적 추가
-            disabled={!isFormValid} // 버튼 활성화 조건
+            className={`button email ${isFormValid ? "active" : "disabled"}`}
+            disabled={!isFormValid}
           >
             로그인
           </button>

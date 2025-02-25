@@ -70,36 +70,41 @@ export const AuthProvider = ({ children }) => {
   // ✅ 로그아웃 (일반 & SNS 로그아웃 처리)
   const logout = async () => {
     try {
-      // 일반 로그인 로그아웃 요청
-      await fetch("http://localhost:8586/api/user/logout", {
-        method: "POST",
-        credentials: "include",
-      });
-
-      // SNS 로그인 로그아웃 요청
-      await fetch("http://localhost:8586/auth/logout", {
-        method: "POST",
-        credentials: "include",
-      });
-
-      console.log("✅ 로그아웃 완료 (기본 & SNS)");
+      console.log("🔹 로그아웃 요청 시작");
+  
+      // 로그아웃 요청
+      await Promise.allSettled([
+        fetch("http://localhost:8586/api/user/logout", { method: "POST", credentials: "include" }),
+        fetch("http://localhost:8586/auth/logout", { method: "POST", credentials: "include" }),
+      ]);
+  
+      console.log("✅ 로그아웃 완료: 세션 제거 시작");
+  
+      // 1️⃣ 사용자 상태 초기화
       setUser(null);
-      localStorage.clear();
+  
+      // 2️⃣ localStorage & sessionStorage 삭제
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
       sessionStorage.clear();
-
-      // 쿠키 삭제
+  
+      // 3️⃣ 모든 쿠키 삭제 (자동 로그인 방지)
       document.cookie.split(";").forEach((c) => {
         document.cookie = c
           .replace(/^ +/, "")
           .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
       });
-
-      window.location.href = "/login";
+  
+      // 4️⃣ UI 강제 업데이트 (새로고침)
+      setTimeout(() => {
+        window.location.href = "/login";  // 로그인 페이지로 이동
+      }, 100);
     } catch (error) {
       console.error("🚨 로그아웃 중 오류 발생:", error);
     }
   };
-
+  
+  
   return (
     <AuthContext.Provider value={{ user, login, logout, loading }}>
       {children}
