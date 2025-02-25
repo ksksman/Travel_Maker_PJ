@@ -9,7 +9,7 @@ const HomePage = () => {
     const navigate = useNavigate(); // 🔥 useNavigate 훅 사용
     const [topLikedReviews, setTopLikedReviews] = useState([]); // 후기 게시글 Top3 데이터
 
-    // ✅ 백엔드에서 좋아요가 가장 많은 게시물 3개 가져오기
+    // ✅ 백엔드에서 좋아요가 가장 많은 게시물 6개 가져오기
     useEffect(() => {
         fetch("http://localhost:8586/topLikedReviews.do")
             .then((response) => response.json())
@@ -65,7 +65,7 @@ const HomePage = () => {
                     <div className="notice-section content-box">
                         <button
                             className="navigate-button"
-                            onClick={() => handleNavigate('/board')}
+                            onClick={() => handleNavigate('/trips')}
                         >
                             <FaPlusCircle />
                         </button>

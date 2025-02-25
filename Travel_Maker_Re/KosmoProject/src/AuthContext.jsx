@@ -30,7 +30,6 @@ export const AuthProvider = ({ children }) => {
           const oauthData = await oauthResponse.value.json();
           if (oauthData.nickname) {
             console.log("✅ [SNS 로그인] 유지됨:", oauthData);
-            // 두 번째 코드처럼 SNS 로그인일 경우 email을 추가
             setUser(oauthData);
             return;
           }

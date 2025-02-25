@@ -1620,17 +1620,20 @@ hr {
 /* 🔹 필터 버튼 스타일 (전체글 / 인기글) */
 .filter-buttons {
   display: flex;
-  justify-content: center;
-  margin: 20px 0;
+  gap: 10px;
+  /* margin-bottom: 20px; */
 }
 
 .filter-button {
-  padding: 10px 15px;
+  padding: 12px 20px; /* 버튼 크기 고정 */
   font-size: 16px;
+  font-weight: bold;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  min-width: 120px; /* 최소 너비 설정 */
+  text-align: center;
 }
 
 .filter-button.active {
@@ -1647,6 +1650,49 @@ hr {
   background-color: #0056b3;
   color: white;
 }
+
+/* 🔹 좋아요한 게시물 보기 버튼 스타일 */
+.liked-posts-button {
+  background-color: #ff4081; /* 핑크 계열 색상 */
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 🔹 아이콘 스타일 (❤️ 추가) */
+.liked-posts-button::before {
+  content: "❤️";
+  font-size: 18px;
+}
+
+/* 🔹 마우스 호버 효과 */
+.liked-posts-button:hover {
+  background-color: #d81b60; /* 더 짙은 핑크 */
+  transform: scale(1.05);
+}
+
+/* 🔹 버튼 활성화 효과 */
+.liked-posts-button:active {
+  background-color: #b0003a;
+  transform: scale(0.98);
+}
+
+/* 🔹 반응형 스타일 (모바일 화면에서 가운데 정렬) */
+@media (max-width: 768px) {
+  .liked-posts-button {
+    width: 100%;
+    text-align: center;
+  }
+}
+
 
 /* 🔹 반응형 스타일 */
 @media (max-width: 768px) {
@@ -1669,21 +1715,22 @@ hr {
 /* 🔹 글쓰기 버튼 컨테이너 */
 .write-button-container {
   display: flex;
-  justify-content: flex-end; /* 버튼을 오른쪽 정렬 */
+  justify-content: flex-end;
   margin: 20px 0;
 }
 
-/* 🔹 글쓰기 버튼 */
 .write-button {
-  background-color: #007bff; /* 기본 색상 (파란색) */
+  background-color: #007bff;
   color: white;
   font-size: 16px;
   font-weight: bold;
   border: none;
-  padding: 10px 20px;
+  padding: 12px 20px;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
+  min-width: 120px; /* 최소 너비 설정 */
+  text-align: center;
 }
 
 /* 🔹 글쓰기 버튼 호버 효과 */
@@ -1709,10 +1756,14 @@ hr {
       text-align: center;
   }
 }
-.review-upper-container{
+.review-upper-container {
   display: flex;
   align-items: center;
-  gap: 60%;
+  justify-content: space-between; /* 버튼 간격 조정 */
+  width: 100%;
+  max-width: 1200px; /* 최대 너비 지정 */
+  margin: 0 auto; 
+  /* margin-bottom: 20px; */
 }
 /* 🔹 검색 요소들을 가로로 정렬하고 화면 중앙 배치 */
 .search-wrapper {
