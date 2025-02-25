@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import axios from "axios";
+import SortOptions from "./SortOptions"; // ✅ 정렬, 삭제, 핀 기능 가져오기
 import "../../styles/Mapstyles/SelectedPlaces.css";
 
-const SelectedPlaces = ({ selectedPlaces, setSelectedPlaces, setMapCenter }) => {
+const SelectedPlaces = ({ selectedPlaces, setSelectedPlaces, setMapCenter, showPins, setShowPins }) => {
   
+  // ✅ 정렬 전 원래 순서를 저장하는 상태
+  const [originalPlaces, setOriginalPlaces] = useState([]);
+
+  // ✅ SortOptions에서 기능 가져오기
+  const { sortByDistance, handleRemoveAll, togglePins } = SortOptions({ selectedPlaces, setSelectedPlaces, showPins, setShowPins });
+
   // 🔥 관광지 삭제 요청 (백엔드 API 호출)
   const handleDelete = async (itineraryId) => {
     if (!window.confirm("정말 삭제하시겠습니까?")) return;
@@ -22,6 +29,19 @@ const SelectedPlaces = ({ selectedPlaces, setSelectedPlaces, setMapCenter }) => 
     }
   };
 
+  // ✅ 거리순 정렬 & 원래 순서 복구 기능
+  const toggleSortByDistance = () => {
+    if (originalPlaces.length === 0) {
+      // 🌟 정렬하기 전에 원래 배열 저장
+      setOriginalPlaces([...selectedPlaces]);
+      sortByDistance();
+    } else {
+      // 🌟 원래 순서로 복구
+      setSelectedPlaces([...originalPlaces]);
+      setOriginalPlaces([]); // ✅ 초기화하여 다시 정렬 가능하도록 설정
+    }
+  };
+
   // ✅ 드래그앤드롭 완료 시 호출되는 함수 (백엔드에 순서 업데이트 요청 포함)
   const handleDragEnd = async (result) => {
     if (!result.destination) return;
@@ -30,26 +50,17 @@ const SelectedPlaces = ({ selectedPlaces, setSelectedPlaces, setMapCenter }) => 
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
   
-    // ✅ itineraryId가 누락되지 않도록 확인
     const updatedPlaces = items.map((place, index) => ({
-      id: place.id, // 🔥 ID가 반드시 포함되도록 수정
+      id: place.id,
       seq: index + 1,
-      itineraryId: place.itineraryId || place.id, // 🔥 ID가 없으면 기존 ID 사용
-      tripId: place.tripId, // 🔥 tripId도 포함
+      itineraryId: place.itineraryId || place.id,
+      tripId: place.tripId,
     }));
   
     console.log("🚀 최종적으로 백엔드에 보낼 데이터:", updatedPlaces);
   
-    // 🚨 itineraryId가 없는 항목이 있다면 경고 후 API 요청 안 함
-    if (updatedPlaces.some(place => !place.itineraryId)) {
-      console.error("❌ 오류: itineraryId가 없는 항목이 있습니다!", updatedPlaces);
-      alert("❌ 순서 변경 실패: 일정 정보가 올바르지 않습니다.");
-      return;
-    }
-  
     setSelectedPlaces(updatedPlaces);
   
-    // 🔥 백엔드 API 요청 (순서 업데이트)
     try {
       const response = await axios.put("http://localhost:8586/api/itinerary/updateOrder", updatedPlaces);
       if (response.status === 200) {
@@ -60,13 +71,21 @@ const SelectedPlaces = ({ selectedPlaces, setSelectedPlaces, setMapCenter }) => 
       alert("순서 변경 중 오류가 발생했습니다.");
     }
   };
-  
-  
-  
 
   return (
     <div className="selected-places">
       <h3>📍 선택된 관광지</h3>
+
+      {/* ✅ 버튼 UI 추가 (거리순 정렬 토글 기능) */}
+      <div className="sort-options">
+        <button className="sort-btn" onClick={toggleSortByDistance}>
+          {originalPlaces.length === 0 ? "거리순 정렬" : "원래 순서로"}
+        </button>
+        <button className="pin-toggle-btn" onClick={togglePins}>
+          {showPins ? "핀 숨기기" : "핀 보이기"}
+        </button>
+      </div>
+
       <DragDropContext onDragEnd={handleDragEnd}>
         <Droppable droppableId="places">
           {(provided) => (
@@ -81,7 +100,7 @@ const SelectedPlaces = ({ selectedPlaces, setSelectedPlaces, setMapCenter }) => 
                       className="place-item" 
                       onClick={() => setMapCenter({ lat: place.lat, lng: place.lng })}
                     >
-                      <span>{place.seq}. {place.name}</span> {/* ✅ 순서 표시 */}
+                      <span>{place.seq}. {place.name}</span>
                       <button className="delete-btn" onClick={() => handleDelete(place.id)}>🗑️ 삭제</button>
                     </li>
                   )}

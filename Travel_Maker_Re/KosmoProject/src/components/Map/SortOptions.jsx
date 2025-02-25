@@ -40,15 +40,7 @@ const SortOptions = ({ selectedPlaces, setSelectedPlaces, showPins, setShowPins 
         setShowPins((prev) => !prev);
     };
 
-    return (
-        <div className="sort-options">
-            <button className="sort-btn" onClick={sortByDistance}>거리순 정렬</button>
-            <button className="remove-all-btn" onClick={handleRemoveAll}>모두 삭제</button>
-            <button className="pin-toggle-btn" onClick={togglePins}>
-                {showPins ? "핀 숨기기" : "핀 보이기"}
-            </button>
-        </div>
-    );
+    return { sortByDistance, handleRemoveAll, togglePins };;
 };
 
 export default SortOptions;
