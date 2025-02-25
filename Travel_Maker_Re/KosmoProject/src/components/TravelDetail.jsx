@@ -4,6 +4,10 @@ import axios from "axios";
 import { useAuth } from "../AuthContext"; 
 import "../styles/TravelDetail.css";
 
+// SheetJS 및 FileSaver 가져오기
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
+
 const TravelDetail = () => {
   const { tripId } = useParams();
   const { user } = useAuth();
@@ -115,6 +119,36 @@ const TravelDetail = () => {
     }
   };
 
+  // 엑셀 내보내기 함수
+  const handleExportExcel = () => {
+    if (!trip) return;
+
+    // 엑셀에 담을 데이터 배열 생성
+    // 예: 각 날짜별로 여행 일정(날짜, 장소)을 행으로 작성
+    const data = [];
+    const dates = trip.itineraryDates || [];
+    dates.forEach(date => {
+      const places = (trip.itinerary && trip.itinerary[date]) || [];
+      if (places.length === 0) {
+        data.push({ 날짜: date, "여행지 이름": "" });
+      } else {
+        places.forEach(place => {
+          data.push({ 날짜: date, "여행지 이름": place });
+        });
+      }
+    });
+
+    // 워크북 생성
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "여행일정");
+
+    // Excel 파일로 내보내기
+    const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+    const dataBlob = new Blob([excelBuffer], { type: "application/octet-stream" });
+    saveAs(dataBlob, `${trip.tripTitle}_일정.xlsx`);
+  };
+
   if (loading) return <p>여행 정보를 불러오는 중...</p>;
   if (!trip) return <p>여행 정보를 찾을 수 없습니다.</p>;
 
@@ -141,20 +175,19 @@ const TravelDetail = () => {
       </div>
 
       <div className="participants-section">
-  {trip.participantNames && trip.participantNames.length > 0 ? (
-    <>
-      <p className="participants-label">동행자:</p>
-      <div className="participants-list">
-        {trip.participantNames.map((name, idx) => (
-          <span key={idx} className="participant-badge">{name}</span>
-        ))}
+        {trip.participantNames && trip.participantNames.length > 0 ? (
+          <>
+            <p className="participants-label">동행자:</p>
+            <div className="participants-list">
+              {trip.participantNames.map((name, idx) => (
+                <span key={idx} className="participant-badge">{name}</span>
+              ))}
+            </div>
+          </>
+        ) : (
+          <p className="participants-label">나만의 여행!</p>
+        )}
       </div>
-    </>
-  ) : (
-    <p className="participants-label">나만의 여행!</p>
-  )}
-</div>
-
 
       <div className="itinerary-section">
         <h2 className="section-title">여행 일정</h2>
@@ -207,7 +240,9 @@ const TravelDetail = () => {
         <button className="button button-share" onClick={handleSharePost}>
           게시물에 공유
         </button>
-        <button className="button button-excel">엑셀로 저장</button>
+        <button className="button button-excel" onClick={handleExportExcel}>
+          엑셀로 저장
+        </button>
         <button className="button button-delete" onClick={handleDeleteTrip}>
           삭제
         </button>
