@@ -127,7 +127,7 @@ function ReviewViewPage() {
             {/* 좋아요 버튼 */}
             <div className="like-button-container">
                 <button className="like-button" onClick={handleLike} disabled={!user}>
-                    {hasLiked ? "❤️ 좋아요 완료" : "❤️ 좋아요"}
+                    {hasLiked ? "❤️ 좋아요 취소" : "🤍 좋아요"}
                 </button>
             </div>
 
