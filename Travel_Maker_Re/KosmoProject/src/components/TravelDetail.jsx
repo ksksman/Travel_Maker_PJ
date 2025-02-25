@@ -99,12 +99,6 @@ const TravelDetail = () => {
       alert("로그인 정보나 여행 정보가 없습니다.");
       return;
     }
-
-    if (trip.status !== "여행완료") {
-      alert("여행이 완료된 경우에만 공유할 수 있습니다.");
-      return;
-    }
-
     const postData = {
       title: trip.tripTitle,
       content: review,

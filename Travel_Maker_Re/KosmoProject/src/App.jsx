@@ -8,7 +8,7 @@ import SideMenu from "./components/SideMenu";
 
 // 여행 관련 컴포넌트
 import HomePage from "./pages/HomePage";
-import MyPage from "./pages/MyPage";
+import MyPage from "./Pages/Mypage";
 import EditProfile from "./pages/EditProfile";
 import TravelList from "./components/TravelList";
 import TravelDetail from "./components/TravelDetail";
