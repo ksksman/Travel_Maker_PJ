@@ -149,6 +149,22 @@ function ReviewViewPage() {
             {/* 🔎 작성일 */}
             <div className="post-date">작성일: {review.post_date}</div>
 
+            {/* 🔥 여행 평점 추가 */}
+            {tripData && (
+                <div className="trip-rating">
+                    {/* <h3>여행 평점:</h3> */}
+                    {[1, 2, 3, 4, 5].map((star) => (
+                        <span
+                            key={star}
+                            className={`star ${tripData.rating >= star ? "selected" : ""}`}
+                        >
+                            ★
+                        </span>
+                    ))}
+                    {/* <span className="rating-text">({tripData.rating || "-"})</span> */}
+                </div>
+            )}
+
             <div className="review-content">
                 {/* ✅ 여행 일정 출력 */}
                 {tripData && (
