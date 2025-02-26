@@ -96,28 +96,53 @@ const TravelDetail = () => {
 
   const handleSharePost = async () => {
     if (!trip || !user) {
-      alert("로그인 정보나 여행 정보가 없습니다.");
-      return;
+        alert("로그인 정보나 여행 정보가 없습니다.");
+        return;
     }
-    const postData = {
-      title: trip.tripTitle,
-      content: review,
-      nickname: user.nickname,
-      board_cate: 1,
-      tripId: trip.tripId,
-    };
+
+
     try {
-      const response = await axios.post("http://localhost:8586/restBoardWrite.do", postData);
-      if (response.status === 200) {
-        alert("게시물이 공유되었습니다!");
-        navigate("/reviewboard");
-      } else {
-        throw new Error("게시물 공유 실패");
-      }
+        // ✅ 공유하려는 여행이 이미 등록된 경우 확인
+        const checkResponse = await axios.get(`http://localhost:8586/api/trips/checkTripShared?tripId=${trip.tripId}`);
+        const { alreadyShared, status } = checkResponse.data;
+
+        if (alreadyShared) {
+            alert("이미 공유된 여행 일정입니다!");
+            return;
+        }
+
+        if (status === "계획중") {
+            alert("공유하려는 여행의 상태가 '계획중'입니다!");
+            return;
+        }
+        
+        // ✅ 공유 여부 확인
+        if (!window.confirm("게시물을 공유하시겠습니까?")) {
+          return; // 사용자가 취소 버튼을 누르면 공유 취소
+        } 
+
+        // ✅ 게시물 공유 요청
+        const postData = {
+            title: trip.tripTitle,
+            content: review,
+            nickname: user.nickname,
+            board_cate: 1,
+            tripId: trip.tripId,
+        };
+
+        const response = await axios.post("http://localhost:8586/restBoardWrite.do", postData);
+
+        if (response.status === 200) {
+            alert("게시물이 성공적으로 공유되었습니다!");
+            navigate("/reviewboard");
+        } else {
+            throw new Error("게시물 공유 실패");
+        }
     } catch (error) {
-      console.error("게시물 공유 오류:", error);
+        console.error("게시물 공유 오류:", error);
+        alert("게시물 공유 중 오류가 발생했습니다.");
     }
-  };
+};
 
   // 엑셀 내보내기 함수
   const handleExportExcel = () => {

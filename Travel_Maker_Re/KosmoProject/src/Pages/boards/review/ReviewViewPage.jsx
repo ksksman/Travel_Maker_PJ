@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../AuthContext";
 import '../../../App.css';
+import './BoardStyle.css';
 
 function ReviewViewPage() {
     const { user } = useAuth(); // 로그인 정보 가져오기
@@ -159,9 +160,9 @@ function ReviewViewPage() {
             <div className="review-content">
                 {/* ✅ 여행 일정 출력 */}
                 {tripData && (
-                    <div className="itinerary-section">
-                        <h2 className="section-title">여행 일정</h2>
-                        <div className="date-selector">
+                    <div className="board-itinerary-section">
+                        <h2 className="board-section-title">여행 일정</h2>
+                        <div className="board-date-selector">
                             <label>날짜 선택:</label>
                             <select value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)}>
                                 {Object.keys(itinerary).map((date) => (
@@ -169,10 +170,10 @@ function ReviewViewPage() {
                                 ))}
                             </select>
                         </div>
-                        <div className="itinerary-content">
+                        <div className="board-itinerary-content">
                             {itinerary[selectedDate] && itinerary[selectedDate].length > 0 ? (
                                 itinerary[selectedDate].map((place, index) => (
-                                    <div key={index} className="itinerary-card">
+                                    <div key={index} className="board-itinerary-card">
                                         {place}
                                     </div>
                                 ))
