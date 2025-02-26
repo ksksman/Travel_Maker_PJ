@@ -9,50 +9,54 @@ export const AuthProvider = ({ children }) => {
 
   // 로그인 상태 확인 (일반 로그인 & SNS 로그인)
   useEffect(() => {
-  const checkLoginStatus = async () => {
-    try {
-      // ✅ 일반 로그인 & SNS 로그인 API 병렬 요청
-      const [userResponse, oauthResponse] = await Promise.all([
-        fetch("http://localhost:8586/api/user/me", {
-          method: "GET",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-        }).then((res) => (res.ok ? res.json() : null)),
-        fetch("http://localhost:8586/auth/me", {
-          method: "GET",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-        }).then((res) => (res.ok ? res.json() : null)),
-      ]);
+    const checkLoginStatus = async () => {
+      try {
+        // 일반 로그인 & SNS 로그인 API 병렬 요청
+        const [userResponse, oauthResponse] = await Promise.allSettled([
+          fetch("http://localhost:8586/api/user/me", {
+            method: "GET",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+          }),
+          fetch("http://localhost:8586/auth/me", {
+            method: "GET",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+          }),
+        ]);
 
-      // ✅ 1) SNS 로그인 유지 확인
-      if (oauthResponse) {
-        console.log("✅ [SNS 로그인] 유지됨:", oauthResponse);
-        setUser(oauthResponse);
-        return;
+        // 1) SNS 로그인 우선 확인
+        if (oauthResponse.status === "fulfilled" && oauthResponse.value.ok) {
+          const oauthData = await oauthResponse.value.json();
+          if (oauthData.nickname) {
+            console.log("✅ [SNS 로그인] 유지됨:", oauthData);
+            setUser(oauthData);
+            return;
+          }
+        }
+
+        // 2) 일반 로그인 확인 (SNS 로그인 실패 시)
+        if (userResponse.status === "fulfilled" && userResponse.value.ok) {
+          const userData = await userResponse.value.json();
+          if (userData.email) {
+            console.log("✅ [기본 로그인] 유지됨:", userData);
+            setUser(userData);
+            return;
+          }
+        }
+
+        console.log("❌ 로그인 정보 없음");
+        setUser(null);
+      } catch (error) {
+        console.error("🚨 로그인 상태 확인 중 오류 발생:", error);
+        setUser(null);
+      } finally {
+        setLoading(false);
       }
+    };
 
-      // ✅ 2) 일반 로그인 유지 확인 (SNS 로그인 실패 시)
-      if (userResponse) {
-        console.log("✅ [기본 로그인] 유지됨:", userResponse);
-        setUser(userResponse);
-        return;
-      }
-
-      // ❌ 로그인 정보 없음 (401 Unauthorized는 catch가 아니라 여기서 처리)
-      console.warn("❌ 로그인 정보 없음");
-      setUser(null);
-    } catch (error) {
-      console.warn("🚨 로그인 상태 확인 중 네트워크 오류 발생:", error);
-      setUser(null);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  checkLoginStatus();
-}, []);
-
+    checkLoginStatus();
+  }, []);
 
   // 로그인 (Context에 저장)
   const login = (userData) => {
