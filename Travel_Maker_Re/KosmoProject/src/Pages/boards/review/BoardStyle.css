@@ -1,0 +1,112 @@
+/* 📌 여행 일정 컨테이너 */
+.board-itinerary-section {
+  max-width: 400px; /* 📌 최대 너비 설정 */
+  width: 100%;
+  margin: 20px auto; /* 📌 가로 중앙 정렬 */
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center; /* 📌 내부 요소 중앙 정렬 */
+}
+
+/* 📌 여행 일정 제목 */
+.board-section-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+/* 📌 날짜 선택 드롭다운 스타일 */
+.board-date-selector {
+  display: flex;
+  flex-direction: column; /* 📌 세로 정렬 */
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.board-date-selector label {
+  font-weight: bold;
+  color: #444;
+}
+
+.board-date-selector select {
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: white;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.board-date-selector select:hover {
+  border-color: #007bff;
+}
+
+/* 📌 일정 내용 */
+.board-itinerary-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center; /* 📌 일정 카드 중앙 정렬 */
+}
+
+/* 📌 일정 카드 스타일 */
+.board-itinerary-card {
+  width: 90%;
+  padding: 10px 15px;
+  background-color: #ffffff;
+  border-left: 4px solid #007bff;
+  border-radius: 5px;
+  font-size: 15px;
+  color: #333;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-align: left;
+}
+
+.board-itinerary-card:hover {
+  transform: translateX(5px);
+  box-shadow: 0px 2px 8px rgba(0, 123, 255, 0.2);
+}
+
+/* 📌 반응형 (모바일) */
+@media (max-width: 768px) {
+  .board-itinerary-section {
+      max-width: 90%;
+      padding: 10px;
+  }
+
+  .board-itinerary-card {
+      font-size: 14px;
+      padding: 8px 12px;
+  }
+}
+
+.trip-rating {
+  display: flex;
+  justify-content: flex-end; /* 🔹 오른쪽 정렬 */
+  align-items: center;
+  gap: 5px;
+  font-size: 18px;
+  margin-top: 10px;
+  padding-right: 15px; /* 🔹 오른쪽 여백 추가 */
+}
+
+.star {
+  font-size: 22px;
+  color: lightgray;
+}
+
+.star.selected {
+  color: gold;
+}
+
+.rating-text {
+  font-weight: bold;
+  margin-left: 5px;
+}
+
