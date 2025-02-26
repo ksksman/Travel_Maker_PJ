@@ -124,7 +124,7 @@ const CreateTripPage = () => {
               title: tripTitle,
               startDate: formatDate(startDate),
               endDate: formatDate(endDate),
-              inviteList: inviteList, // 초대된 친구 정보 전달
+              inviteList: inviteList,
             },
           });
         } else {
@@ -203,30 +203,34 @@ const CreateTripPage = () => {
       {showInvitePopup && (
         <div className="invite-popup">
           <h3>동행자 초대</h3>
-          <div className="friends-list">
-            <p>초대할 친구를 선택하세요:</p>
-            <ul>
-              {friendsList.length > 0 ? (
-                friendsList.map((friendObj, index) => (
+          <div className="invite-lists">
+            <div className="friends-list">
+              <p>초대할 친구를 선택하세요:</p>
+              <ul>
+                {friendsList.length > 0 ? (
+                  friendsList.map((friendObj, index) => (
+                    <li key={index}>
+                      {friendObj.nickname}{" "}
+                      <button onClick={() => handleAddFriend(friendObj)}>초대</button>
+                    </li>
+                  ))
+                ) : (
+                  <li>친구 목록이 없습니다.</li>
+                )}
+              </ul>
+            </div>
+            <div className="invite-list-wrapper">
+              <h4>초대된 친구 목록</h4>
+              <ul className="invite-list">
+                {inviteList.map((f, index) => (
                   <li key={index}>
-                    {friendObj.nickname}{" "}
-                    <button onClick={() => handleAddFriend(friendObj)}>초대</button>
+                    {f.nickname}{" "}
+                    <button onClick={() => handleRemoveInvite(f)}>삭제</button>
                   </li>
-                ))
-              ) : (
-                <li>친구 목록이 없습니다.</li>
-              )}
-            </ul>
+                ))}
+              </ul>
+            </div>
           </div>
-          <h4>초대된 친구 목록</h4>
-          <ul className="invite-list">
-            {inviteList.map((f, index) => (
-              <li key={index}>
-                {f.nickname}{" "}
-                <button onClick={() => handleRemoveInvite(f)}>삭제</button>
-              </li>
-            ))}
-          </ul>
           <div className="invite-buttons">
             <button className="edit-dates-button" onClick={handleEditDates}>
               날짜 수정
