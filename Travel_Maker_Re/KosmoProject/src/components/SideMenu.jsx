@@ -30,9 +30,8 @@ const SideMenu = ({ isMenuOpen, setIsMenuOpen }) => {
                 <h2>Menu</h2>
             </div>
             <ul>
-                <li><Link to="/trips" onClick={closeMenu}>일정 만들기</Link></li>
-                <li><Link to="/schedule/load" onClick={closeMenu}>일정 불러오기</Link></li>
-                <li><Link to="/schedule/share" onClick={closeMenu}>일정 공유하기</Link></li>
+                <li><Link to="/trips" onClick={closeMenu}>내 여행</Link></li>
+                <li><Link to="/create-trip" onClick={closeMenu}>여행만들기</Link></li>
             </ul>
             <hr />
             <ul>

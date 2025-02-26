@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BannerSlider from '../components/BannerSlider';
 import { FaPlusCircle } from 'react-icons/fa';
+import TouristChart from '../components/TouristChart';
 import '../App.css';
 
 const ALHomePage = () => {
@@ -31,7 +32,7 @@ const ALHomePage = () => {
         <div className="main-container">
             {/* 상단 네비게이션 바 */}
             <div className="top-navbar">
-                <div className="logo">여행 사이트</div>
+               
                 {/* Header.jsx 의 마이페이지와 로그아웃과 겹쳐서 일단 주석 */}
                 {/* <div className="user-actions">
                     <button className="navigate-button" onClick={() => handleNavigate('/mypage')}>
@@ -56,25 +57,9 @@ const ALHomePage = () => {
                         >
                             <FaPlusCircle />
                         </button>
-                        <h2>연령별 추천 여행지</h2>
-                        <div className="travel-recommendations-grid">
-                            <div className="travel-item">
-                                <span className="travel-destination">가족 여행지 - 강릉</span>
-                                <span className="travel-detail">🏖️ 해변과 맛집이 가득!</span>
-                            </div>
-                            <div className="travel-item">
-                                <span className="travel-destination">커플 여행지 - 남해</span>
-                                <span className="travel-detail">🌄 아름다운 오션뷰!</span>
-                            </div>
-                            <div className="travel-item">
-                                <span className="travel-destination">혼자 여행지 - 부산</span>
-                                <span className="travel-detail">🎨 예술과 문화의 도시!</span>
-                            </div>
-                            <div className="travel-item">
-                                <span className="travel-destination">힐링 여행지 - 제주</span>
-                                <span className="travel-detail">🍊 자연 속 힐링!</span>
-                            </div>
-                        </div>
+                        <h2>연령별 인기 관광지</h2>
+                        <TouristChart /> {/* ✅ 차트 삽입 */}
+                        
                     </div>
 
                     <div className="notice-section content-box">
