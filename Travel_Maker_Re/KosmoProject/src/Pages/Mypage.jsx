@@ -13,19 +13,22 @@ const MyPage = () => {
     const navigate = useNavigate();
 
     // 로그인 정보가 없으면 리다이렉트 처리 (예: 로그인 페이지)
-    useEffect(() => {
-        if (!currentUserId) {
-            alert("로그인 정보가 없습니다. 로그인 페이지로 이동합니다.");
-            navigate("/login");
-        }
-    }, [currentUserId, navigate]);
+    // useEffect(() => {
+    //     if (!currentUserId) {
+    //         alert("로그인 정보가 없습니다. 로그인 페이지로 이동합니다.");
+    //         navigate("/login");
+    //     }
+    // }, [currentUserId, navigate]);
 
-    // ✅ 사용자 프로필
+    // console.log('user.user_Id :>> ', user.user_Id);
+
+    
+    // ✅ 사용자 프로필 (초기값 설정)
     const [profile, setProfile] = useState({
-        name: "뺵곰",
-        email: "travelisgood@naver.com",
-        mapCount: 10,
-        travelLevel: "Explorer",
+        name: user?.nickname || "이름 없음",
+        email: user?.email || "이메일 없음",
+        mapCount: 0, // 기본값 0
+        travelLevel: "일반",
         points: 1500,
         profilePicture: "/images/default-profile.webp",
     });
@@ -47,6 +50,24 @@ const MyPage = () => {
     const [isSending, setIsSending] = useState(false);
     // ✅ 구독 ID를 저장할 state 추가
     const [subscription, setSubscription] = useState(null);
+
+    // ✅ 닉네임, 이메일, 지도 개수 가져오기
+    useEffect(() => {
+        if (!currentUserId) return;
+
+        fetch(`http://localhost:8586/api/trips/user-info?userId=${currentUserId}`)
+            .then((response) => response.json())
+            .then((data) => {
+                setProfile(prevProfile => ({
+                    ...prevProfile,
+                    name: data.NICKNAME || "이름 없음",
+                    email: data.EMAIL.includes("@kakao") ? "카카오 회원입니다." : data.EMAIL || "이메일 없음",
+                    mapCount: data.TRIPCOUNT || 0, 
+                }));
+                console.log('data :>> ', data);
+            console.log('profile :>> ', profile);})
+            .catch((error) => console.error("❌ 유저 정보 불러오기 오류:", error));
+    }, [currentUserId]);
 
     useEffect(() => {
         const socket = new SockJS("http://localhost:8586/ws");
@@ -228,7 +249,7 @@ const MyPage = () => {
         })
         .catch((error) => console.error("❌ 친구 요청 오류:", error));
     };
-
+    
     return (
         <div className="my-page">
             <h1>마이페이지</h1>
