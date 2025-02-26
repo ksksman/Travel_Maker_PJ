@@ -32,7 +32,8 @@ const ALHomePage = () => {
         <div className="main-container">
             {/* 상단 네비게이션 바 */}
             <div className="top-navbar">
-               
+         
+                {/* <div className="logo">여행 사이트</div> */}
                 {/* Header.jsx 의 마이페이지와 로그아웃과 겹쳐서 일단 주석 */}
                 {/* <div className="user-actions">
                     <button className="navigate-button" onClick={() => handleNavigate('/mypage')}>

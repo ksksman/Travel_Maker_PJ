@@ -34,7 +34,7 @@
 
 /* 🔍 검색창 스타일 */
 .search-box input {
-  width: 250px; /*  고정된 검색창 너비 */
+  width: 200px; /*  고정된 검색창 너비 */
   padding: 6px;
   font-size: 14px;
   border: 1px solid #ccc;
