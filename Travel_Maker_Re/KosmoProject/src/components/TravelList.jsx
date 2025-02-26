@@ -143,7 +143,7 @@ const TravelList = () => {
               </p>
               {trip.participantNames && trip.participantNames.length > 0 && (
                 <p>
-                  <strong>동행자:</strong> {trip.participantNames.join(", ")}
+                  <strong>참여자:</strong> {trip.participantNames.join(", ")}
                 </p>
               )}
             </div>

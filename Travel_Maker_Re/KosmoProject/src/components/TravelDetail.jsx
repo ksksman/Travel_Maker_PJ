@@ -199,20 +199,7 @@ const TravelDetail = () => {
         )}
       </div>
 
-      <div className="participants-section">
-        {trip.participantNames && trip.participantNames.length > 0 ? (
-          <>
-            <p className="participants-label">동행자:</p>
-            <div className="participants-list">
-              {trip.participantNames.map((name, idx) => (
-                <span key={idx} className="participant-badge">{name}</span>
-              ))}
-            </div>
-          </>
-        ) : (
-          <p className="participants-label">나만의 여행!</p>
-        )}
-      </div>
+
 
       <div className="itinerary-section">
         <h2 className="section-title">여행 일정</h2>
