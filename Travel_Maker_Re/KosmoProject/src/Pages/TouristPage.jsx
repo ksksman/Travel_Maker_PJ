@@ -5,16 +5,44 @@ import "../app.css";
 import { FaChartBar, FaMapMarkerAlt, FaStar, FaCameraRetro } from "react-icons/fa";
 
 const ageColors = {
-  "20": "#007bff", // 파랑
-  "30": "#28a745", // 초록
-  "40": "#ffc107", // 노랑
-  "50": "#fd7e14", // 주황
-  "60": "#dc3545", // 빨강
+  "20": "#007bff",
+  "30": "#28a745",
+  "40": "#ffc107",
+  "50": "#fd7e14",
+  "60": "#dc3545",
+};
+
+const placeLinks = {
+  "여의도한강공원": "https://hangang.seoul.go.kr/www/contents/669.do?mid=473",
+  "에버랜드": "https://www.everland.com/everland/home/main",
+  "을왕리해수욕장": "http://rwangni-beach.co.kr/",
+  "월미도": "http://wolmi-do.co.kr/",
+  "반포한강공원": "https://hangang.seoul.go.kr/www/contents/663.do?mid=463",
+  "코엑스": "https://www.coex.co.kr/",
+  "광안리해수욕장": "https://www.suyeong.go.kr/tour/index.suyeong?menuCd=DOM_000001102001001000&link=success&cpath=%252Ftour/",
+  "킨텍스제1전시장": "https://www.kintex.com/",
+  "킨텍스제2전시장": "https://www.kintex.com/",
+  "롯데월드잠실점": "https://adventure.lotteworld.com/kor/main/index.do",
+  "서울대공원": "https://grandpark.seoul.go.kr/",
+  "어린이대공원": "https://www.sisul.or.kr/open_content/childrenpark/",
+  "국립중앙박물관": "https://www.museum.go.kr/site/main/home",
+  "속초해변": "https://www.sokchotour.com/tour/sokcho_beach.php",
+  "예술의전당": "https://www.sac.or.kr/",
+  "전주한옥마을": "https://hanok.jeonju.go.kr/",
+  "인천대공원": "https://www.incheon.go.kr/park/",
+  "대명포구": "https://www.visitkorea.or.kr/",
+  "궁평항": "https://www.ggtour.or.kr/",
+  "강원랜드카지노": "https://www.high1.com/",
+  "CGV용산아이파크몰": "http://www.cgv.co.kr/theaters/?theaterCode=0013",
+  "뚝섬한강공원": "https://hangang.seoul.go.kr/www/contents/654.do?mid=449",
+  "광교호수공원": "https://www.gglakepark.or.kr/",
+  "통도사": "https://www.tongdosa.or.kr/",
+  "일산호수공원": "https://www.goyang.go.kr/park/index.do"
 };
 
 const TouristPage = () => {
   const [data, setData] = useState([]);
-  const [selectedAge, setSelectedAge] = useState("20"); // 기본 연령대: 20대
+  const [selectedAge, setSelectedAge] = useState("20"); // 기본 연령대: 20대 
 
   useEffect(() => {
     fetch(`http://127.0.0.1:5000/api/tourist-data/${selectedAge}`)
@@ -68,22 +96,33 @@ const TouristPage = () => {
 
       {/* 관광지 카드 리스트 */}
       <div className="tourist-card-container">
-        {data.length > 0 ? (
-          data.map((item, index) => (
-            <div key={index} className="tourist-card">
-              <FaMapMarkerAlt className="card-icon" style={{ color: ageColors[selectedAge] }} />
-              <h3>{item["관심지점명"]}</h3>
-              <p className="category">
-                {item["구분"] === "관광명소" ? <FaStar /> : <FaCameraRetro />}
-                {item["구분"]}
-              </p>
-              <p className="rate">🔥 인기 비율: {item["비율"]}%</p>
-            </div>
-          ))
-        ) : (
-          <p className="no-data-message">해당 연령대의 데이터가 없습니다.</p>
-        )}
+  {data.length > 0 ? (
+    data.map((item, index) => (
+      <div key={index} className="tourist-card">
+        <FaMapMarkerAlt className="card-icon" style={{ color: ageColors[selectedAge] }} />
+        {/* 이름에만 링크 적용 */}
+        <h3>
+          <a 
+            href={placeLinks[item["관심지점명"]] || "#"} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-blue-500 hover:underline"
+          >
+            {item["관심지점명"]}
+          </a>
+        </h3>
+        <p className="category">
+          {item["구분"] === "관광명소" ? <FaStar /> : <FaCameraRetro />}
+          {item["구분"]}
+        </p>
+        <p className="rate">🔥 인기 비율: {item["비율"]}%</p>
       </div>
+    ))
+  ) : (
+    <p className="no-data-message">해당 연령대의 데이터가 없습니다.</p>
+  )}
+</div>
+
 
       {/* 데이터 차트 */}
       <div className="chart-container">
