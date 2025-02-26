@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
+import "../app.css"; // ✅ CSS 적용
 
 const BannerSlider = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const totalSlides = 5;
+    const totalSlides = 8; // ✅ 슬라이드 개수
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -10,7 +11,7 @@ const BannerSlider = () => {
         }, 7000);
 
         return () => clearInterval(timer);
-    }, [totalSlides]);
+    }, []);
 
     const changeSlide = (index) => {
         setCurrentIndex(index);
@@ -21,22 +22,36 @@ const BannerSlider = () => {
             <div
                 className="slides"
                 style={{
-                    transform: `translateX(-${currentIndex * 20}%)`,
+                    transform: `translateX(-${currentIndex * (100 / totalSlides)}%)`, 
+                    width: `${totalSlides * 100}%`,
                     display: 'flex',
                     transition: 'transform 0.8s ease-in-out',
                 }}
             >
-                <img src="/images/slide1.jpg" alt="슬라이드 1" />
-                <img src="/images/slide2.jpg" alt="슬라이드 2" />
-                <img src="/images/slide3.jpg" alt="슬라이드 3" />
-                <img src="/images/slide4.jpg" alt="슬라이드 4" />
-                <img src="/images/slide5.png" alt="슬라이드 5" />
+                {[
+                    "slide111.jpg",
+                    "slide444.jpg",
+                    "slide333.jpg",
+                    "slide222.png",
+                    "slide666.jpg",
+                    "slide555.webp",
+                    "slide777.jpg",
+                    "slide888.png",
+                ].map((filename, index) => (
+                    <div key={index} style={{ width: `${100 / totalSlides}%`, flexShrink: 0 }}>
+                        <img
+                            src={`/images/${filename}`}  // ✅ 상대 경로로 변경
+                            alt={`슬라이드 ${index + 1}`}
+                            onError={(e) => (e.target.style.display = "none")}
+                        />
+                    </div>
+                ))}
             </div>
             <div className="indicators">
                 {[...Array(totalSlides)].map((_, index) => (
                     <div
                         key={index}
-                        className={`indicator ${currentIndex === index ? 'active' : ''}`}
+                        className={`indicator ${currentIndex === index ? "active" : ""}`}
                         onClick={() => changeSlide(index)}
                     />
                 ))}

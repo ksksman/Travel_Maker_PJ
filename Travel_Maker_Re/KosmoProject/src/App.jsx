@@ -15,6 +15,7 @@ import TravelDetail from "./components/TravelDetail";
 import CreateTripPage from "./Pages/CreateTripPage";
 import PlanTripPage from "./Pages/PlanTripPage";
 import ALHomePage from "./pages/ALHomePage";
+import TouristPage from "./Pages/TouristPage";
 
 // 로그인 & 회원가입 관련 컴포넌트
 import LoginPage from "./pages/LoginPage";
@@ -85,6 +86,8 @@ const App = () => {
                 <Route path='/qnaboard/:board_idx' element={<QnaViewPage />} />
                 <Route path="/qnaboard/edit/:board_idx" element={<QnaEditPage />} />
                 <Route path='/qnaboard/write' element={<QnaWritePage />} />
+                {/* 관광지 분석 */}
+                <Route path="/tourist" element={<TouristPage />} />
 
                 {/* ✅ ALHomePage 경로 추가 */}
                 <Route path="/main" element={<ALHomePage />} />

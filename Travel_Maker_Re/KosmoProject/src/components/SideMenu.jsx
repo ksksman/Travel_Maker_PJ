@@ -43,9 +43,7 @@ const SideMenu = ({ isMenuOpen, setIsMenuOpen }) => {
             </ul>
             <hr />
             <ul>
-                <li><Link to="/info/food" onClick={closeMenu}>맛집 정보</Link></li>
-                <li><Link to="/info/accommodation" onClick={closeMenu}>숙소 정보</Link></li>
-                <li><Link to="/info/activity" onClick={closeMenu}>액티비티 정보</Link></li>
+            <li><Link to="/tourist" onClick={closeMenu}>연령대별 관광지 분석</Link></li>
             </ul>
             <hr />
             <ul>

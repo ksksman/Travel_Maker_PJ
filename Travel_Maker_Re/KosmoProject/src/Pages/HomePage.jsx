@@ -3,6 +3,7 @@ import BannerSlider from '../components/BannerSlider';
 import { useNavigate } from 'react-router-dom';
 import { FaPlusCircle } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
+import TouristChart from '../components/TouristChart';
 import '../App.css';
 
 const HomePage = () => {
@@ -37,29 +38,12 @@ const HomePage = () => {
                     <div className="recommended-travel content-box">
                         <button
                             className="navigate-button"
-                            onClick={() => handleNavigate('/travel-recommendations')}
+                            onClick={() => handleNavigate('/tourist')}
                         >
                             <FaPlusCircle />
                         </button>
-                        <h2>연령별 추천 여행지</h2>
-                        <div className="travel-recommendations-grid">
-                            <div className="travel-item">
-                                <span className="travel-destination">가족 여행지 - 강릉</span>
-                                <span className="travel-detail">🏖️ 해변과 맛집이 가득!</span>
-                            </div>
-                            <div className="travel-item">
-                                <span className="travel-destination">커플 여행지 - 남해</span>
-                                <span className="travel-detail">🌄 아름다운 오션뷰!</span>
-                            </div>
-                            <div className="travel-item">
-                                <span className="travel-destination">혼자 여행지 - 부산</span>
-                                <span className="travel-detail">🎨 예술과 문화의 도시!</span>
-                            </div>
-                            <div className="travel-item">
-                                <span className="travel-destination">힐링 여행지 - 제주</span>
-                                <span className="travel-detail">🍊 자연 속 힐링!</span>
-                            </div>
-                        </div>
+                         <h2>연령별 인기 관광지</h2>
+                        <TouristChart /> {/* ✅ 차트 삽입 */}
                     </div>
 
                     <div className="notice-section content-box">
