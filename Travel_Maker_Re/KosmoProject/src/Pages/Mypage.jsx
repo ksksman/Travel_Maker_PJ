@@ -12,14 +12,6 @@ const MyPage = () => {
     const currentUserId = user?.user_Id; // 기본값 없이 가져옴
     const navigate = useNavigate();
 
-    // 로그인 정보가 없으면 리다이렉트 처리 (예: 로그인 페이지)
-    useEffect(() => {
-        if (!currentUserId) {
-            alert("로그인 정보가 없습니다. 로그인 페이지로 이동합니다.");
-            navigate("/login");
-        }
-    }, [currentUserId, navigate]);
-
     // ✅ 사용자 프로필
     const [profile, setProfile] = useState({
         name: "뺵곰",
