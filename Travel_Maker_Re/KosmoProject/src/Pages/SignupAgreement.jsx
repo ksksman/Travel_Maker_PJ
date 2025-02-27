@@ -75,7 +75,7 @@ const SignupAgreement = () => {
               </label>
               {expandedItems.terms && (
                 <div className="agreement-details">
-                  이용 약관에 대한 세부 내용이 여기에 표시됩니다.
+                  "서비스 이용 약관을 확인했으며 이에 동의합니다."
                 </div>
               )}
             </div>
@@ -90,7 +90,7 @@ const SignupAgreement = () => {
               </label>
               {expandedItems.privacy && (
                 <div className="agreement-details">
-                  개인정보 수집 및 이용에 대한 세부 내용이 여기에 표시됩니다.
+                  "개인정보 수집·이용 방침을 확인했으며 이에 동의합니다."
                 </div>
               )}
             </div>
@@ -105,7 +105,7 @@ const SignupAgreement = () => {
               </label>
               {expandedItems.age && (
                 <div className="agreement-details">
-                  만 14세 이상 확인에 대한 세부 내용이 여기에 표시됩니다.
+                  "본인은 만 14세 이상임을 확인합니다."
                 </div>
               )}
             </div>
@@ -120,7 +120,7 @@ const SignupAgreement = () => {
               </label>
               {expandedItems.marketing && (
                 <div className="agreement-details">
-                  마케팅 수신 동의에 대한 세부 내용이 여기에 표시됩니다.
+                  "마케팅 수신에 동의합니다."
                 </div>
               )}
             </div>
