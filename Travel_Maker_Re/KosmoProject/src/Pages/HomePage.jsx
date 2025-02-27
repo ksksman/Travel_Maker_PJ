@@ -49,7 +49,7 @@ const HomePage = () => {
                     <div className="notice-section content-box">
                         <button
                             className="navigate-button"
-                            onClick={() => handleNavigate('/trips')}
+                            onClick={() => handleNavigate('/reviewboard')}
                         >
                             <FaPlusCircle />
                         </button>
